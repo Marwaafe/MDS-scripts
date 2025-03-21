@@ -13,6 +13,4 @@ MDS201-15-093,/net/beegfs/scratch/mafechkar/MDS_Data/MDS_GEX/MDS_GEX_fastqs,2,Ge
 MDS201-15-093,/net/beegfs/scratch/mafechkar/MDS_Data/MDS_GEX/MDS_GEX_fastqs,3,Gene Expression
 MDS201-15-093-p,/net/beegfs/scratch/mafechkar/MDS_Data/MDS_PROT,1,Antibody Capture
 
-[samples]
-sample_id,probe_barcode_ids
-MDS201-15-093,SITTA9|SITNA1
+
