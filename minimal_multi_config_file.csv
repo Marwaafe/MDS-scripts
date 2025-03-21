@@ -4,9 +4,12 @@ probe-set,/net/beegfs/scratch/mafechkar/MDS_Data/metadata/probe_set.csv
 create-bam,false
 
 [libraries]
-fastq_id,fastqs,feature_types
-GEX,/net/beegfs/scratch/mafechkar/MDS_Data/MDS_GEX_fastqs/,Gene Expression
+fastq_id,fastqs,lanes,feature_types
+MDS201-15-093,/net/beegfs/scratch/mafechkar/MDS_Data/MDS_GEX/MDS_GEX_fastqs,1,Gene Expression
+MDS201-15-093,/net/beegfs/scratch/mafechkar/MDS_Data/MDS_GEX/MDS_GEX_fastqs,2,Gene Expression
+MDS201-15-093,/net/beegfs/scratch/mafechkar/MDS_Data/MDS_GEX/MDS_GEX_fastqs,3,Gene Expression
+MDS201-15-093-p,/net/beegfs/scratch/mafechkar/MDS_Data/MDS_PROT,1,Antibody Capture
 
 [samples]
 sample_id,probe_barcode_ids
-MDS201-15-093,SI-TT-A9|SI-TN-A1
+MDS201-15-093,SITTA9|SITNA1
