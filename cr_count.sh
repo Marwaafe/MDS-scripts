@@ -1,0 +1,60 @@
+#!/bin/bash
+#SBATCH --job-name=cellranger-count
+#SBATCH --output=%x_%j.out
+#SBATCH --error=%x_%j.err
+#SBATCH --time=96:00:00
+#SBATCH --cpus-per-task=40
+#SBATCH --mem=300G
+#SBATCH --partition=defq
+#SBATCH --mail-type=END,FAIL
+#SBATCH --mail-user=m.afechkar@amsterdamumc.nl #replace with yours
+module load cellranger/7.2.0 ## Get latest module
+##Replace all paths with yours
+rna_fastq_path="/net/beegfs/scratch/psingh/MDS_Data/MDS_GEx/data/FR34044381_10x-GEX-Library-MDS-submission-form-1/B22W323LT3"
+protein_fastq_path_original="/net/beegfs/scratch/psingh/MDS_Data/MDS_prot/data/FR34044382_10x-Protein-Library-MDS-submission-form-2/B22W323LT3"
+protein_fastq_path_symlink="/net/beegfs/scratch/psingh/MDS_Data/MDS_prot/data/Protein_fastqs_symlinked" #to handle '-p'
+output_dir_base="/trinity/home/psingh/OUTS_CellRangerCount"
+ref_genome="/trinity/home/psingh/Refs/refdata-gex-GRCh38-2020-A"
+feature_ref_csv="/trinity/home/psingh/Refs/totalseqC_feature_ref.csv" ##use path for the real TotalSeqC csv file
+samples=(
+"MDS001-09-203"
+"MDS005-09-247"
+"MDS006-08-249"
+"MDS010-09-299"
+"MDS016-09-478"
+"MDS023-10-053"
+"MDS029-10-118"
+"MDS038-10-241"
+"MDS059-10-531"
+"MDS065-10-609"
+"MDS154-13-486"
+"MDS155-13-606"
+"MDS167-13-913"
+"MDS169-13-919"
+"MDS180-14-164"
+"MDS189-14-527"
+"MDS201-15-093"
+"MDS212-15-463"
+)
+# STEP 1: Create Symlinks (to handle '-p' in protein fastqs)
+mkdir -p "$protein_fastq_path_symlink"
+cd "$protein_fastq_path_symlink"
+for f in "${protein_fastq_path_original}"/*-p_*.fastq.gz; do
+  base=$(basename "$f")
+  ln -s "$f" "${base/-p_/__}"
+done
+# STEP 2: Run cellranger count for each sample
+for sample in "${samples[@]}"; do
+  output_dir="${output_dir_base}/${sample}_count_output"
+  mkdir -p "$output_dir"
+  cd "$output_dir"
+##Check 10x website to see if all araguments checks ok
+  cellranger count \
+    --id="${sample}_count" \
+    --transcriptome="$ref_genome" \
+    --fastqs="${rna_fastq_path},${protein_fastq_path_symlink}" \
+    --feature-ref="$feature_ref_csv" \
+    --sample="$sample" \
+    --localmem=300 \
+    --localcores=40
+done
