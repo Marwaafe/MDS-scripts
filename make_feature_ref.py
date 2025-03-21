@@ -6,10 +6,10 @@ df = pd.read_excel(antibody_file, engine='openpyxl')
 
 # Creating the feature reference DataFrame with the required columns and order:
 feature_df = pd.DataFrame({
-    "id": df["DNA_ID"],                 
+    "id": df["Gene name"].astype(str) + "_TotalSeqC",                 
     "name": df["Gene name"],              
     "read": "AntibodyCapture",           
-    "pattern": "",                       
+    "pattern": "5P(BC)",                       
     "sequence": df["Barcode"],           
     "feature_type": "Antibody Capture"   
 })
