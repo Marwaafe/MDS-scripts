@@ -1,0 +1,5 @@
+fastq_id,fastqs,lanes,feature_types
+MDS201-15-093,/net/beegfs/scratch/mafechkar/MDS_Data/MDS_GEX/MDS_GEX_fastqs,1,Gene Expression
+MDS201-15-093,/net/beegfs/scratch/mafechkar/MDS_Data/MDS_GEX/MDS_GEX_fastqs,2,Gene Expression
+MDS201-15-093,/net/beegfs/scratch/mafechkar/MDS_Data/MDS_GEX/MDS_GEX_fastqs,3,Gene Expression
+MDS201-15-093-p,/net/beegfs/scratch/mafechkar/MDS_Data/MDS_PROT,1,Antibody Capture
