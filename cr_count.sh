@@ -17,7 +17,7 @@ protein_fastq_path_original="/net/beegfs/scratch/mafechkar/MDS_Data/MDS_PROT"
 protein_fastq_path_symlink="/net/beegfs/scratch/mafechkar/MDS_Data/MDS_PROT/Protein_fastqs_symlinked" #to handle '-p'
 
 output_dir_base="/net/beegfs/scratch/mafechkar/MDS_Data/MDS_OUTS_CellRangerCount"
-csv_dir="net/beegfs/scratch/mafechkar/MDS_Data/metadata/"
+csv_dir="net/beegfs/scratch/mafechkar/MDS_Data/metadata/SampleSheets_CellRangerCount"
 ref_genome="/net/beegfs/scratch/mafechkar/MDS_Data/References/refdata-gex-GRCh38-2020-A"
 feature_ref_csv="/net/beegfs/scratch/mafechkar/MDS_Data/metadata/feature_ref.csv" ##use path for the real TotalSeqC csv file
 
