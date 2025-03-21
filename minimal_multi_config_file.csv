@@ -3,6 +3,9 @@ reference,/net/beegfs/scratch/mafechkar/MDS_Data/References/refdata-gex-GRCh38-2
 probe-set,/net/beegfs/scratch/mafechkar/MDS_Data/metadata/probe_set.csv
 create-bam,false
 
+[feature]
+reference,/net/beegfs/scratch/mafechkar/MDS_Data/metadata/feature_ref.csv
+
 [libraries]
 fastq_id,fastqs,lanes,feature_types
 MDS201-15-093,/net/beegfs/scratch/mafechkar/MDS_Data/MDS_GEX/MDS_GEX_fastqs,1,Gene Expression
