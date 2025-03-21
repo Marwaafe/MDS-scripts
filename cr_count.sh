@@ -17,6 +17,7 @@ protein_fastq_path_original="/net/beegfs/scratch/mafechkar/MDS_Data/MDS_PROT"
 protein_fastq_path_symlink="/net/beegfs/scratch/mafechkar/MDS_Data/MDS_PROT/Protein_fastqs_symlinked" #to handle '-p'
 
 output_dir_base="/net/beegfs/scratch/mafechkar/MDS_Data/MDS_OUTS_CellRangerCount"
+csv_dir="net/beegfs/scratch/mafechkar/MDS_Data/metadata/"
 ref_genome="/net/beegfs/scratch/mafechkar/MDS_Data/References/refdata-gex-GRCh38-2020-A"
 feature_ref_csv="/net/beegfs/scratch/mafechkar/MDS_Data/metadata/feature_ref.csv" ##use path for the real TotalSeqC csv file
 
@@ -55,13 +56,20 @@ for sample in "${samples[@]}"; do
   mkdir -p "$output_dir"
   cd "$output_dir"
 
-##Check 10x website to see if all araguments checks ok
+   # Create libraries.csv per sample
+  csv_file="${csv_dir}/${sample}_libraries.csv"
+  cat > "$csv_file" <<EOL
+fastqs,sample,library_type
+${rna_fastq_path},${sample},Gene Expression
+${protein_fastq_path_symlink},${sample},Antibody Capture
+EOL
+
+# Run cellranger count using the generated libraries.csv
   cellranger count \
     --id="${sample}_count" \
+    --libraries="$csv_file" \
     --transcriptome="$ref_genome" \
-    --fastqs="${rna_fastq_path},${protein_fastq_path_symlink}" \
     --feature-ref="$feature_ref_csv" \
-    --sample="$sample" \
     --localmem=300 \
     --localcores=40
 done
