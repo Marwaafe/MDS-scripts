@@ -8,14 +8,18 @@
 #SBATCH --partition=defq
 #SBATCH --mail-type=END,FAIL
 #SBATCH --mail-user=m.afechkar@amsterdamumc.nl #replace with yours
+
 module load cellranger/7.2.0 ## Get latest module
+
 ##Replace all paths with yours
-rna_fastq_path="/net/beegfs/scratch/psingh/MDS_Data/MDS_GEx/data/FR34044381_10x-GEX-Library-MDS-submission-form-1/B22W323LT3"
-protein_fastq_path_original="/net/beegfs/scratch/psingh/MDS_Data/MDS_prot/data/FR34044382_10x-Protein-Library-MDS-submission-form-2/B22W323LT3"
-protein_fastq_path_symlink="/net/beegfs/scratch/psingh/MDS_Data/MDS_prot/data/Protein_fastqs_symlinked" #to handle '-p'
+rna_fastq_path="/net/beegfs/scratch/mafechkar/MDS_Data/MDS_GEX/MDS_GEX_fastqs"
+protein_fastq_path_original="/net/beegfs/scratch/mafechkar/MDS_Data/MDS_PROT"
+protein_fastq_path_symlink="/net/beegfs/scratch/mafechkar/MDS_Data/MDS_PROT/Protein_fastqs_symlinked" #to handle '-p'
+
 output_dir_base="/trinity/home/psingh/OUTS_CellRangerCount"
-ref_genome="/trinity/home/psingh/Refs/refdata-gex-GRCh38-2020-A"
-feature_ref_csv="/trinity/home/psingh/Refs/totalseqC_feature_ref.csv" ##use path for the real TotalSeqC csv file
+ref_genome="net/beegfs/scratch/mafechkar/MDS_Data/References/refdata-gex-GRCh38-2020-A"
+feature_ref_csv="/net/beegfs/scratch/mafechkar/MDS_Data/metadata/feature_ref.csv" ##use path for the real TotalSeqC csv file
+
 samples=(
 "MDS001-09-203"
 "MDS005-09-247"
@@ -36,6 +40,7 @@ samples=(
 "MDS201-15-093"
 "MDS212-15-463"
 )
+
 # STEP 1: Create Symlinks (to handle '-p' in protein fastqs)
 mkdir -p "$protein_fastq_path_symlink"
 cd "$protein_fastq_path_symlink"
@@ -43,11 +48,13 @@ for f in "${protein_fastq_path_original}"/*-p_*.fastq.gz; do
   base=$(basename "$f")
   ln -s "$f" "${base/-p_/__}"
 done
+
 # STEP 2: Run cellranger count for each sample
 for sample in "${samples[@]}"; do
   output_dir="${output_dir_base}/${sample}_count_output"
   mkdir -p "$output_dir"
   cd "$output_dir"
+
 ##Check 10x website to see if all araguments checks ok
   cellranger count \
     --id="${sample}_count" \
