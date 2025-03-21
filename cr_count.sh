@@ -45,6 +45,10 @@ samples=(
 # STEP 1: Create Symlinks (to handle '-p' in protein fastqs)
 mkdir -p "$protein_fastq_path_symlink"
 cd "$protein_fastq_path_symlink"
+
+# Remove any existing symlinked FASTQ files 
+rm -rf "$protein_fastq_path_symlink"/*.fastq.gz
+
 for f in "${protein_fastq_path_original}"/*-p_*.fastq.gz; do
   base=$(basename "$f")
   ln -s "$f" "${base/-p_/__}"
