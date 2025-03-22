@@ -16,7 +16,7 @@ CD19_TotalSeqC, CD19, R2, 5P(BC), CTGGGCAATTACTCG, Antibody Capture
 CD33_TotalSeqC, CD33, R2, 5P(BC), TAACTCAGGGCCTAT, Antibody Capture
 ITGAX_TotalSeqC, ITGAX, R2, 5P(BC), TACGCCTATAACTTG, Antibody Capture
 HLA-A_TotalSeqC, HLA-A, R2, 5P(BC), TATGCGAGGCTTATC, Antibody Capture
-PTPRC_TotalSeqC, PTPRC, R2, 5P(BC), TCAATCCTTCCGCTT, Antibody Capture
+PTPRC_TotalSeqC_1, PTPRC, R2, 5P(BC), TCAATCCTTCCGCTT, Antibody Capture
 IL3RA_TotalSeqC, IL3RA, R2, 5P(BC), CTTCACTCTGTCAGG, Antibody Capture
 CD7_TotalSeqC, CD7, R2, 5P(BC), TGGATTCCCGGACTT, Antibody Capture
 ENG_TotalSeqC, ENG, R2, 5P(BC), ATCGTCGAGAGCTAG, Antibody Capture
@@ -27,7 +27,7 @@ CD44_TotalSeqC, CD44, R2, 5P(BC), TGGCTTCAGGTCCTA, Antibody Capture
 CD14_TotalSeqC, CD14, R2, 5P(BC), TCTCAGACCTCCGTA, Antibody Capture
 FCGR3A_TotalSeqC, FCGR3A, R2, 5P(BC), AAGTTCACTCTTTGC, Antibody Capture
 IL2RA_TotalSeqC, IL2RA, R2, 5P(BC), TTTGTCCTGTACGCC, Antibody Capture
-PTPRC_TotalSeqC, PTPRC, R2, 5P(BC), CTCCGAATCATGTTG, Antibody Capture
+PTPRC_TotalSeqC_2, PTPRC, R2, 5P(BC), CTCCGAATCATGTTG, Antibody Capture
 PDCD1_TotalSeqC, PDCD1, R2, 5P(BC), ACAGCGCCGTATTTA, Antibody Capture
 TIGIT_TotalSeqC, TIGIT, R2, 5P(BC), TTGCTTACCGCCAGA, Antibody Capture
 nan_TotalSeqC, nan, R2, 5P(BC), GCCGGACGACATTAA, Antibody Capture
