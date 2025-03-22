@@ -1,3 +1,35 @@
+Duplicate Feature ID Error
+The key issue is this message:
+
+pgsql
+Copy code
+Found two feature definitions with the same ID: ID: 'PPP2R2C_TotalSeqC', name: 'PPP2R2C_TotalSeqC', type: 'Antibody Capture'
+This indicates that your feature_ref.csv has two rows with the same id value (PPP2R2C_TotalSeqC). Cell Ranger requires that every row in the feature reference file has a unique id.
+
+How to Fix:
+
+Open your feature_ref.csv file.
+Search for “PPP2R2C_TotalSeqC”.
+Remove or rename the duplicate row(s) so that each id in the file is unique.
+Re-run cellranger count.
+
+Cell Ranger’s id field must be unique for each row in the feature reference CSV—even if the sequence or other fields differ. In your example, you have two rows that both have:
+
+ini
+Copy code
+id = PTPRC_TotalSeqC
+name = PTPRC
+read = R2
+pattern = 5P(BC)
+feature_type = Antibody Capture
+but different sequence values. Cell Ranger sees these as duplicates because the id is the same.
+
+How to Fix
+Rename one of the IDs so that it’s unique. For instance, you could do:
+PTPRC_TotalSeqC_1 for the first row, and
+PTPRC_TotalSeqC_2 for the second row.
+
+////
 Martian Runtime - v4.0.13
 2025-03-20 17:02:53 [jobmngr] WARNING: User-supplied amount 300 GB is higher than the detected cgroup memory limit of 40.0 GB
 Serving UI at http://node002.cluster:34249?auth=H6z1PPaIcdWW-0UWl2B9OMP1dZG6tHWr1BBUEy0A5dM
