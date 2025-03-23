@@ -7,7 +7,7 @@
 #SBATCH --mem=300G
 #SBATCH --partition=defq
 #SBATCH --mail-type=END,FAIL
-#SBATCH --mail-user=m.afechkar@amsterdamumc.nl #replace with yours
+#SBATCH --mail-user=m.afechkar@amsterdamumc.nl 
 
 module load cellranger/7.2.0 ## Get latest module
 
@@ -19,7 +19,7 @@ protein_fastq_path_symlink="/net/beegfs/scratch/mafechkar/MDS_Data/MDS_PROT/Prot
 output_dir_base="/net/beegfs/scratch/mafechkar/MDS_Data/MDS_OUTS_CellRangerCount"
 csv_dir="/net/beegfs/scratch/mafechkar/MDS_Data/metadata/SampleSheets_CellRangerCount"
 ref_genome="/net/beegfs/scratch/mafechkar/MDS_Data/References/refdata-gex-GRCh38-2020-A"
-feature_ref_csv="/net/beegfs/scratch/mafechkar/MDS_Data/metadata/feature_ref.csv" ##use path for the real TotalSeqC csv file
+feature_ref_csv="/net/beegfs/scratch/mafechkar/MDS_Data/metadata/feature_ref.csv" 
 
 samples=(
 "MDS001-09-203"
