@@ -1,3 +1,24 @@
+[error] Pipestance failed. Error log at:
+MDS001-09-203_count/SC_RNA_COUNTER_CS/SC_MULTI_CORE/MULTI_GEM_WELL_PROCESSOR/COUNT_GEM_WELL_PROCESSOR/_BASIC_SC_RNA_COUNTER/_MATRIX_COMPUTER/MAKE_SHARD/fork0/chnk0-u26c7df00ca/_errors
+
+Log message:
+IO error in FASTQ file '/net/beegfs/scratch/mafechkar/MDS_Data/MDS_GEX/MDS_GEX_fastqs/MDS001-09-203_S17_L001_R1_001.fastq.gz', line: 7632200: unexpected end of file
+
+Waiting 6 seconds for UI to do final refresh.
+Pipestance failed. Use --noexit option to keep UI running after failure.
+
+2025-03-22 19:26:37 Shutting down.
+2025-03-22 19:26:37 [jobmngr] Highest memory usage observed: {
+  "rss": 14330540032,
+  "shared": 115826688,
+  "vmem": 22788554752,
+  "text": 72138752,
+  "stack": 19618385920,
+  "proc_count": 84
+}
+
+
+///
 LTI_GEM_WELL_PROCESSOR/COUNT_GEM_WELL_PROCESSOR/_BASIC_SC_RNA_COUNTER/_MATRIX_COMPUTER/MAKE_SHARD/fork0/chnk0-u26c7df00ca/_errors
 /net/beegfs/scratch/mafechkar/MDS_Data/MDS_OUTS_CellRangerCount/MDS001-09-203_count_output/MDS001-09-203_count/SC_RNA_COUNTER_CS/SC_MULTI_CORE/MULTI_GEM_WELL_PROCESSOR/COUNT_GEM_WELL_PROCESSOR/_BASIC_SC_RNA_COUNTER/_MATRIX_COMPUTER/MAKE_SHARD/fork0/chnk3-u26c7df00ca/_errors
 [mafechkar@ares mafechkar]$ cat /net/beegfs/scratch/mafechkar/MDS_Data/MDS_OUTS_CellRangerCount/MDS001-09-203_count_output/MDS001-09-203_count/SC_RNA_COUNTER_CS/SC_MULTI_CORE/MULTI_GEM_WELL_PROCESSOR/COUNT_GEM_WELL_PROCESSOR/_BASIC_SC_RNA_COUNTER/_MATRIX_COMPUTER/MAKE_SHARD/fork0/chnk3-u26c7df00ca/_errors
