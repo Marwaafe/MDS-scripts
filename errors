@@ -1,3 +1,10 @@
+LTI_GEM_WELL_PROCESSOR/COUNT_GEM_WELL_PROCESSOR/_BASIC_SC_RNA_COUNTER/_MATRIX_COMPUTER/MAKE_SHARD/fork0/chnk0-u26c7df00ca/_errors
+/net/beegfs/scratch/mafechkar/MDS_Data/MDS_OUTS_CellRangerCount/MDS001-09-203_count_output/MDS001-09-203_count/SC_RNA_COUNTER_CS/SC_MULTI_CORE/MULTI_GEM_WELL_PROCESSOR/COUNT_GEM_WELL_PROCESSOR/_BASIC_SC_RNA_COUNTER/_MATRIX_COMPUTER/MAKE_SHARD/fork0/chnk3-u26c7df00ca/_errors
+[mafechkar@ares mafechkar]$ cat /net/beegfs/scratch/mafechkar/MDS_Data/MDS_OUTS_CellRangerCount/MDS001-09-203_count_output/MDS001-09-203_count/SC_RNA_COUNTER_CS/SC_MULTI_CORE/MULTI_GEM_WELL_PROCESSOR/COUNT_GEM_WELL_PROCESSOR/_BASIC_SC_RNA_COUNTER/_MATRIX_COMPUTER/MAKE_SHARD/fork0/chnk3-u26c7df00ca/_errors
+Caught signal terminated[mafechkar@ares mafechkar]$ cat /net/beegfs/scratch/mafechkar/MDS_Data/MDS_OUTS_CellRangerCount/MDS001-09-203_count_outputRNA_COUNTER_CS/SC_MULTI_CORE/MULTI_GEM_WELL_PROCESSOR/COUNT_GEM_WELL_PROCESSOR/_BASIC_SC_RNA_COUNTER/_MATRIX_COMPUTER/MAKE_SHARD/fork0/chnk3-u26c7df00ca/_errors
+
+
+//
 
 /net/beegfs/scratch/mafechkar/MDS_Data/MDS_OUTS_CellRangerCount/MDS065-10-609_count_output/MDS065-10-609_count/outs/metrics_summary.csv
 /net/beegfs/scratch/mafechkar/MDS_Data/MDS_OUTS_CellRangerCount/MDS212-15-463_count_output/MDS212-15-463_count/outs/metrics_summary.csv
