@@ -1,3 +1,36 @@
+
+[error] Pipestance failed. Error log at:
+MDS154-13-486_count/SC_RNA_COUNTER_CS/SC_MULTI_CORE/MULTI_CHEMISTRY_DETECTOR/DETECT_COUNT_CHEMISTRY/fork0/chnk0-u4000dff172/_errors
+
+Log message:
+Unable to distinguish between [SC5P-PE, SC3Pv2] chemistries based on the R2 read mapping for Sample MDS154-13-486 in "/net/beegfs/scratch/mafechkar/MDS_Data/MDS_GEX/MDS_GEX_fastqs".
+Total Reads          = 100000
+Mapped reads         = 1238
+Sense reads          = 86
+Antisense reads      = 734
+
+In order to distinguish between the 3' vs 5' assay configuration the following conditions need to be satisfied:
+- A minimum of 1000 confidently mapped reads
+- A minimum of 5.0% of the total reads considered needs to be confidently mapped
+- The number of sense reads need to be at least 2x compared to the antisense reads or vice versa
+
+Please validate the inputs and/or specify the chemistry via the --chemistry argument.
+
+
+Waiting 6 seconds for UI to do final refresh.
+Pipestance failed. Use --noexit option to keep UI running after failure.
+
+2025-03-23 12:35:22 Shutting down.
+2025-03-23 12:35:22 [jobmngr] Highest memory usage observed: {
+  "rss": 14333804544,
+  "shared": 112771072,
+  "vmem": 22621675520,
+  "text": 54104064,
+  "stack": 19451506688,
+  "proc_count": 73
+
+
+///
 [error] Pipestance failed. Error log at:
 MDS001-09-203_count/SC_RNA_COUNTER_CS/SC_MULTI_CORE/MULTI_GEM_WELL_PROCESSOR/COUNT_GEM_WELL_PROCESSOR/_BASIC_SC_RNA_COUNTER/_MATRIX_COMPUTER/MAKE_SHARD/fork0/chnk0-u26c7df00ca/_errors
 
