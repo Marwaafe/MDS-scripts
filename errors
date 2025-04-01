@@ -1,3 +1,14 @@
+             JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)
+[mafechkar@ares mafechkar]$ cat cellranger_count_MDS001-09-203.err
+ln: failed to create symbolic link '/net/beegfs/scratch/mafechkar/MDS_Data/MDS_OUTS_CellRangerCount/MDS001-09-203_count_output/fastq_symlinks/MDS001-09-203_S17_L001_R1_001.fastq.gz': File exists
+ln: failed to create symbolic link '/net/beegfs/scratch/mafechkar/MDS_Data/MDS_OUTS_CellRangerCount/MDS001-09-203_count_output/fastq_symlinks/MDS001-09-203_S17_L001_R2_001.fastq.gz': File exists
+ln: failed to create symbolic link '/net/beegfs/scratch/mafechkar/MDS_Data/MDS_OUTS_CellRangerCount/MDS001-09-203_count_output/fastq_symlinks/MDS001-09-203-p_S17_L001_R1_001.fastq.gz': File exists
+
+
+Could not find a 10x cloud token in the default user directory.  In order to enable cell annotation, run cellranger cloud auth setup, or please supply a --tenx-cloud-token-path argument.
+
+
+///
 error: the following required arguments were not provided:
   --create-bam <true|false>
 
