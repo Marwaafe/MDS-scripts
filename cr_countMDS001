@@ -12,7 +12,7 @@
 module load cellranger/9.0.0  
 
 ## Set key paths (adjust as needed)
-output_dir_base="/net/beegfs/scratch/mafechkar/MDS_Data/MDS_OUTS_CellRangerCount"
+output_dir_base="/net/beegfs/scratch/mafechkar/MDS_Data/MDS_OUTS_MDS001-09-203_CellRangerCount"
 csv_dir="/net/beegfs/scratch/mafechkar/MDS_Data/metadata/SampleSheets_CellRangerCount"
 ref_genome="/net/beegfs/scratch/mafechkar/MDS_Data/References/refdata-gex-GRCh38-2020-A"
 feature_ref_csv="/net/beegfs/scratch/mafechkar/MDS_Data/metadata/feature_ref.csv"
