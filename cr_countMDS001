@@ -20,6 +20,9 @@ feature_ref_csv="/net/beegfs/scratch/mafechkar/MDS_Data/metadata/feature_ref.csv
 # Define sample name
 sample="MDS001-09-203"
 
+# Remove any existing FASTQ files in the directory to avoid symlink conflicts
+rm -f "$fastq_dir"/*.fastq.gz
+
 # Create output directory for the sample
 output_dir="${output_dir_base}/${sample}_count_output"
 mkdir -p "$output_dir"
@@ -45,6 +48,10 @@ ${fastq_dir},${sample},Gene Expression,true
 ${fastq_dir},${sample},Antibody Capture,false
 EOL
 
+# Create a dummy cloud token file
+dummy_token_file="${output_dir}/dummy_token.txt"
+echo "dummy_token" > "$dummy_token_file"
+
 # Run cellranger count for this sample
 cellranger count \
   --id="${sample}_count" \
@@ -54,3 +61,5 @@ cellranger count \
   --feature-ref="$feature_ref_csv" \
   --localmem=300 \
   --localcores=40
+  --tenx-cloud-token-path "$dummy_token_file"
+
