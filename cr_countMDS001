@@ -48,6 +48,7 @@ EOL
 # Run cellranger count for this sample
 cellranger count \
   --id="${sample}_count" \
+  --create-bam false \
   --libraries="$csv_file" \
   --transcriptome="$ref_genome" \
   --feature-ref="$feature_ref_csv" \
