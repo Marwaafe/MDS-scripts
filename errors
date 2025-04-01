@@ -1,4 +1,11 @@
+error: the following required arguments were not provided:
+  --create-bam <true|false>
 
+Usage: cellranger count --id <ID> --create-bam <true|false> --libraries <CSV> --transcriptome <PATH> --feature-ref <CSV> --localmem <NUM> --localcores <NUM>
+
+For more information, try '--help'.
+
+///
 [error] Pipestance failed. Error log at:
 MDS154-13-486_count/SC_RNA_COUNTER_CS/SC_MULTI_CORE/MULTI_CHEMISTRY_DETECTOR/DETECT_COUNT_CHEMISTRY/fork0/chnk0-u4000dff172/_errors
 
