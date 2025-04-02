@@ -1,7 +1,7 @@
 #!/bin/bash
-#SBATCH --job-name=cellranger-countT2
-#SBATCH --output=cellranger_countT2.out
-#SBATCH --error=cellranger_countT2.err
+#SBATCH --job-name=cellranger-MDS154
+#SBATCH --output=cellranger_MDS154.out
+#SBATCH --error=cellranger_MDS154.err
 #SBATCH --time=96:00:00
 #SBATCH --cpus-per-task=40
 #SBATCH --mem=300G
@@ -11,73 +11,53 @@
 
 module load cellranger/9.0.0  ## Use Cell Ranger version 9.0.0
 
-## Define key paths (adjust as needed)
+## Define key paths
+sample="MDS154-13-486"
 rna_fastq_path="/net/beegfs/scratch/mafechkar/MDS_Data/MDS_GEX/MDS_GEX_fastqs"
 protein_fastq_path_original="/net/beegfs/scratch/mafechkar/MDS_Data/MDS_PROT"
-protein_fastq_path_symlink="/net/beegfs/scratch/mafechkar/MDS_Data/MDS_PROT/Protein_fastqs_symlinked"  # to handle '-p'
+protein_fastq_path_symlink="/net/beegfs/scratch/mafechkar/MDS_Data/MDS_PROT/Protein_fastqs_symlinked"
 
 output_dir_base="/net/beegfs/scratch/mafechkar/MDS_Data/MDS_OUTS_CellRangerCount"
 csv_dir="/net/beegfs/scratch/mafechkar/MDS_Data/metadata/SampleSheets_CellRangerCount"
 ref_genome="/net/beegfs/scratch/mafechkar/MDS_Data/References/refdata-gex-GRCh38-2020-A"
 feature_ref_csv="/net/beegfs/scratch/mafechkar/MDS_Data/metadata/feature_ref.csv" 
 
-samples=("MDS001-09-203" "MDS154-13-486")
-
 mkdir -p "$csv_dir"
 
-# Remove any existing FASTQ files in the directory to avoid symlink conflicts
-rm -f "$fastq_dir"/*.fastq.gz
-
-# STEP 1: Create Symlinks for Protein FASTQs
+# STEP 1: Create symlinks for Protein FASTQs
 mkdir -p "$protein_fastq_path_symlink"
 cd "$protein_fastq_path_symlink"
-rm -rf "$protein_fastq_path_symlink"/*.fastq.gz
+rm -f *.fastq.gz  # clean symlink dir
 for f in "${protein_fastq_path_original}"/*-p_*.fastq.gz; do
   base=$(basename "$f")
   ln -s "$f" "${base/-p_/_}"
 done
 
-# STEP 2: Run cellranger count for each sample
-for sample in "${samples[@]}"; do
-  echo "Processing sample: $sample"
-  
-  # Create a timestamp variable
-  timestamp=$(date +%Y%m%d_%H%M%S)
-  
-  # Create output directory for the sample with a timestamp
-  sample_output_dir="${output_dir_base}/${sample}_count_output_${timestamp}"
-  mkdir -p "$sample_output_dir"
-  cd "$sample_output_dir"
-  
-  # Create libraries.csv per sample
-  csv_file="${csv_dir}/${sample}_libraries_${timestamp}.csv"
-  cat > "$csv_file" <<EOL
-fastqs,sample,library_type
-${rna_fastq_path},${sample},Gene Expression
-${protein_fastq_path_symlink},${sample},Antibody Capture
+# STEP 2: Run cellranger count
+echo "Processing sample: $sample"
+
+timestamp=$(date +%Y%m%d_%H%M%S)
+sample_output_dir="${output_dir_base}/${sample}_count_output_${timestamp}"
+mkdir -p "$sample_output_dir"
+cd "$sample_output_dir"
+
+csv_file="${csv_dir}/${sample}_libraries_${timestamp}.csv"
+cat > "$csv_file" <<EOL
+fastqs,sample,library_type,include_trans
+${rna_fastq_path},${sample},Gene Expression,true
+${protein_fastq_path_symlink},${sample},Antibody Capture,false
 EOL
-  
-  # Create a dummy cloud token file
-  dummy_token_file="${sample_output_dir}/dummy_token.txt"
-  echo "dummy_token" > "$dummy_token_file"
 
-  # Set extra chemistry parameter conditionally for MDS154-13-486
-  if [ "$sample" == "MDS154-13-486" ]; then
-    extra_args="--chemistry=SC5P-PE"
-  else
-    extra_args=""
-  fi
-  
-  # Run cellranger count with a unique ID
-  cellranger count \
-    --id="${sample}_count_${timestamp}" \
-    --create-bam false \
-    --libraries="$csv_file" \
-    --transcriptome="$ref_genome" \
-    --feature-ref="$feature_ref_csv" \
-    --localmem=300 \
-    --localcores=40 \
-    --tenx-cloud-token-path "$dummy_token_file"
-done
+dummy_token_file="${sample_output_dir}/dummy_token.txt"
+echo "dummy_token" > "$dummy_token_file"
 
-
+cellranger count \
+  --id="${sample}_count_${timestamp}" \
+  --create-bam false \
+  --libraries="$csv_file" \
+  --transcriptome="$ref_genome" \
+  --feature-ref="$feature_ref_csv" \
+  --localmem=300 \
+  --localcores=40 \
+  --chemistry=SC5P-PE \
+  --tenx-cloud-token-path "$dummy_token_file"
