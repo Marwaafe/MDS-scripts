@@ -40,16 +40,16 @@ for sample_name in selected_samples:
             soup = BeautifulSoup(file, "html.parser")
 
             try:
-                est_cells = int(soup.find(string="Estimated Number of Cells").find_next().text.replace(",", ""))
-                mean_reads = int(soup.find(string="Mean Reads per Cell").find_next().text.replace(",", ""))
-                median_genes = int(soup.find(string="Median Genes per Cell").find_next().text.replace(",", ""))
-                total_reads = int(soup.find(string="Number of Reads").find_next().text.replace(",", ""))
-                frac_reads_in_cells = float(soup.find(string="Fraction Reads in Cells").find_next().text.strip('%'))
-                median_umi = int(soup.find(string="Median UMI Counts per Cell").find_next().text.replace(",", ""))
-                seq_saturation = float(soup.find(string="Sequencing Saturation").find_next().text.strip('%'))
-                chemistry = soup.find(string="Chemistry").find_next().text
+                est_cells = int(soup.select_one('[data-testid="estimated-cells"]').text.replace(",", ""))
+                mean_reads = int(soup.select_one('[data-testid="mean-reads-per-cell"]').text.replace(",", ""))
+                median_genes = int(soup.select_one('[data-testid="median-genes-per-cell"]').text.replace(",", ""))
+                total_reads = int(soup.select_one('[data-testid="number-of-reads"]').text.replace(",", ""))
+                frac_reads_in_cells = float(soup.select_one('[data-testid="frac-reads-in-cells"]').text.strip('%'))
+                median_umi = int(soup.select_one('[data-testid="median-umi-counts"]').text.replace(",", ""))
+                seq_saturation = float(soup.select_one('[data-testid="sequencing-saturation"]').text.strip('%'))
+                chemistry = soup.select_one('[data-testid="chemistry"]').text.strip()
 
-                # Auto-flag logic
+                # Flagging logic
                 comments = []
                 if est_cells < 1000:
                     comments.append("Low cell yield")
