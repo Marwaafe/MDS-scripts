@@ -60,17 +60,26 @@ for sample_name in selected_samples:
 
             for label, col in desired_metrics.items():
                 val = row.get(col, "")
-                if isinstance(val, str):
-                    val = val.replace(",", "").strip()
-                    if "%" in val:
-                        val = float(val.strip('%'))
-                elif pd.isna(val):
+                try:
+                    if isinstance(val, str):
+                        val = val.replace(",", "").strip()
+                        if "%" in val:
+                            val = float(val.strip('%'))
+                    elif pd.isna(val):
+                        val = ""
+                except Exception:
                     val = ""
                 sample_info[label] = val
 
-            # flags
+            # Add flags
+            try:
+                est_cells_raw = row.get("Estimated Number of Cells", 0)
+                est_cells = int(str(est_cells_raw).replace(",", "")) if isinstance(est_cells_raw, str) else int(est_cells_raw)
+            except Exception:
+                est_cells = 0
+
             comments = []
-            if int(row.get("Estimated Number of Cells", "0").replace(",", "")) < 1000:
+            if est_cells < 1000:
                 comments.append("Low cell yield")
             if sample_name in being_rerun:
                 comments.append("Being rerun")
