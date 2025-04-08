@@ -64,6 +64,8 @@ for sample_name in selected_samples:
                     val = val.replace(",", "").strip()
                     if "%" in val:
                         val = float(val.strip('%'))
+                elif pd.isna(val):
+                    val = ""
                 sample_info[label] = val
 
             # flags
