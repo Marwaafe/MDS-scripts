@@ -4,15 +4,28 @@ import pandas as pd
 
 # List of samples to include
 selected_samples = [
-    "MDS212-15-463",
+    "MDS005-09-247",
+    "MDS006-08-249",
+    "MDS010-09-299",
+    "MDS016-09-478",
+    "MDS023-10-053",
     "MDS029-10-118",
-    # Add more sample names here
+    "MDS038-10-241",
+    "MDS059-10-531,
+    "MDS065-10-609",
+    "MDS154-13-486",
+    "MDS155-13-606",
+    "MDS167-13-913",
+    "MDS169-13-919",
+    "MDS180-14-164",
+    "MDS189-14-527",
+    "MDS201-15-093",
+    "MDS212-15-463"
 ]
 
 # Samples being rerun
 being_rerun = [
-    "MDS001-09-203",
-    "MDS154-13-486"
+    "MDS001-09-203"
 ]
 
 root_dir = "MDS_Data/MDS_OUTS_CellRangerCount"
