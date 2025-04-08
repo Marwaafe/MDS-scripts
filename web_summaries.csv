@@ -28,53 +28,63 @@ being_rerun = [
     "MDS001-09-203"
 ]
 
+# Folder path to sample outputs
 root_dir = "MDS_Data/MDS_OUTS_CellRangerCount"
+
+# Metrics you want to extract and their column names in the CSV
+desired_metrics = {
+    "Estimated Number of Cells": "Estimated Number of Cells",
+    "Mean Reads per Cell": "Mean Reads per Cell",
+    "Median Genes per Cell": "Median Genes per Cell",
+    "Total Reads": "Number of Reads",
+    "Fraction Reads in Cells (%)": "Fraction Reads in Cells",
+    "Median UMI per Cell": "Median UMI Counts per Cell",
+    "Sequencing Saturation (%)": "Sequencing Saturation",
+    "Chemistry": "Chemistry"
+}
+
 summary_data = []
 
 for sample_name in selected_samples:
-    sample_folder = f"{sample_name}_count_output"
-    html_path = os.path.join(root_dir, sample_folder, f"{sample_name}_count", "outs", "web_summary.html")
+    csv_path = os.path.join(
+        root_dir,
+        f"{sample_name}_count_output",
+        f"{sample_name}_count",
+        "outs",
+        "metrics_summary.csv"
+    )
 
-    if os.path.exists(html_path):
-        with open(html_path, "r", encoding="utf-8") as file:
-            soup = BeautifulSoup(file, "html.parser")
+    if os.path.exists(csv_path):
+        try:
+            df = pd.read_csv(csv_path)
+            row = df.iloc[0]
 
-            try:
-                est_cells = int(soup.select_one('[data-testid="estimated-cells"]').text.replace(",", ""))
-                mean_reads = int(soup.select_one('[data-testid="mean-reads-per-cell"]').text.replace(",", ""))
-                median_genes = int(soup.select_one('[data-testid="median-genes-per-cell"]').text.replace(",", ""))
-                total_reads = int(soup.select_one('[data-testid="number-of-reads"]').text.replace(",", ""))
-                frac_reads_in_cells = float(soup.select_one('[data-testid="frac-reads-in-cells"]').text.strip('%'))
-                median_umi = int(soup.select_one('[data-testid="median-umi-counts"]').text.replace(",", ""))
-                seq_saturation = float(soup.select_one('[data-testid="sequencing-saturation"]').text.strip('%'))
-                chemistry = soup.select_one('[data-testid="chemistry"]').text.strip()
+            sample_info = {"Sample ID": sample_name}
 
-                # Flagging logic
-                comments = []
-                if est_cells < 1000:
-                    comments.append("Low cell yield")
-                if sample_name in being_rerun:
-                    comments.append("Being rerun")
+            for label, col in desired_metrics.items():
+                val = row.get(col, "")
+                if isinstance(val, str):
+                    val = val.replace(",", "").strip()
+                    if "%" in val:
+                        val = float(val.strip('%'))
+                sample_info[label] = val
 
-                summary_data.append({
-                    "Sample ID": sample_name,
-                    "Estimated Number of Cells": est_cells,
-                    "Mean Reads per Cell": mean_reads,
-                    "Median Genes per Cell": median_genes,
-                    "Total Reads": total_reads,
-                    "Fraction Reads in Cells (%)": frac_reads_in_cells,
-                    "Median UMI per Cell": median_umi,
-                    "Sequencing Saturation (%)": seq_saturation,
-                    "Chemistry": chemistry,
-                    "Comments": "; ".join(comments)
-                })
+            # Add flags
+            comments = []
+            if int(row.get("Estimated Number of Cells", "0").replace(",", "")) < 1000:
+                comments.append("Low cell yield")
+            if sample_name in being_rerun:
+                comments.append("Being rerun")
+            sample_info["Comments"] = "; ".join(comments)
 
-            except Exception as e:
-                print(f"Error parsing {sample_name}: {e}")
+            summary_data.append(sample_info)
+
+        except Exception as e:
+            print(f"Error parsing {sample_name}: {e}")
     else:
-        print(f"web_summary.html not found for {sample_name}")
+        print(f"metrics_summary.csv not found for {sample_name}")
 
-# Write to CSV
-df = pd.DataFrame(summary_data)
-df.to_csv("MDS_Selected_Samples_Summary.csv", index=False)
-print("Summary written to MDS_Selected_Samples_Summary.csv")
+# Save final summary to Excel
+df_summary = pd.DataFrame(summary_data)
+df_summary.to_excel("MDS_Sample_Summary.xlsx", index=False)
+print("Summary written to MDS_Sample_Summary.xlsx")
