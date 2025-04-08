@@ -1,0 +1,67 @@
+import os
+from bs4 import BeautifulSoup
+import pandas as pd
+
+# List of samples to include
+selected_samples = [
+    "MDS212-15-463",
+    "MDS029-10-118",
+    # Add more sample names here
+]
+
+# Samples being rerun
+being_rerun = [
+    "MDS001-09-203",
+    "MDS154-13-486"
+]
+
+root_dir = "MDS_Data/MDS_OUTS_CellRangerCount"
+summary_data = []
+
+for sample_name in selected_samples:
+    sample_folder = f"{sample_name}_count_output"
+    html_path = os.path.join(root_dir, sample_folder, f"{sample_name}_count", "outs", "web_summary.html")
+
+    if os.path.exists(html_path):
+        with open(html_path, "r", encoding="utf-8") as file:
+            soup = BeautifulSoup(file, "html.parser")
+
+            try:
+                est_cells = int(soup.find(string="Estimated Number of Cells").find_next().text.replace(",", ""))
+                mean_reads = int(soup.find(string="Mean Reads per Cell").find_next().text.replace(",", ""))
+                median_genes = int(soup.find(string="Median Genes per Cell").find_next().text.replace(",", ""))
+                total_reads = int(soup.find(string="Number of Reads").find_next().text.replace(",", ""))
+                frac_reads_in_cells = float(soup.find(string="Fraction Reads in Cells").find_next().text.strip('%'))
+                median_umi = int(soup.find(string="Median UMI Counts per Cell").find_next().text.replace(",", ""))
+                seq_saturation = float(soup.find(string="Sequencing Saturation").find_next().text.strip('%'))
+                chemistry = soup.find(string="Chemistry").find_next().text
+
+                # Auto-flag logic
+                comments = []
+                if est_cells < 1000:
+                    comments.append("Low cell yield")
+                if sample_name in being_rerun:
+                    comments.append("Being rerun")
+
+                summary_data.append({
+                    "Sample ID": sample_name,
+                    "Estimated Number of Cells": est_cells,
+                    "Mean Reads per Cell": mean_reads,
+                    "Median Genes per Cell": median_genes,
+                    "Total Reads": total_reads,
+                    "Fraction Reads in Cells (%)": frac_reads_in_cells,
+                    "Median UMI per Cell": median_umi,
+                    "Sequencing Saturation (%)": seq_saturation,
+                    "Chemistry": chemistry,
+                    "Comments": "; ".join(comments)
+                })
+
+            except Exception as e:
+                print(f"Error parsing {sample_name}: {e}")
+    else:
+        print(f"web_summary.html not found for {sample_name}")
+
+# Write to CSV
+df = pd.DataFrame(summary_data)
+df.to_csv("MDS_Selected_Samples_Summary.csv", index=False)
+print("Summary written to MDS_Selected_Samples_Summary.csv")
