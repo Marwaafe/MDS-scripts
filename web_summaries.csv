@@ -2,7 +2,6 @@ import os
 from bs4 import BeautifulSoup
 import pandas as pd
 
-# List of samples to include
 selected_samples = [
     "MDS005-09-247",
     "MDS006-08-249",
@@ -23,7 +22,6 @@ selected_samples = [
     "MDS212-15-463"
 ]
 
-# Samples being rerun
 being_rerun = [
     "MDS001-09-203"
 ]
@@ -31,7 +29,6 @@ being_rerun = [
 # Folder path to sample outputs
 root_dir = "MDS_Data/MDS_OUTS_CellRangerCount"
 
-# Metrics you want to extract and their column names in the CSV
 desired_metrics = {
     "Estimated Number of Cells": "Estimated Number of Cells",
     "Mean Reads per Cell": "Mean Reads per Cell",
@@ -69,7 +66,7 @@ for sample_name in selected_samples:
                         val = float(val.strip('%'))
                 sample_info[label] = val
 
-            # Add flags
+            # flags
             comments = []
             if int(row.get("Estimated Number of Cells", "0").replace(",", "")) < 1000:
                 comments.append("Low cell yield")
@@ -84,7 +81,7 @@ for sample_name in selected_samples:
     else:
         print(f"metrics_summary.csv not found for {sample_name}")
 
-# Save final summary to Excel
+#  final summary to Excel
 df_summary = pd.DataFrame(summary_data)
 df_summary.to_excel("MDS_Sample_Summary.xlsx", index=False)
 print("Summary written to MDS_Sample_Summary.xlsx")
