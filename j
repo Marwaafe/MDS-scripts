@@ -1,0 +1,1 @@
+Hey! I tried downloading the FASTQ file using wget, but I think the link just gives me the HTML landing page instead of the actual data. Would you be able to send me the direct link to the .fastq.gz file 
