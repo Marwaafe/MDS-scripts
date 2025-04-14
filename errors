@@ -1,4 +1,23 @@
-             JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)
+[mafechkar@ares ~]$ start-rstudio.sh
+Getting required containers ... this may take a while ...
+  Storing image in /trinity/home/mafechkar/.singularity/cache/
+INFO:    Using cached SIF image
+Finding an available port ...
+Checking port: 8788
+Checking port: 8789
+Got one !
+On you local machine, open an SSH tunnel like:
+  ssh -N -L 8789:localhost:8789 -J mafechkar@ares.vumc.nl mafechkar@ares.cluster
+Point your web browser at http://localhost:8789
+INFO:    Using cached SIF image
+TTY detected. Printing informational message about logging configuration. Logging configuration loaded from '/etc/rstudio/logging.conf'. Logging to 'syslog'.
+
+
+
+
+///
+
+JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)
 [mafechkar@ares mafechkar]$ cat cellranger_count_MDS001-09-203.err
 ln: failed to create symbolic link '/net/beegfs/scratch/mafechkar/MDS_Data/MDS_OUTS_CellRangerCount/MDS001-09-203_count_output/fastq_symlinks/MDS001-09-203_S17_L001_R1_001.fastq.gz': File exists
 ln: failed to create symbolic link '/net/beegfs/scratch/mafechkar/MDS_Data/MDS_OUTS_CellRangerCount/MDS001-09-203_count_output/fastq_symlinks/MDS001-09-203_S17_L001_R2_001.fastq.gz': File exists
