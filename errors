@@ -1,3 +1,16 @@
+[mafechkar@ares ~]$ ssh -N -L 8788:localhost:8788 -J mafechkar@ares.vumc.nl mafechkar@node012.cluster
+The authenticity of host 'ares.vumc.nl (10.119.3.116)' can't be established.
+ECDSA key fingerprint is SHA256:jUVwM10MwTQdl0QXD4G5uk7jJMHotN4Tfsl8tDDeSMI.
+Are you sure you want to continue connecting (yes/no/[fingerprint])? yes
+Warning: Permanently added 'ares.vumc.nl,10.119.3.116' (ECDSA) to the list of known hosts.
+Warning: Permanently added 'node012.cluster' (ECDSA) to the list of known hosts.
+Access denied: user mafechkar (uid=1256) has no active jobs on this node.
+Connection closed by UNKNOWN port 65535
+[mafechkar@ares ~]$
+
+
+
+
 [mafechkar@ares ~]$ start-rstudio.sh
 Getting required containers ... this may take a while ...
   Storing image in /trinity/home/mafechkar/.singularity/cache/
