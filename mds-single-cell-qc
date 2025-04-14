@@ -1,0 +1,42 @@
+# Load libraries
+library(Seurat)
+library(Matrix)
+library(ggplot2)
+
+# Set the path to your filtered_feature_bc_matrix.h5 file
+sample_name <- "MDS001-09-203"  # change to your sample
+data_path <- paste0("path/to/", sample_name, "/outs/filtered_feature_bc_matrix.h5")
+
+# Read in RNA + ADT data from 10X h5 file
+data <- Read10X_h5(data_path)
+
+# Create Seurat object using RNA
+seurat_obj <- CreateSeuratObject(
+  counts = data$`Gene Expression`,
+  assay = "RNA",
+  project = sample_name
+)
+
+# Add ADT assay
+seurat_obj[["ADT"]] <- CreateAssayObject(counts = data$`Antibody Capture`)
+
+# Calculate percent.mt
+seurat_obj[["percent.mt"]] <- PercentageFeatureSet(seurat_obj, pattern = "^MT-")
+
+# Plot RNA QC metrics
+VlnPlot(seurat_obj, features = c("nFeature_RNA", "nCount_RNA", "percent.mt"), ncol = 3)
+
+# Filter cells based on RNA QC
+seurat_obj <- subset(seurat_obj, subset = nFeature_RNA > 500 & nFeature_RNA < 2500 & percent.mt < 10)
+
+# Normalize RNA (LogNormalize)
+seurat_obj <- NormalizeData(seurat_obj, normalization.method = "LogNormalize", assay = "RNA")
+
+# Normalize ADT (CLR method)
+seurat_obj <- NormalizeData(seurat_obj, normalization.method = "CLR", margin = 2, assay = "ADT")
+
+# Optional: visualize a few ADT markers
+VlnPlot(seurat_obj, features = c("CD3", "CD4", "CD8", "CD14"), assay = "ADT", slot = "data", ncol = 2)
+
+# Save object for later use
+saveRDS(seurat_obj, file = paste0(sample_name, "_filtered_normalized.rds"))
