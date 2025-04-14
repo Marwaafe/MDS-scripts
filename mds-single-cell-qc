@@ -4,11 +4,12 @@ library(Matrix)
 library(ggplot2)
 
 # Set the path to your filtered_feature_bc_matrix.h5 file
-sample_name <- "MDS001-09-203"  # change to your sample
+sample_name <- "MDS005-09-247" 
 data_path <- paste0("path/to/", sample_name, "/outs/filtered_feature_bc_matrix.h5")
 
 # Read in RNA + ADT data from 10X h5 file
 data <- Read10X_h5(data_path)
+"/net/beegfs/scratch/mafechkar/MDS_Data/MDS_OUTS_CellRangerCount/MDS005-09-247_count_output/MDS005-09-247_count/outs/raw_feature_bc_matrix.h5"
 
 # Create Seurat object using RNA
 seurat_obj <- CreateSeuratObject(
