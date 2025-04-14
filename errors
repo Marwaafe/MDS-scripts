@@ -1,17 +1,18 @@
-Hi,
+[mafechkar@ares mafechkar]$ module show R/4.3.1
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+   /trinity/shared/modulefiles/R/4.3.1:
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+whatis("Adds R version 4.3.1 to your environment")
+load("GCCcore/11.3.0")
+load("gnu12")
+prepend_path("PATH","/trinity/shared/apps/R/4.3.1//bin")
+prepend_path("PATH","/trinity/shared/apps/R/4.3.1//share")
+prepend_path("LD_LIBRARY_PATH","/trinity/shared/apps/R/4.3.1//lib64")
+help([[ Adds R 4.3.1 to your environment
+]])
 
-I'm trying to use RStudio on the cluster to run Seurat for single-cell RNA + ADT analysis. I tried starting an interactive session with:
+[mafechkar@ares mafechkar]$
 
-bash
-Copy
-Edit
-srun --pty -p interactive -t 04:00:00 --mem=16G bash
-But I get this error:
-unable to locate resources: Invalid qos specification
-
-Could you let me know what QoS I should be using or how to properly start the session?
-
-Thanks,
 Marwa
 
 
