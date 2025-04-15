@@ -1,3 +1,18 @@
+adt_data <- GetAssayData(seurat_obj, assay = "ADT", slot = "data")
+summary(adt_data)
+
+adt_features
+rownames(adt_data)
+
+
+Filter(function(feature) {
+  feature %in% rownames(adt_data) &&
+    any(!is.na(adt_data[feature, ])) &&
+    sum(adt_data[feature, ], na.rm = TRUE) > 0
+}, adt_features)
+
+
+
 # Load libraries
 library(Seurat)
 library(Matrix)
