@@ -1,14 +1,18 @@
 
-> install.packages("Matrix", lib=Sys.getenv("R_LIBS_USER"), repos="https://cloud.r-project.org")
-Warning message:
-package 'Matrix' is not available for this version of R
-'Matrix' version 1.7-3 is in the repositories but depends on R (>= 4.4)
-'Matrix' version 1.7-3 is in the repositories but depends on R (>= 4.6)
 
-A version of this package for your version of R might be available elsewhere,
-see the ideas at
-https://cran.r-project.org/doc/manuals/r-patched/R-admin.html#Installing-packages
->
+[mafechkar@ares mafechkar]$ unzip /net/beegfs/scratch/mafechkar/cxWcABoeLdq3kXW
+Archive:  /net/beegfs/scratch/mafechkar/cxWcABoeLdq3kXW
+error: End-of-centdir-64 signature not where expected (prepended bytes?)
+  (attempting to process anyway)
+warning [/net/beegfs/scratch/mafechkar/cxWcABoeLdq3kXW]:  2048 extra bytes at beginning or within zipfile
+  (attempting to process anyway)
+file #1:  bad zipfile offset (local header sig):  2048
+  (attempting to re-compensate)
+   creating: 20250117_LH00583_0024_B22W323LT3/fastq/
+error: invalid zip file with overlapped components (possible zip bomb)
+ To unzip the file anyway, rerun the command with UNZIP_DISABLE_ZIPBOMB_DETECTION=TRUE environmnent variable
+[mafechkar@ares mafechkar]$
+
 
 
 
