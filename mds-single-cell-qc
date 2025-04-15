@@ -45,26 +45,27 @@ seurat_obj <- subset(seurat_obj, subset = nFeature_RNA > 500 & nFeature_RNA < 25
 # Normalize RNA (LogNormalize)
 seurat_obj <- NormalizeData(seurat_obj, normalization.method = "LogNormalize", assay = "RNA")
 
-# Normalize ADT data if available
 if ("ADT" %in% names(seurat_obj@assays)) {
   seurat_obj <- NormalizeData(seurat_obj, normalization.method = "CLR", margin = 2, assay = "ADT")
-  
-  # Safe ADT marker plotting
+
+  # Define your target ADT features
   adt_features <- c("CD3", "CD4", "CD8", "CD14")
   adt_data <- GetAssayData(seurat_obj, assay = "ADT", layer = "data")
 
-  # Keep features that exist and have non-zero expression across cells
-  valid_adt_features <- adt_features[
-    adt_features %in% rownames(adt_data) &
-    Matrix::colSums(adt_data[adt_features[adt_features %in% rownames(adt_data)], , drop = FALSE]) > 0
-  ]
+  # Keep features that exist and have non-zero, non-NA expression across cells
+  valid_adt_features <- Filter(function(feature) {
+    feature %in% rownames(adt_data) &&
+      any(!is.na(adt_data[feature, ])) &&
+      sum(adt_data[feature, ], na.rm = TRUE) > 0
+  }, adt_features)
 
   if (length(valid_adt_features) > 0) {
-    VlnPlot(seurat_obj, features = valid_adt_features, assay = "ADT", slot = "data", ncol = 2)
+    VlnPlot(seurat_obj, features = valid_adt_features, assay = "ADT", layer = "data", ncol = 2)
   } else {
-    message("No requested ADT markers found in this sample or expression is all zero.")
+    message("No ADT markers with valid non-zero expression found.")
   }
 }
+
 
 # Save object for later use
 saveRDS(seurat_obj, file = paste0(sample_name, "_filtered_normalized.rds"))
