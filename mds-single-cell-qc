@@ -43,11 +43,19 @@ seurat_obj <- subset(seurat_obj, subset = nFeature_RNA > 500 & nFeature_RNA < 25
 # Normalize RNA (LogNormalize)
 seurat_obj <- NormalizeData(seurat_obj, normalization.method = "LogNormalize", assay = "RNA")
 
-# Normalize ADT (CLR method)
-seurat_obj <- NormalizeData(seurat_obj, normalization.method = "CLR", margin = 2, assay = "ADT")
-
-# Optional: visualize a few ADT markers
-VlnPlot(seurat_obj, features = c("CD3", "CD4", "CD8", "CD14"), assay = "ADT", slot = "data", ncol = 2)
-
+# Normalize ADT data if available
+if ("ADT" %in% names(seurat_obj@assays)) {
+  seurat_obj <- NormalizeData(seurat_obj, normalization.method = "CLR", margin = 2, assay = "ADT")
+  
+  # Safe ADT marker plotting
+  adt_features <- c("CD3", "CD4", "CD8", "CD14")
+  existing_adt_features <- adt_features[adt_features %in% rownames(seurat_obj[["ADT"]])]
+  
+  if (length(existing_adt_features) > 0) {
+    VlnPlot(seurat_obj, features = existing_adt_features, assay = "ADT", slot = "data", ncol = 2)
+  } else {
+    message("No requested ADT markers found in this sample.")
+  }
+}
 # Save object for later use
 saveRDS(seurat_obj, file = paste0(sample_name, "_filtered_normalized.rds"))
