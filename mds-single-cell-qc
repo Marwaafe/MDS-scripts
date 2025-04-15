@@ -21,13 +21,15 @@ data <- Read10X_h5(data_path)
 
 # Create Seurat object using RNA
 seurat_obj <- CreateSeuratObject(
-  counts = data$`Gene Expression`,
+  counts = data[["Gene Expression"]],
   assay = "RNA",
   project = sample_name
 )
 
-# Add ADT assay
-seurat_obj[["ADT"]] <- CreateAssayObject(counts = data$`Antibody Capture`)
+if ("Antibody Capture" %in% names(data)) {
+  adt_counts <- data[["Antibody Capture"]]
+  seurat_obj[["ADT"]] <- CreateAssayObject(counts = adt_counts)
+}
 
 # Calculate percent.mt
 seurat_obj[["percent.mt"]] <- PercentageFeatureSet(seurat_obj, pattern = "^MT-")
