@@ -49,13 +49,20 @@ if ("ADT" %in% names(seurat_obj@assays)) {
   
   # Safe ADT marker plotting
   adt_features <- c("CD3", "CD4", "CD8", "CD14")
-  existing_adt_features <- adt_features[adt_features %in% rownames(seurat_obj[["ADT"]])]
-  
-  if (length(existing_adt_features) > 0) {
-    VlnPlot(seurat_obj, features = existing_adt_features, assay = "ADT", slot = "data", ncol = 2)
+  adt_data <- GetAssayData(seurat_obj, assay = "ADT", slot = "data")
+
+  # Keep features that exist and have non-zero expression across cells
+  valid_adt_features <- adt_features[
+    adt_features %in% rownames(adt_data) &
+    Matrix::colSums(adt_data[adt_features[adt_features %in% rownames(adt_data)], , drop = FALSE]) > 0
+  ]
+
+  if (length(valid_adt_features) > 0) {
+    VlnPlot(seurat_obj, features = valid_adt_features, assay = "ADT", slot = "data", ncol = 2)
   } else {
-    message("No requested ADT markers found in this sample.")
+    message("No requested ADT markers found in this sample or expression is all zero.")
   }
 }
+
 # Save object for later use
 saveRDS(seurat_obj, file = paste0(sample_name, "_filtered_normalized.rds"))
