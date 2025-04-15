@@ -1,26 +1,4 @@
 
-> adt_data <- GetAssayData(seurat_obj, assay = "ADT", slot = "data")                                                                                                                                            Warning message:
-The `slot` argument of `GetAssayData()` is deprecated as of SeuratObject 5.0.0.
-i Please use the `layer` argument instead.
-This warning is displayed once every 8 hours.
-Call `lifecycle::last_lifecycle_warnings()` to see where this warning was generated.
->
-
-
-adt_data <- GetAssayData(seurat_obj, assay = "ADT", slot = "data")
-summary(adt_data)
-
-adt_features
-rownames(adt_data)
-
-
-Filter(function(feature) {
-  feature %in% rownames(adt_data) &&
-    any(!is.na(adt_data[feature, ])) &&
-    sum(adt_data[feature, ], na.rm = TRUE) > 0
-}, adt_features)
-
-
 
 # Load libraries
 library(Seurat)
@@ -73,7 +51,7 @@ if ("ADT" %in% names(seurat_obj@assays)) {
   
   # Safe ADT marker plotting
   adt_features <- c("CD3", "CD4", "CD8", "CD14")
-  adt_data <- GetAssayData(seurat_obj, assay = "ADT", slot = "data")
+  adt_data <- GetAssayData(seurat_obj, assay = "ADT", layer = "data")
 
   # Keep features that exist and have non-zero expression across cells
   valid_adt_features <- adt_features[
