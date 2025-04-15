@@ -1,17 +1,6 @@
 
 
-[mafechkar@ares mafechkar]$ unzip /net/beegfs/scratch/mafechkar/cxWcABoeLdq3kXW
-Archive:  /net/beegfs/scratch/mafechkar/cxWcABoeLdq3kXW
-error: End-of-centdir-64 signature not where expected (prepended bytes?)
-  (attempting to process anyway)
-warning [/net/beegfs/scratch/mafechkar/cxWcABoeLdq3kXW]:  2048 extra bytes at beginning or within zipfile
-  (attempting to process anyway)
-file #1:  bad zipfile offset (local header sig):  2048
-  (attempting to re-compensate)
-   creating: 20250117_LH00583_0024_B22W323LT3/fastq/
-error: invalid zip file with overlapped components (possible zip bomb)
- To unzip the file anyway, rerun the command with UNZIP_DISABLE_ZIPBOMB_DETECTION=TRUE environmnent variable
-[mafechkar@ares mafechkar]$
+UNZIP_DISABLE_ZIPBOMB_DETECTION=TRUE unzip /net/beegfs/scratch/mafechkar/cxWcABoeLdq3kXW
 
 
 
