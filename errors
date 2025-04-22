@@ -1,4 +1,31 @@
+[mafechkar@ares ~]$ srun --partition=defq --nodelist=node006 --cpus-per-task=10 --mem=100G --exclusive --pty bash
+srun: job 11596673 queued and waiting for resources
+srun: job 11596673 has been allocated resources
+export TMPDIR=/tmp/mafechkar.11596673
+                                     [mafechkar@node006 ~]$ hostname
+node006.cluster
+[mafechkar@node006 ~]$ module load singularity
+[mafechkar@node006 ~]$ singularity --version
+singularity-ce version 4.1.2
+[mafechkar@node006 ~]$ singularity exec docker://bioconductor/bioconductor_docker:latest R --version
+INFO:    Using cached SIF image
+R version 4.4.0 (2024-04-24) -- "Puppy Cup"
+Copyright (C) 2024 The R Foundation for Statistical Computing
+Platform: x86_64-pc-linux-gnu
 
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under the terms of the
+GNU General Public License versions 2 or 3.
+For more information about these matters see
+https://www.gnu.org/licenses/.
+
+[mafechkar@node006 ~]$ PASSWORD=mysecret123 bash marwa_studio.sh
+[mafechkar@node006 ~]$ ps aux | grep rserver
+mafechk+ 3368588  0.0  0.0   9292  1104 pts/0    S+   11:23   0:00 grep --color=auto rserver
+[mafechkar@node006 ~]$
+
+
+///
 [mafechkar@node006 ~]$ module load singularity
 [mafechkar@node006 ~]$ bash -x marwa_studio.sh
 + '[' -z '' ']'
