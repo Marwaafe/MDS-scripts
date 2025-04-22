@@ -1,4 +1,15 @@
 
+[mafechkar@node006 ~]$ module load singularity
+[mafechkar@node006 ~]$ bash -x marwa_studio.sh
++ '[' -z '' ']'
++ case "$-" in
++ __lmod_vx=x
++ '[' -n x ']'
++ set +x
+Shell debugging temporarily silenced: export LMOD_SH_DBG_ON=1 for this output (/opt/ohpc/admin/lmod/lmod/init/bash)
+Shell debugging restarted
++ unset __lmod_vx
+
 
 
 > source("/net/beegfs/scratch/mafechkar/MDS_Data/MDS_QC/run_seurat_qc.R")
