@@ -1,3 +1,12 @@
+[mafechkar@node006 ~]$ singularity exec docker://bioconductor/bioconductor_docker:latest rserver --auth-none=1 --auth-pam-helper-path=pam-helper --ww-prt=8787 --server-user=$USER
+INFO:    Using cached SIF image
+TTY detected. Printing informational message about logging configuration. Logging configuration loaded from '/etc/rstudio/logging.conf'. Logging to 'syslog'.
+unrecognised option '--ww-prt=8787' on command line
+WARNINGS: The option 'auth-pam-requires-priv' is deprecated and will be discarded.
+
+[mafechkar@node006 ~]$
+
+
 [mafechkar@ares ~]$ srun --partition=defq --nodelist=node006 --cpus-per-task=10 --mem=100G --exclusive --pty bash
 srun: job 11596673 queued and waiting for resources
 srun: job 11596673 has been allocated resources
