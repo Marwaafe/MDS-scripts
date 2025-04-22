@@ -1,4 +1,13 @@
 
+
+singularity exec \
+  --bind $HOME/rstudio/tmp:/tmp \
+  --bind $HOME/rstudio/tmp/var:/var/lib/rstudio-server \
+  --bind $HOME/rstudio/tmp/var/run:/var/run/rstudio-server \
+  docker://bioconductor/bioconductor_docker:latest \
+  rserver --auth-none=1 --auth-pam-helper-path=pam-helper --www-port=8787 --server-user=$USER
+
+
 [mafechkar@node006 ~]$ singularity exec docker://bioconductor/bioconductor_docker:latest rserver --auth-none=1 --auth-pam-helper-path=pam-helper --www-port=8787 --server-user=$USER
 INFO:    Using cached SIF image
 TTY detected. Printing informational message about logging configuration. Logging configuration loaded from '/etc/rstudio/logging.conf'. Logging to 'syslog'.
