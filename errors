@@ -1,10 +1,10 @@
-[mafechkar@node006 ~]$ singularity exec docker://bioconductor/bioconductor_docker:latest rserver --auth-none=1 --auth-pam-helper-path=pam-helper --ww-prt=8787 --server-user=$USER
+
+[mafechkar@node006 ~]$ singularity exec docker://bioconductor/bioconductor_docker:latest rserver --auth-none=1 --auth-pam-helper-path=pam-helper --www-port=8787 --server-user=$USER
 INFO:    Using cached SIF image
 TTY detected. Printing informational message about logging configuration. Logging configuration loaded from '/etc/rstudio/logging.conf'. Logging to 'syslog'.
-unrecognised option '--ww-prt=8787' on command line
-WARNINGS: The option 'auth-pam-requires-priv' is deprecated and will be discarded.
-
+2025-04-22T09:29:37.965263Z [rserver] ERROR system error 30 (Read-only file system) [path: /var/lib/rstudio-server/rstudio-os.sqlite]; OCCURRED AT rstudio::core::Error rstudio::core::{anonymous}::changeFileModeImpl(const string&, mode_t) src/cpp/shared_core/FilePath.cpp:318; LOGGED FROM: int main(int, char* const*) src/cpp/server/ServerMain.cpp:782
 [mafechkar@node006 ~]$
+
 
 
 [mafechkar@ares ~]$ srun --partition=defq --nodelist=node006 --cpus-per-task=10 --mem=100G --exclusive --pty bash
