@@ -1,5 +1,5 @@
-BiocManager::install("Seurat")
-install.packages("BiocManager")
+rm(list = ls())
+
 
 
 # Load libraries
