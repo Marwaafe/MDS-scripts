@@ -56,26 +56,26 @@ cat("Cells after filtering:", ncol(seurat_obj), "\n")
 # Normalize RNA
 seurat_obj <- NormalizeData(seurat_obj, normalization.method = "LogNormalize", assay = "RNA")
 
-# If ADT exists, normalize and visualize
+# Normalize and check ADT if present
 if ("ADT" %in% names(seurat_obj@assays)) {
   seurat_obj <- NormalizeData(seurat_obj, normalization.method = "CLR", margin = 2, assay = "ADT")
   
-  # Check available ADT features
+  # Get normalized ADT data
   adt_data <- GetAssayData(seurat_obj, assay = "ADT", slot = "data")
   print("Available ADT features:")
-  print(rownames(adt_data))  # See actual feature names
+  print(rownames(adt_data))  # List actual ADT feature names
   
-  # Define target markers (adjust if needed)so
+  # Define target markers (adjust as needed)
   adt_features <- c("CD3", "CD4", "CD8", "CD14")
   
-  # Filter valid markers
+  #Filter valid markers using the correct object (adt_data)
   valid_adt_features <- Filter(function(feature) {
     feature %in% rownames(adt_data) &&
-      any(!is.na(adt_data[feature, ])) &&
+      all(!is.na(adt_data[feature, ])) &&
       sum(adt_data[feature, ], na.rm = TRUE) > 0
   }, adt_features)
   
-  # Plot ADT if available
+  # Plot ADT if valid markers found
   if (length(valid_adt_features) > 0) {
     VlnPlot(seurat_obj, features = valid_adt_features, assay = "ADT", slot = "data", ncol = 2)
   } else {
@@ -85,3 +85,4 @@ if ("ADT" %in% names(seurat_obj@assays)) {
 
 # Save filtered object
 saveRDS(seurat_obj, file = paste0(sample_name, "_filtered_normalized.rds"))
+
