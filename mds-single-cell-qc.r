@@ -2,6 +2,9 @@ Warning: Default search for "data" layer in "RNA" assay yielded no results; util
 Error in if (all(data[, feature] == data[, feature][1])) { : 
   missing value where TRUE/FALSE needed
 
+                                                          Error in h(simpleError(msg, call)) : 
+  error in evaluating the argument 'x' in selecting a method for function 'print': object 'valid_adt_features' not found
+
 rm(list = ls())
 
 # Load libraries
