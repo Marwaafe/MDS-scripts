@@ -5,23 +5,23 @@ library(Seurat)
 library(Matrix)
 library(ggplot2)
 
-# Set the path to your filtered_feature_bc_matrix.h5 file
-sample_name <- "MDS005-09-247" 
+# Set sample name
+sample_name <- "MDS005-09-247"
 
-# Construct the path to your raw .h5 file
+# Path to raw .h5 file
 data_path <- file.path(
-  "MDS_Data", 
-  "MDS_OUTS_CellRangerCount", 
-  paste0(sample_name, "_count_output"), 
-  paste0(sample_name, "_count"), 
-  "outs", 
+  "/trinity/home/mafechkar",
+  "MDS_OUTS_CellRangerCount_9.0",
+  paste0(sample_name, "_count_output"),
+  paste0(sample_name, "_count"),
+  "outs",
   "raw_feature_bc_matrix.h5"
 )
 
-# Read in RNA + ADT data from 10X h5 file
+# Read RNA + ADT data
 data <- Read10X_h5(data_path)
 
-# Create Seurat object using RNA
+# Create Seurat object for RNA
 seurat_obj <- CreateSeuratObject(
   counts = data[["Gene Expression"]],
   assay = "RNA",
@@ -36,29 +36,42 @@ if ("Antibody Capture" %in% names(data)) {
 # Calculate percent.mt
 seurat_obj[["percent.mt"]] <- PercentageFeatureSet(seurat_obj, pattern = "^MT-")
 
-# Plot RNA QC metrics
-VlnPlot(seurat_obj, features = c("nFeature_RNA", "nCount_RNA", "percent.mt"), ncol = 3)
+# Plot RNA QC metrics with threshold lines
+VlnPlot(seurat_obj, features = c("nFeature_RNA", "nCount_RNA", "percent.mt"), ncol = 3) +
+  geom_hline(data = data.frame(yint = c(500, 2500)), aes(yintercept = yint), linetype = "dashed", color = "red")
 
-# Filter cells based on RNA QC
+# Print cell count before filtering
+cat("Cells before filtering:", ncol(seurat_obj), "\n")
+
+# Filter cells using RNA QC thresholds
 seurat_obj <- subset(seurat_obj, subset = nFeature_RNA > 500 & nFeature_RNA < 2500 & percent.mt < 10)
 
-# Normalize RNA (LogNormalize)
+# Print cell count after filtering
+cat("Cells after filtering:", ncol(seurat_obj), "\n")
+
+# Normalize RNA
 seurat_obj <- NormalizeData(seurat_obj, normalization.method = "LogNormalize", assay = "RNA")
 
+# If ADT exists, normalize and visualize
 if ("ADT" %in% names(seurat_obj@assays)) {
   seurat_obj <- NormalizeData(seurat_obj, normalization.method = "CLR", margin = 2, assay = "ADT")
-
-  # Define your target ADT features
-  adt_features <- c("CD3", "CD4", "CD8", "CD14")
+  
+  # Check available ADT features
   adt_data <- GetAssayData(seurat_obj, assay = "ADT", layer = "data")
-
-  # Keep features that exist and have non-zero, non-NA expression across cells
+  print("Available ADT features:")
+  print(rownames(adt_data))  # See actual feature names
+  
+  # Define target markers (adjust if needed)
+  adt_features <- c("CD3", "CD4", "CD8", "CD14")
+  
+  # Filter valid markers
   valid_adt_features <- Filter(function(feature) {
     feature %in% rownames(adt_data) &&
       any(!is.na(adt_data[feature, ])) &&
       sum(adt_data[feature, ], na.rm = TRUE) > 0
   }, adt_features)
-
+  
+  # Plot ADT if available
   if (length(valid_adt_features) > 0) {
     VlnPlot(seurat_obj, features = valid_adt_features, assay = "ADT", layer = "data", ncol = 2)
   } else {
@@ -66,6 +79,5 @@ if ("ADT" %in% names(seurat_obj@assays)) {
   }
 }
 
-
-# Save object for later use
+# Save filtered object
 saveRDS(seurat_obj, file = paste0(sample_name, "_filtered_normalized.rds"))
