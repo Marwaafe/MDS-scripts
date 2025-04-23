@@ -61,7 +61,7 @@ if ("ADT" %in% names(seurat_obj@assays)) {
   seurat_obj <- NormalizeData(seurat_obj, normalization.method = "CLR", margin = 2, assay = "ADT")
   
   # Check available ADT features
-  adt_data <- GetAssayData(seurat_obj, assay = "ADT", layer = "data")
+  adt_data <- GetAssayData(seurat_obj, assay = "ADT", slot = "data")
   print("Available ADT features:")
   print(rownames(adt_data))  # See actual feature names
   
