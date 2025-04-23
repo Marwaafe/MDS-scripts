@@ -1,6 +1,8 @@
+Warning: Default search for "data" layer in "RNA" assay yielded no results; utilizing "counts" layer instead.
+Error in if (all(data[, feature] == data[, feature][1])) { : 
+  missing value where TRUE/FALSE needed
+
 rm(list = ls())
-
-
 
 # Load libraries
 library(Seurat)
