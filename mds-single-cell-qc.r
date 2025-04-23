@@ -43,9 +43,15 @@ if ("Antibody Capture" %in% names(data)) {
 # Calculate percent.mt
 seurat_obj[["percent.mt"]] <- PercentageFeatureSet(seurat_obj, pattern = "^MT-")
 
-# Plot RNA QC metrics with threshold lines
-VlnPlot(seurat_obj, features = c("nFeature_RNA", "nCount_RNA", "percent.mt"), ncol = 3) +
-  geom_hline(data = data.frame(yint = c(500, 2500)), aes(yintercept = yint), linetype = "dashed", color = "red")
+p1 <- VlnPlot(seurat_obj, features = "nFeature_RNA") +
+  geom_hline(yintercept = 500, linetype = "dashed", color = "red") +
+  geom_hline(yintercept = 2500, linetype = "dashed", color = "red")
+
+p2 <- VlnPlot(seurat_obj, features = "nCount_RNA")
+p3 <- VlnPlot(seurat_obj, features = "percent.mt")
+
+library(patchwork)
+p1 + p2 + p3
 
 # Print cell count before filtering
 cat("Cells before filtering:", ncol(seurat_obj), "\n")
