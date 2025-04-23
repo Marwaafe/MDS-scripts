@@ -71,12 +71,20 @@ if ("ADT" %in% names(seurat_obj@assays)) {
   # Define target markers (adjust as needed)
   adt_features <- c("CD3", "CD4", "CD8", "CD14")
   
-  #Filter valid markers using the correct object (adt_data)
+  # Filter valid markers with robust error handling
   valid_adt_features <- Filter(function(feature) {
-    feature %in% rownames(adt_data) &&
-      all(!is.na(adt_data[feature, ])) &&
-      sum(adt_data[feature, ], na.rm = TRUE) > 0
+    tryCatch({
+      feature %in% rownames(adt_data) &&
+        !all(is.na(adt_data[feature, ])) &&
+        sum(adt_data[feature, ], na.rm = TRUE) > 0
+    }, error = function(e) {
+      FALSE
+    })
   }, adt_features)
+  
+  # Debug print
+  print("ADT features selected for plotting:")
+  print(valid_adt_features)
   
   # Plot ADT if valid markers found
   if (length(valid_adt_features) > 0) {
@@ -85,7 +93,6 @@ if ("ADT" %in% names(seurat_obj@assays)) {
     message("No ADT markers with valid non-zero expression found.")
   }
 }
-
 # Save filtered object
 saveRDS(seurat_obj, file = paste0(sample_name, "_filtered_normalized.rds"))
 
