@@ -65,7 +65,7 @@ if ("ADT" %in% names(seurat_obj@assays)) {
   print("Available ADT features:")
   print(rownames(adt_data))  # See actual feature names
   
-  # Define target markers (adjust if needed)
+  # Define target markers (adjust if needed)so
   adt_features <- c("CD3", "CD4", "CD8", "CD14")
   
   # Filter valid markers
@@ -77,7 +77,7 @@ if ("ADT" %in% names(seurat_obj@assays)) {
   
   # Plot ADT if available
   if (length(valid_adt_features) > 0) {
-    VlnPlot(seurat_obj, features = valid_adt_features, assay = "ADT", layer = "data", ncol = 2)
+    VlnPlot(seurat_obj, features = valid_adt_features, assay = "ADT", slot = "data", ncol = 2)
   } else {
     message("No ADT markers with valid non-zero expression found.")
   }
