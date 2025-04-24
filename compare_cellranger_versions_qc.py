@@ -33,8 +33,8 @@ for sample in samples:
     for version, base_dir in versions.items():
         csv_path = os.path.join(
             base_dir,
-            f"{sample}_{version}_count_output",
-            f"{sample}_{version}_count",
+            f"{sample}_count_output",
+            f"{sample}_count",
             "outs",
             "metrics_summary.csv",
         )
