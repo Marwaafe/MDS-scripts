@@ -1,3 +1,41 @@
+[mafechkar@ares MDS_Data]$ python compare_cellranger_versions_qc.py
+Missing file: /trinity/home/mafechkar/MDS_OUTS_CellRangerCount/MDS001-09-203_count_output/MDS001-09-203_count/outs/metrics_summary.csv
+Missing file: /trinity/home/mafechkiar/MDS_OUTS_CellRangerCount_9.0/MDS001-09-203_count_output/MDS001-09-203_count/outs/metrics_summary.csv
+Traceback (most recent call last):
+  File "/trinity/home/mafechkar/miniconda3/lib/python3.12/site-packages/pandas/core/indexes/base.py", line 3805, in get_loc
+    return self._engine.get_loc(casted_key)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "index.pyx", line 167, in pandas._libs.index.IndexEngine.get_loc
+  File "index.pyx", line 196, in pandas._libs.index.IndexEngine.get_loc
+  File "pandas/_libs/hashtable_class_helper.pxi", line 7081, in pandas._libs.hashtable.PyObjectHashTable.get_item
+  File "pandas/_libs/hashtable_class_helper.pxi", line 7089, in pandas._libs.hashtable.PyObjectHashTable.get_item
+KeyError: 'Estimated Number of Cells'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/net/beegfs/scratch/mafechkar/MDS_Data/compare_cellranger_versions_qc.py", line 45, in <module>
+    value = df_metrics.at[df_metrics.index[0], original_label]
+            ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/trinity/home/mafechkar/miniconda3/lib/python3.12/site-packages/pandas/core/indexing.py", line 2575, in __getitem__
+    return super().__getitem__(key)
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/trinity/home/mafechkar/miniconda3/lib/python3.12/site-packages/pandas/core/indexing.py", line 2527, in __getitem__
+    return self.obj._get_value(*key, takeable=self._takeable)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/trinity/home/mafechkar/miniconda3/lib/python3.12/site-packages/pandas/core/frame.py", line 4214, in _get_value
+    series = self._get_item_cache(col)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/trinity/home/mafechkar/miniconda3/lib/python3.12/site-packages/pandas/core/frame.py", line 4638, in _get_item_cache
+    loc = self.columns.get_loc(item)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/trinity/home/mafechkar/miniconda3/lib/python3.12/site-packages/pandas/core/indexes/base.py", line 3812, in get_loc
+    raise KeyError(key) from err
+KeyError: 'Estimated Number of Cells'
+[mafechkar@ares MDS_Data]$
+
+
+
 import os
 import pandas as pd
 import seaborn as sns
