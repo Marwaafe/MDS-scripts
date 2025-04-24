@@ -1,38 +1,44 @@
-[mafechkar@ares MDS_Data]$ python compare_cellranger_versions_qc.py
-Missing file: /trinity/home/mafechkar/MDS_OUTS_CellRangerCount/MDS001-09-203_count_output/MDS001-09-203_count/outs/metrics_summary.csv
-Missing file: /trinity/home/mafechkiar/MDS_OUTS_CellRangerCount_9.0/MDS001-09-203_count_output/MDS001-09-203_count/outs/metrics_summary.csv
-Traceback (most recent call last):
-  File "/trinity/home/mafechkar/miniconda3/lib/python3.12/site-packages/pandas/core/indexes/base.py", line 3805, in get_loc
-    return self._engine.get_loc(casted_key)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "index.pyx", line 167, in pandas._libs.index.IndexEngine.get_loc
-  File "index.pyx", line 196, in pandas._libs.index.IndexEngine.get_loc
-  File "pandas/_libs/hashtable_class_helper.pxi", line 7081, in pandas._libs.hashtable.PyObjectHashTable.get_item
-  File "pandas/_libs/hashtable_class_helper.pxi", line 7089, in pandas._libs.hashtable.PyObjectHashTable.get_item
-KeyError: 'Estimated Number of Cells'
 
-The above exception was the direct cause of the following exception:
-
+>>> df = pd.read_csv("/trinity/home/mafechkar/MDS_OUTS_CellRangerCount/MDS005-09-247_counbt_output/MDS005-09-247_count_output/MDS005-09-247_count/outs/metrics_summary.csv", index_col=0)
 Traceback (most recent call last):
-  File "/net/beegfs/scratch/mafechkar/MDS_Data/compare_cellranger_versions_qc.py", line 45, in <module>
-    value = df_metrics.at[df_metrics.index[0], original_label]
-            ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/trinity/home/mafechkar/miniconda3/lib/python3.12/site-packages/pandas/core/indexing.py", line 2575, in __getitem__
-    return super().__getitem__(key)
-           ^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/trinity/home/mafechkar/miniconda3/lib/python3.12/site-packages/pandas/core/indexing.py", line 2527, in __getitem__
-    return self.obj._get_value(*key, takeable=self._takeable)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/trinity/home/mafechkar/miniconda3/lib/python3.12/site-packages/pandas/core/frame.py", line 4214, in _get_value
-    series = self._get_item_cache(col)
-             ^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/trinity/home/mafechkar/miniconda3/lib/python3.12/site-packages/pandas/core/frame.py", line 4638, in _get_item_cache
-    loc = self.columns.get_loc(item)
-          ^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/trinity/home/mafechkar/miniconda3/lib/python3.12/site-packages/pandas/core/indexes/base.py", line 3812, in get_loc
-    raise KeyError(key) from err
-KeyError: 'Estimated Number of Cells'
-[mafechkar@ares MDS_Data]$
+  File "<stdin>", line 1, in <module>
+  File "/trinity/home/mafechkar/miniconda3/lib/python3.12/site-packages/pandas/io/parsers/readers.py", line 1026, in read_csv
+    return _read(filepath_or_buffer, kwds)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/trinity/home/mafechkar/miniconda3/lib/python3.12/site-packages/pandas/io/parsers/readers.py", line 620, in _read
+    parser = TextFileReader(filepath_or_buffer, **kwds)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/trinity/home/mafechkar/miniconda3/lib/python3.12/site-packages/pandas/io/parsers/readers.py", line 1620, in __init__
+    self._engine = self._make_engine(f, self.engine)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/trinity/home/mafechkar/miniconda3/lib/python3.12/site-packages/pandas/io/parsers/readers.py", line 1880, in _make_engine
+    self.handles = get_handle(
+                   ^^^^^^^^^^^
+  File "/trinity/home/mafechkar/miniconda3/lib/python3.12/site-packages/pandas/io/common.py", line 873, in get_handle
+    handle = open(
+             ^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/trinity/home/mafechkar/MDS_OUTS_CellRangerCount/MDS005-09-247_counbt_output/MDS005-09-247_count_output/MDS005-09-247_count/outs/metrics_summary.csv'
+>>> df = pd.read_csv("/trinity/home/mafechkar/MDS_OUTS_CellRangerCount/MDS005-09-247_count_output/MDS005-09-247_count_output/MDS005-09-247_count/outs/metrics_summary.csv", index_col=0)
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+  File "/trinity/home/mafechkar/miniconda3/lib/python3.12/site-packages/pandas/io/parsers/readers.py", line 1026, in read_csv
+    return _read(filepath_or_buffer, kwds)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/trinity/home/mafechkar/miniconda3/lib/python3.12/site-packages/pandas/io/parsers/readers.py", line 620, in _read
+    parser = TextFileReader(filepath_or_buffer, **kwds)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/trinity/home/mafechkar/miniconda3/lib/python3.12/site-packages/pandas/io/parsers/readers.py", line 1620, in __init__
+    self._engine = self._make_engine(f, self.engine)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/trinity/home/mafechkar/miniconda3/lib/python3.12/site-packages/pandas/io/parsers/readers.py", line 1880, in _make_engine
+    self.handles = get_handle(
+                   ^^^^^^^^^^^
+  File "/trinity/home/mafechkar/miniconda3/lib/python3.12/site-packages/pandas/io/common.py", line 873, in get_handle
+    handle = open(
+             ^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/trinity/home/mafechkar/MDS_OUTS_CellRangerCount/MDS005-09-247_count_output/MDS005-09-247_count_output/MDS005-09-247_count/outs/metrics_summary.csv'
+>>>
+
 
 
 
