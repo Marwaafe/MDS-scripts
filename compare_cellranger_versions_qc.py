@@ -1,43 +1,30 @@
 
->>> df = pd.read_csv("/trinity/home/mafechkar/MDS_OUTS_CellRangerCount/MDS005-09-247_counbt_output/MDS005-09-247_count_output/MDS005-09-247_count/outs/metrics_summary.csv", index_col=0)
-Traceback (most recent call last):
-  File "<stdin>", line 1, in <module>
-  File "/trinity/home/mafechkar/miniconda3/lib/python3.12/site-packages/pandas/io/parsers/readers.py", line 1026, in read_csv
-    return _read(filepath_or_buffer, kwds)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/trinity/home/mafechkar/miniconda3/lib/python3.12/site-packages/pandas/io/parsers/readers.py", line 620, in _read
-    parser = TextFileReader(filepath_or_buffer, **kwds)
-             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/trinity/home/mafechkar/miniconda3/lib/python3.12/site-packages/pandas/io/parsers/readers.py", line 1620, in __init__
-    self._engine = self._make_engine(f, self.engine)
-                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/trinity/home/mafechkar/miniconda3/lib/python3.12/site-packages/pandas/io/parsers/readers.py", line 1880, in _make_engine
-    self.handles = get_handle(
-                   ^^^^^^^^^^^
-  File "/trinity/home/mafechkar/miniconda3/lib/python3.12/site-packages/pandas/io/common.py", line 873, in get_handle
-    handle = open(
-             ^^^^^
-FileNotFoundError: [Errno 2] No such file or directory: '/trinity/home/mafechkar/MDS_OUTS_CellRangerCount/MDS005-09-247_counbt_output/MDS005-09-247_count_output/MDS005-09-247_count/outs/metrics_summary.csv'
->>> df = pd.read_csv("/trinity/home/mafechkar/MDS_OUTS_CellRangerCount/MDS005-09-247_count_output/MDS005-09-247_count_output/MDS005-09-247_count/outs/metrics_summary.csv", index_col=0)
-Traceback (most recent call last):
-  File "<stdin>", line 1, in <module>
-  File "/trinity/home/mafechkar/miniconda3/lib/python3.12/site-packages/pandas/io/parsers/readers.py", line 1026, in read_csv
-    return _read(filepath_or_buffer, kwds)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/trinity/home/mafechkar/miniconda3/lib/python3.12/site-packages/pandas/io/parsers/readers.py", line 620, in _read
-    parser = TextFileReader(filepath_or_buffer, **kwds)
-             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/trinity/home/mafechkar/miniconda3/lib/python3.12/site-packages/pandas/io/parsers/readers.py", line 1620, in __init__
-    self._engine = self._make_engine(f, self.engine)
-                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/trinity/home/mafechkar/miniconda3/lib/python3.12/site-packages/pandas/io/parsers/readers.py", line 1880, in _make_engine
-    self.handles = get_handle(
-                   ^^^^^^^^^^^
-  File "/trinity/home/mafechkar/miniconda3/lib/python3.12/site-packages/pandas/io/common.py", line 873, in get_handle
-    handle = open(
-             ^^^^^
-FileNotFoundError: [Errno 2] No such file or directory: '/trinity/home/mafechkar/MDS_OUTS_CellRangerCount/MDS005-09-247_count_output/MDS005-09-247_count_output/MDS005-09-247_count/outs/metrics_summary.csv'
+>>> print(df.columns)
+Index(['Mean Reads per Cell', 'Median Genes per Cell', 'Number of Reads',
+       'Valid Barcodes', 'Sequencing Saturation', 'Q30 Bases in Barcode',
+       'Q30 Bases in RNA Read', 'Q30 Bases in RNA Read 2', 'Q30 Bases in UMI',
+       'Reads Mapped to Genome', 'Reads Mapped Confidently to Genome',
+       'Reads Mapped Confidently to Intergenic Regions',
+       'Reads Mapped Confidently to Intronic Regions',
+       'Reads Mapped Confidently to Exonic Regions',
+       'Reads Mapped Confidently to Transcriptome',
+       'Reads Mapped Antisense to Gene', 'Fraction Reads in Cells',
+       'Total Genes Detected', 'Median UMI Counts per Cell',
+       'Antibody: Number of Reads', 'Antibody: Mean Reads per Cell',
+       'Antibody: Valid Barcodes', 'Antibody: Sequencing Saturation',
+       'Antibody: Q30 Bases in Barcode',
+       'Antibody: Q30 Bases in Antibody Read',
+       'Antibody: Q30 Bases in Antibody Read 2', 'Antibody: Q30 Bases in UMI',
+       'Antibody: Fraction Antibody Reads',
+       'Antibody: Fraction Antibody Reads Usable',
+       'Antibody: Antibody Reads Usable per Cell',
+       'Antibody: Fraction Antibody Reads in Aggregate Barcodes',
+       'Antibody: Fraction Unrecognized Antibody',
+       'Antibody: Antibody Reads in Cells',
+       'Antibody: Median UMIs per Cell (summed over all recognized antibody barcodes)'],
+      dtype='object')
 >>>
+
 
 
 
