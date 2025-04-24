@@ -1,29 +1,37 @@
+[mafechkar@ares MDS_Data]$ python compare_cellranger_versions_qc.py
+Traceback (most recent call last):
+  File "/trinity/home/mafechkar/miniconda3/lib/python3.12/site-packages/pandas/core/indexes/base.py", line 3805, in get_loc
+    return self._engine.get_loc(casted_key)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "index.pyx", line 167, in pandas._libs.index.IndexEngine.get_loc
+  File "index.pyx", line 196, in pandas._libs.index.IndexEngine.get_loc
+  File "pandas/_libs/hashtable_class_helper.pxi", line 7081, in pandas._libs.hashtable.PyObjectHashTable.get_item
+  File "pandas/_libs/hashtable_class_helper.pxi", line 7089, in pandas._libs.hashtable.PyObjectHashTable.get_item
+KeyError: 'Total Genes Detected'
 
->>> print(df.columns)
-Index(['Mean Reads per Cell', 'Median Genes per Cell', 'Number of Reads',
-       'Valid Barcodes', 'Sequencing Saturation', 'Q30 Bases in Barcode',
-       'Q30 Bases in RNA Read', 'Q30 Bases in RNA Read 2', 'Q30 Bases in UMI',
-       'Reads Mapped to Genome', 'Reads Mapped Confidently to Genome',
-       'Reads Mapped Confidently to Intergenic Regions',
-       'Reads Mapped Confidently to Intronic Regions',
-       'Reads Mapped Confidently to Exonic Regions',
-       'Reads Mapped Confidently to Transcriptome',
-       'Reads Mapped Antisense to Gene', 'Fraction Reads in Cells',
-       'Total Genes Detected', 'Median UMI Counts per Cell',
-       'Antibody: Number of Reads', 'Antibody: Mean Reads per Cell',
-       'Antibody: Valid Barcodes', 'Antibody: Sequencing Saturation',
-       'Antibody: Q30 Bases in Barcode',
-       'Antibody: Q30 Bases in Antibody Read',
-       'Antibody: Q30 Bases in Antibody Read 2', 'Antibody: Q30 Bases in UMI',
-       'Antibody: Fraction Antibody Reads',
-       'Antibody: Fraction Antibody Reads Usable',
-       'Antibody: Antibody Reads Usable per Cell',
-       'Antibody: Fraction Antibody Reads in Aggregate Barcodes',
-       'Antibody: Fraction Unrecognized Antibody',
-       'Antibody: Antibody Reads in Cells',
-       'Antibody: Median UMIs per Cell (summed over all recognized antibody barcodes)'],
-      dtype='object')
->>>
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/net/beegfs/scratch/mafechkar/MDS_Data/compare_cellranger_versions_qc.py", line 45, in <module>
+    value = df_metrics.at[df_metrics.index[0], original_label]
+            ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/trinity/home/mafechkar/miniconda3/lib/python3.12/site-packages/pandas/core/indexing.py", line 2575, in __getitem__
+    return super().__getitem__(key)
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/trinity/home/mafechkar/miniconda3/lib/python3.12/site-packages/pandas/core/indexing.py", line 2527, in __getitem__
+    return self.obj._get_value(*key, takeable=self._takeable)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/trinity/home/mafechkar/miniconda3/lib/python3.12/site-packages/pandas/core/frame.py", line 4214, in _get_value
+    series = self._get_item_cache(col)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/trinity/home/mafechkar/miniconda3/lib/python3.12/site-packages/pandas/core/frame.py", line 4638, in _get_item_cache
+    loc = self.columns.get_loc(item)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/trinity/home/mafechkar/miniconda3/lib/python3.12/site-packages/pandas/core/indexes/base.py", line 3812, in get_loc
+    raise KeyError(key) from err
+KeyError: 'Total Genes Detected'
+[mafechkar@ares MDS_Data]$
+
 
 
 
