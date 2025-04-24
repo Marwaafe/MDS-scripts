@@ -51,7 +51,7 @@ for sample in samples:
 # Build dataframe
 df = pd.DataFrame(data)
 
-# 🔁 Export to CSV
+# Export to CSV
 df.to_csv("cellranger_comparison_metrics.csv", index=False)
 
 # Bar plots for all metrics
