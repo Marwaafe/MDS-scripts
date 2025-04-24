@@ -1,41 +1,3 @@
-[mafechkar@ares MDS_Data]$ python compare_cellranger_versions_qc.py
-Traceback (most recent call last):
-  File "/trinity/home/mafechkar/miniconda3/lib/python3.12/site-packages/pandas/core/indexes/base.py", line 3805, in get_loc
-    return self._engine.get_loc(casted_key)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "index.pyx", line 167, in pandas._libs.index.IndexEngine.get_loc
-  File "index.pyx", line 196, in pandas._libs.index.IndexEngine.get_loc
-  File "pandas/_libs/hashtable_class_helper.pxi", line 7081, in pandas._libs.hashtable.PyObjectHashTable.get_item
-  File "pandas/_libs/hashtable_class_helper.pxi", line 7089, in pandas._libs.hashtable.PyObjectHashTable.get_item
-KeyError: 'Total Genes Detected'
-
-The above exception was the direct cause of the following exception:
-
-Traceback (most recent call last):
-  File "/net/beegfs/scratch/mafechkar/MDS_Data/compare_cellranger_versions_qc.py", line 45, in <module>
-    value = df_metrics.at[df_metrics.index[0], original_label]
-            ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/trinity/home/mafechkar/miniconda3/lib/python3.12/site-packages/pandas/core/indexing.py", line 2575, in __getitem__
-    return super().__getitem__(key)
-           ^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/trinity/home/mafechkar/miniconda3/lib/python3.12/site-packages/pandas/core/indexing.py", line 2527, in __getitem__
-    return self.obj._get_value(*key, takeable=self._takeable)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/trinity/home/mafechkar/miniconda3/lib/python3.12/site-packages/pandas/core/frame.py", line 4214, in _get_value
-    series = self._get_item_cache(col)
-             ^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/trinity/home/mafechkar/miniconda3/lib/python3.12/site-packages/pandas/core/frame.py", line 4638, in _get_item_cache
-    loc = self.columns.get_loc(item)
-          ^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/trinity/home/mafechkar/miniconda3/lib/python3.12/site-packages/pandas/core/indexes/base.py", line 3812, in get_loc
-    raise KeyError(key) from err
-KeyError: 'Total Genes Detected'
-[mafechkar@ares MDS_Data]$
-
-
-
-
-
 
 import os
 import pandas as pd
@@ -51,18 +13,22 @@ samples = [
     "MDS201-15-093", "MDS212-15-463"
 ]
 
-# Version-specific output directories
+# Output directories for different Cell Ranger versions
 versions = {
     "7.2.0": "MDS_Data/MDS_OUTS_CellRangerCount",
     "9.0.0": "MDS_Data/MDS_OUTS_CellRangerCount_9.0.0"
 }
 
-# Metrics to extract
+# Standard metrics to extract (exact match)
 metrics_to_extract = {
-    "Estimated Number of Cells": "Estimated_Cells",
     "Mean Reads per Cell": "Mean_Reads_Per_Cell",
     "Median Genes per Cell": "Median_Genes_Per_Cell",
     "Fraction Reads in Cells": "Fraction_Reads_In_Cells"
+}
+
+# Metrics with fallback names
+fallback_metrics = {
+    "Estimated_Cells": ["Estimated Number of Cells", "Total Genes Detected"]
 }
 
 # Gather data
@@ -80,12 +46,32 @@ for sample in samples:
         if os.path.exists(csv_path):
             df_metrics = pd.read_csv(csv_path, index_col=0).T
             row = {"Sample": sample, "Version": version}
+
+            # Standard metrics
             for original_label, short_label in metrics_to_extract.items():
-                value = df_metrics.at[df_metrics.index[0], original_label]
-                row[short_label] = float(str(value).replace(",", ""))
+                if original_label in df_metrics.columns:
+                    value = df_metrics.at[df_metrics.index[0], original_label]
+                    row[short_label] = float(str(value).replace(",", ""))
+                else:
+                    print(f"⚠️  Missing metric '{original_label}' in file: {csv_path}")
+                    row[short_label] = None
+
+            # Fallback metrics
+            for short_label, options in fallback_metrics.items():
+                found = False
+                for label in options:
+                    if label in df_metrics.columns:
+                        value = df_metrics.at[df_metrics.index[0], label]
+                        row[short_label] = float(str(value).replace(",", ""))
+                        found = True
+                        break
+                if not found:
+                    print(f"⚠️  Missing fallback metrics {options} for '{short_label}' in file: {csv_path}")
+                    row[short_label] = None
+
             data.append(row)
         else:
-            print(f"Missing file: {csv_path}")
+            print(f"❌ Missing file: {csv_path}")
 
 # Build dataframe
 df = pd.DataFrame(data)
@@ -113,7 +99,7 @@ g.fig.subplots_adjust(top=0.9)
 g.fig.suptitle("Cell Ranger v7.2.0 vs v9.0.0 - Per Sample Bar Plots", fontsize=16)
 plt.xticks(rotation=90)
 
-# Boxplot for Mean Reads per Cell
+#  Boxplot for Mean Reads per Cell
 plt.figure(figsize=(6, 5))
 sns.boxplot(data=df, x="Version", y="Mean_Reads_Per_Cell", palette="pastel")
 plt.title("Distribution of Mean Reads per Cell by Version")
