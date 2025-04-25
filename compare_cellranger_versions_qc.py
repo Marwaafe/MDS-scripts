@@ -1,4 +1,3 @@
-
 [mafechkar@ares MDS_Data]$ python compare_cellranger_versions_qc.py
 Added row: {'Sample': 'MDS001-09-203', 'Version': '7.2.0', 'Mean_Reads_Per_Cell': 16426.0, 'Median_Genes_Per_Cell': 1110.0, 'Fraction_Reads_In_Cells': 96.6, 'Estimated_Cells': 15156.0}
 Added row: {'Sample': 'MDS001-09-203', 'Version': '9.0.0', 'Mean_Reads_Per_Cell': 16574.0, 'Median_Genes_Per_Cell': 1118.0, 'Fraction_Reads_In_Cells': 96.3, 'Estimated_Cells': 15020.0}
@@ -36,8 +35,21 @@ Added row: {'Sample': 'MDS201-15-093', 'Version': '7.2.0', 'Mean_Reads_Per_Cell'
 Added row: {'Sample': 'MDS201-15-093', 'Version': '9.0.0', 'Mean_Reads_Per_Cell': 23815.0, 'Median_Genes_Per_Cell': 1289.0, 'Fraction_Reads_In_Cells': 89.3, 'Estimated_Cells': 9798.0}
 Added row: {'Sample': 'MDS212-15-463', 'Version': '7.2.0', 'Mean_Reads_Per_Cell': 19523.0, 'Median_Genes_Per_Cell': 1208.0, 'Fraction_Reads_In_Cells': 91.6, 'Estimated_Cells': 12506.0}
 Added row: {'Sample': 'MDS212-15-463', 'Version': '9.0.0', 'Mean_Reads_Per_Cell': 20095.0, 'Median_Genes_Per_Cell': 1224.0, 'Fraction_Reads_In_Cells': 90.3, 'Estimated_Cells': 12150.0}
+
+ df.head():
+          Sample Version  Mean_Reads_Per_Cell  Median_Genes_Per_Cell  Fraction_Reads_In_Cells  Estimated_Cells
+0  MDS001-09-203   7.2.0              16426.0                 1110.0                     96.6          15156.0
+1  MDS001-09-203   9.0.0              16574.0                 1118.0                     96.3          15020.0
+2  MDS005-09-247   7.2.0              77711.0                 1824.0                     69.4           3486.0
+3  MDS005-09-247   9.0.0              80386.0                 1842.0                     68.6           3370.0
+4  MDS006-08-249   7.2.0              52182.0                 1418.0                     75.5           3649.0
+
+ df.columns:
+Index(['Sample', 'Version', 'Mean_Reads_Per_Cell', 'Median_Genes_Per_Cell',
+       'Fraction_Reads_In_Cells', 'Estimated_Cells'],
+      dtype='object')
 Traceback (most recent call last):
-  File "/net/beegfs/scratch/mafechkar/MDS_Data/compare_cellranger_versions_qc.py", line 87, in <module>
+  File "/net/beegfs/scratch/mafechkar/MDS_Data/compare_cellranger_versions_qc.py", line 91, in <module>
     g = sns.catplot(
         ^^^^^^^^^^^^
   File "/trinity/home/mafechkar/miniconda3/lib/python3.12/site-packages/seaborn/categorical.py", line 2782, in catplot
@@ -57,6 +69,7 @@ Traceback (most recent call last):
     raise ValueError(err)
 ValueError: Could not interpret value `Version` for `hue`. An entry with this name does not appear in `data`.
 [mafechkar@ares MDS_Data]$
+
 
 
 
