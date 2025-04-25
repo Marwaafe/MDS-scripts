@@ -2,11 +2,25 @@
 
 [mafechkar@ares MDS_Data]$ python compare_cellranger_versions_qc.py
 Traceback (most recent call last):
-  File "/net/beegfs/scratch/mafechkar/MDS_Data/compare_cellranger_versions_qc.py", line 54, in <module>
-    row[short_label] = float(str(value).replace(",", ""))
-                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-ValueError: could not convert string to float: '96.6%'
-[mafechkar@ares MDS_Data]$
+  File "/net/beegfs/scratch/mafechkar/MDS_Data/compare_cellranger_versions_qc.py", line 86, in <module>
+    g = sns.catplot(
+        ^^^^^^^^^^^^
+  File "/trinity/home/mafechkar/miniconda3/lib/python3.12/site-packages/seaborn/categorical.py", line 2782, in catplot
+    p = Plotter(
+        ^^^^^^^^
+  File "/trinity/home/mafechkar/miniconda3/lib/python3.12/site-packages/seaborn/categorical.py", line 67, in __init__
+    super().__init__(data=data, variables=variables)
+  File "/trinity/home/mafechkar/miniconda3/lib/python3.12/site-packages/seaborn/_base.py", line 634, in __init__
+    self.assign_variables(data, variables)
+  File "/trinity/home/mafechkar/miniconda3/lib/python3.12/site-packages/seaborn/_base.py", line 679, in assign_variables
+    plot_data = PlotData(data, variables)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/trinity/home/mafechkar/miniconda3/lib/python3.12/site-packages/seaborn/_core/data.py", line 58, in __init__
+    frame, names, ids = self._assign_variables(data, variables)
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/trinity/home/mafechkar/miniconda3/lib/python3.12/site-packages/seaborn/_core/data.py", line 232, in _assign_variables
+    raise ValueError(err)
+ValueError: Could not interpret value `Version` for `hue`. An entry with this name does not appear in `data`.
 
 
 
