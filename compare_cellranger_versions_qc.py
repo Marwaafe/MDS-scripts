@@ -1,3 +1,4 @@
+
 [mafechkar@ares MDS_Data]$ python compare_cellranger_versions_qc.py
 Added row: {'Sample': 'MDS001-09-203', 'Version': '7.2.0', 'Mean_Reads_Per_Cell': 16426.0, 'Median_Genes_Per_Cell': 1110.0, 'Fraction_Reads_In_Cells': 96.6, 'Estimated_Cells': 15156.0}
 Added row: {'Sample': 'MDS001-09-203', 'Version': '9.0.0', 'Mean_Reads_Per_Cell': 16574.0, 'Median_Genes_Per_Cell': 1118.0, 'Fraction_Reads_In_Cells': 96.3, 'Estimated_Cells': 15020.0}
@@ -48,8 +49,19 @@ Added row: {'Sample': 'MDS212-15-463', 'Version': '9.0.0', 'Mean_Reads_Per_Cell'
 Index(['Sample', 'Version', 'Mean_Reads_Per_Cell', 'Median_Genes_Per_Cell',
        'Fraction_Reads_In_Cells', 'Estimated_Cells'],
       dtype='object')
+
+ df_melted.head():
+          Sample   Metric  Value
+0  MDS001-09-203  Version  7.2.0
+1  MDS001-09-203  Version  9.0.0
+2  MDS005-09-247  Version  7.2.0
+3  MDS005-09-247  Version  9.0.0
+4  MDS006-08-249  Version  7.2.0
+
+ df_melted.columns:
+Index(['Sample', 'Metric', 'Value'], dtype='object')
 Traceback (most recent call last):
-  File "/net/beegfs/scratch/mafechkar/MDS_Data/compare_cellranger_versions_qc.py", line 91, in <module>
+  File "/net/beegfs/scratch/mafechkar/MDS_Data/compare_cellranger_versions_qc.py", line 96, in <module>
     g = sns.catplot(
         ^^^^^^^^^^^^
   File "/trinity/home/mafechkar/miniconda3/lib/python3.12/site-packages/seaborn/categorical.py", line 2782, in catplot
@@ -68,9 +80,6 @@ Traceback (most recent call last):
   File "/trinity/home/mafechkar/miniconda3/lib/python3.12/site-packages/seaborn/_core/data.py", line 232, in _assign_variables
     raise ValueError(err)
 ValueError: Could not interpret value `Version` for `hue`. An entry with this name does not appear in `data`.
-[mafechkar@ares MDS_Data]$
-
-
 
 
 import os
