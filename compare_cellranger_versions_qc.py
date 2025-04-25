@@ -1,52 +1,166 @@
-[mafechkar@ares MDS_Data]$ python compare_cellranger_versions_qc.py
-❌ Missing file: MDS_Data/MDS_OUTS_CellRangerCount/MDS001-09-203_count_output/MDS001-09-203_count/outs/metrics_summary.csv
-❌ Missing file: MDS_Data/MDS_OUTS_CellRangerCount_9.0.0/MDS001-09-203_count_output/MDS001-09-203_count/outs/metrics_summary.csv
-❌ Missing file: MDS_Data/MDS_OUTS_CellRangerCount/MDS005-09-247_count_output/MDS005-09-247_count/outs/metrics_summary.csv
-❌ Missing file: MDS_Data/MDS_OUTS_CellRangerCount_9.0.0/MDS005-09-247_count_output/MDS005-09-247_count/outs/metrics_summary.csv
-❌ Missing file: MDS_Data/MDS_OUTS_CellRangerCount/MDS006-08-249_count_output/MDS006-08-249_count/outs/metrics_summary.csv
-❌ Missing file: MDS_Data/MDS_OUTS_CellRangerCount_9.0.0/MDS006-08-249_count_output/MDS006-08-249_count/outs/metrics_summary.csv
-❌ Missing file: MDS_Data/MDS_OUTS_CellRangerCount/MDS010-09-299_count_output/MDS010-09-299_count/outs/metrics_summary.csv
-❌ Missing file: MDS_Data/MDS_OUTS_CellRangerCount_9.0.0/MDS010-09-299_count_output/MDS010-09-299_count/outs/metrics_summary.csv
-❌ Missing file: MDS_Data/MDS_OUTS_CellRangerCount/MDS016-09-478_count_output/MDS016-09-478_count/outs/metrics_summary.csv
-❌ Missing file: MDS_Data/MDS_OUTS_CellRangerCount_9.0.0/MDS016-09-478_count_output/MDS016-09-478_count/outs/metrics_summary.csv
-❌ Missing file: MDS_Data/MDS_OUTS_CellRangerCount/MDS023-10-053_count_output/MDS023-10-053_count/outs/metrics_summary.csv
-❌ Missing file: MDS_Data/MDS_OUTS_CellRangerCount_9.0.0/MDS023-10-053_count_output/MDS023-10-053_count/outs/metrics_summary.csv
-❌ Missing file: MDS_Data/MDS_OUTS_CellRangerCount/MDS029-10-118_count_output/MDS029-10-118_count/outs/metrics_summary.csv
-❌ Missing file: MDS_Data/MDS_OUTS_CellRangerCount_9.0.0/MDS029-10-118_count_output/MDS029-10-118_count/outs/metrics_summary.csv
-❌ Missing file: MDS_Data/MDS_OUTS_CellRangerCount/MDS038-10-241_count_output/MDS038-10-241_count/outs/metrics_summary.csv
-❌ Missing file: MDS_Data/MDS_OUTS_CellRangerCount_9.0.0/MDS038-10-241_count_output/MDS038-10-241_count/outs/metrics_summary.csv
-❌ Missing file: MDS_Data/MDS_OUTS_CellRangerCount/MDS059-10-531_count_output/MDS059-10-531_count/outs/metrics_summary.csv
-❌ Missing file: MDS_Data/MDS_OUTS_CellRangerCount_9.0.0/MDS059-10-531_count_output/MDS059-10-531_count/outs/metrics_summary.csv
-❌ Missing file: MDS_Data/MDS_OUTS_CellRangerCount/MDS065-10-609_count_output/MDS065-10-609_count/outs/metrics_summary.csv
-❌ Missing file: MDS_Data/MDS_OUTS_CellRangerCount_9.0.0/MDS065-10-609_count_output/MDS065-10-609_count/outs/metrics_summary.csv
-❌ Missing file: MDS_Data/MDS_OUTS_CellRangerCount/MDS154-13-486_count_output/MDS154-13-486_count/outs/metrics_summary.csv
-❌ Missing file: MDS_Data/MDS_OUTS_CellRangerCount_9.0.0/MDS154-13-486_count_output/MDS154-13-486_count/outs/metrics_summary.csv
-❌ Missing file: MDS_Data/MDS_OUTS_CellRangerCount/MDS155-13-606_count_output/MDS155-13-606_count/outs/metrics_summary.csv
-❌ Missing file: MDS_Data/MDS_OUTS_CellRangerCount_9.0.0/MDS155-13-606_count_output/MDS155-13-606_count/outs/metrics_summary.csv
-❌ Missing file: MDS_Data/MDS_OUTS_CellRangerCount/MDS167-13-913_count_output/MDS167-13-913_count/outs/metrics_summary.csv
-❌ Missing file: MDS_Data/MDS_OUTS_CellRangerCount_9.0.0/MDS167-13-913_count_output/MDS167-13-913_count/outs/metrics_summary.csv
-❌ Missing file: MDS_Data/MDS_OUTS_CellRangerCount/MDS169-13-919_count_output/MDS169-13-919_count/outs/metrics_summary.csv
-❌ Missing file: MDS_Data/MDS_OUTS_CellRangerCount_9.0.0/MDS169-13-919_count_output/MDS169-13-919_count/outs/metrics_summary.csv
-❌ Missing file: MDS_Data/MDS_OUTS_CellRangerCount/MDS180-14-164_count_output/MDS180-14-164_count/outs/metrics_summary.csv
-❌ Missing file: MDS_Data/MDS_OUTS_CellRangerCount_9.0.0/MDS180-14-164_count_output/MDS180-14-164_count/outs/metrics_summary.csv
-❌ Missing file: MDS_Data/MDS_OUTS_CellRangerCount/MDS189-14-527_count_output/MDS189-14-527_count/outs/metrics_summary.csv
-❌ Missing file: MDS_Data/MDS_OUTS_CellRangerCount_9.0.0/MDS189-14-527_count_output/MDS189-14-527_count/outs/metrics_summary.csv
-❌ Missing file: MDS_Data/MDS_OUTS_CellRangerCount/MDS201-15-093_count_output/MDS201-15-093_count/outs/metrics_summary.csv
-❌ Missing file: MDS_Data/MDS_OUTS_CellRangerCount_9.0.0/MDS201-15-093_count_output/MDS201-15-093_count/outs/metrics_summary.csv
-❌ Missing file: MDS_Data/MDS_OUTS_CellRangerCount/MDS212-15-463_count_output/MDS212-15-463_count/outs/metrics_summary.csv
-❌ Missing file: MDS_Data/MDS_OUTS_CellRangerCount_9.0.0/MDS212-15-463_count_output/MDS212-15-463_count/outs/metrics_summary.csv
-Traceback (most recent call last):
-  File "/net/beegfs/scratch/mafechkar/MDS_Data/compare_cellranger_versions_qc.py", line 83, in <module>
-    df_melted = df.melt(id_vars=["Sample", "Version"], var_name="Metric", value_name="Value")
-                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/trinity/home/mafechkar/miniconda3/lib/python3.12/site-packages/pandas/core/frame.py", line 9942, in melt
-    return melt(
-           ^^^^^
-  File "/trinity/home/mafechkar/miniconda3/lib/python3.12/site-packages/pandas/core/reshape/melt.py", line 74, in melt
-    raise KeyError(
-KeyError: "The following id_vars or value_vars are not present in the DataFrame: ['Sample', 'Version']"
-[mafechkar@ares MDS_Data]$ nano compare_cellranger_versions_qc.py
 
+[mafechkar@ares MDS_Data]$ python compare_cellranger_versions_qc.py
+⚠️  Missing metric 'Mean Reads per Cell' in file: /trinity/home/mafechkar/MDS_OUTS_CellRangerCount/MDS001-09-203_count_output/MDS001-09-203_count/outs/metrics_summary.csv
+⚠️  Missing metric 'Median Genes per Cell' in file: /trinity/home/mafechkar/MDS_OUTS_CellRangerCount/MDS001-09-203_count_output/MDS001-09-203_count/outs/metrics_summary.csv
+⚠️  Missing metric 'Fraction Reads in Cells' in file: /trinity/home/mafechkar/MDS_OUTS_CellRangerCount/MDS001-09-203_count_output/MDS001-09-203_count/outs/metrics_summary.csv
+⚠️  Missing fallback metrics ['Estimated Number of Cells', 'Total Genes Detected'] for 'Estimated_Cells' in file: /trinity/home/mafechkar/MDS_OUTS_CellRangerCount/MDS001-09-203_count_output/MDS001-09-203_count/outs/metrics_summary.csv
+❌ Missing file: /trinity/home/mafechkar/MDS_OUTS_CellRangerCount_9.0/MDS001-09-203_count_output/MDS001-09-203_count/outs/metrics_summary.csv
+⚠️  Missing metric 'Mean Reads per Cell' in file: /trinity/home/mafechkar/MDS_OUTS_CellRangerCount/MDS005-09-247_count_output/MDS005-09-247_count/outs/metrics_summary.csv
+⚠️  Missing metric 'Median Genes per Cell' in file: /trinity/home/mafechkar/MDS_OUTS_CellRangerCount/MDS005-09-247_count_output/MDS005-09-247_count/outs/metrics_summary.csv
+⚠️  Missing metric 'Fraction Reads in Cells' in file: /trinity/home/mafechkar/MDS_OUTS_CellRangerCount/MDS005-09-247_count_output/MDS005-09-247_count/outs/metrics_summary.csv
+⚠️  Missing fallback metrics ['Estimated Number of Cells', 'Total Genes Detected'] for 'Estimated_Cells' in file: /trinity/home/mafechkar/MDS_OUTS_CellRangerCount/MDS005-09-247_count_output/MDS005-09-247_count/outs/metrics_summary.csv
+⚠️  Missing metric 'Mean Reads per Cell' in file: /trinity/home/mafechkar/MDS_OUTS_CellRangerCount_9.0/MDS005-09-247_count_output/MDS005-09-247_count/outs/metrics_summary.csv
+⚠️  Missing metric 'Median Genes per Cell' in file: /trinity/home/mafechkar/MDS_OUTS_CellRangerCount_9.0/MDS005-09-247_count_output/MDS005-09-247_count/outs/metrics_summary.csv
+⚠️  Missing metric 'Fraction Reads in Cells' in file: /trinity/home/mafechkar/MDS_OUTS_CellRangerCount_9.0/MDS005-09-247_count_output/MDS005-09-247_count/outs/metrics_summary.csv
+⚠️  Missing fallback metrics ['Estimated Number of Cells', 'Total Genes Detected'] for 'Estimated_Cells' in file: /trinity/home/mafechkar/MDS_OUTS_CellRangerCount_9.0/MDS005-09-247_count_output/MDS005-09-247_count/outs/metrics_summary.csv
+⚠️  Missing metric 'Mean Reads per Cell' in file: /trinity/home/mafechkar/MDS_OUTS_CellRangerCount/MDS006-08-249_count_output/MDS006-08-249_count/outs/metrics_summary.csv
+⚠️  Missing metric 'Median Genes per Cell' in file: /trinity/home/mafechkar/MDS_OUTS_CellRangerCount/MDS006-08-249_count_output/MDS006-08-249_count/outs/metrics_summary.csv
+⚠️  Missing metric 'Fraction Reads in Cells' in file: /trinity/home/mafechkar/MDS_OUTS_CellRangerCount/MDS006-08-249_count_output/MDS006-08-249_count/outs/metrics_summary.csv
+⚠️  Missing fallback metrics ['Estimated Number of Cells', 'Total Genes Detected'] for 'Estimated_Cells' in file: /trinity/home/mafechkar/MDS_OUTS_CellRangerCount/MDS006-08-249_count_output/MDS006-08-249_count/outs/metrics_summary.csv
+⚠️  Missing metric 'Mean Reads per Cell' in file: /trinity/home/mafechkar/MDS_OUTS_CellRangerCount_9.0/MDS006-08-249_count_output/MDS006-08-249_count/outs/metrics_summary.csv
+⚠️  Missing metric 'Median Genes per Cell' in file: /trinity/home/mafechkar/MDS_OUTS_CellRangerCount_9.0/MDS006-08-249_count_output/MDS006-08-249_count/outs/metrics_summary.csv
+⚠️  Missing metric 'Fraction Reads in Cells' in file: /trinity/home/mafechkar/MDS_OUTS_CellRangerCount_9.0/MDS006-08-249_count_output/MDS006-08-249_count/outs/metrics_summary.csv
+⚠️  Missing fallback metrics ['Estimated Number of Cells', 'Total Genes Detected'] for 'Estimated_Cells' in file: /trinity/home/mafechkar/MDS_OUTS_CellRangerCount_9.0/MDS006-08-249_count_output/MDS006-08-249_count/outs/metrics_summary.csv
+⚠️  Missing metric 'Mean Reads per Cell' in file: /trinity/home/mafechkar/MDS_OUTS_CellRangerCount/MDS010-09-299_count_output/MDS010-09-299_count/outs/metrics_summary.csv
+⚠️  Missing metric 'Median Genes per Cell' in file: /trinity/home/mafechkar/MDS_OUTS_CellRangerCount/MDS010-09-299_count_output/MDS010-09-299_count/outs/metrics_summary.csv
+⚠️  Missing metric 'Fraction Reads in Cells' in file: /trinity/home/mafechkar/MDS_OUTS_CellRangerCount/MDS010-09-299_count_output/MDS010-09-299_count/outs/metrics_summary.csv
+⚠️  Missing fallback metrics ['Estimated Number of Cells', 'Total Genes Detected'] for 'Estimated_Cells' in file: /trinity/home/mafechkar/MDS_OUTS_CellRangerCount/MDS010-09-299_count_output/MDS010-09-299_count/outs/metrics_summary.csv
+⚠️  Missing metric 'Mean Reads per Cell' in file: /trinity/home/mafechkar/MDS_OUTS_CellRangerCount_9.0/MDS010-09-299_count_output/MDS010-09-299_count/outs/metrics_summary.csv
+⚠️  Missing metric 'Median Genes per Cell' in file: /trinity/home/mafechkar/MDS_OUTS_CellRangerCount_9.0/MDS010-09-299_count_output/MDS010-09-299_count/outs/metrics_summary.csv
+⚠️  Missing metric 'Fraction Reads in Cells' in file: /trinity/home/mafechkar/MDS_OUTS_CellRangerCount_9.0/MDS010-09-299_count_output/MDS010-09-299_count/outs/metrics_summary.csv
+⚠️  Missing fallback metrics ['Estimated Number of Cells', 'Total Genes Detected'] for 'Estimated_Cells' in file: /trinity/home/mafechkar/MDS_OUTS_CellRangerCount_9.0/MDS010-09-299_count_output/MDS010-09-299_count/outs/metrics_summary.csv
+⚠️  Missing metric 'Mean Reads per Cell' in file: /trinity/home/mafechkar/MDS_OUTS_CellRangerCount/MDS016-09-478_count_output/MDS016-09-478_count/outs/metrics_summary.csv
+⚠️  Missing metric 'Median Genes per Cell' in file: /trinity/home/mafechkar/MDS_OUTS_CellRangerCount/MDS016-09-478_count_output/MDS016-09-478_count/outs/metrics_summary.csv
+⚠️  Missing metric 'Fraction Reads in Cells' in file: /trinity/home/mafechkar/MDS_OUTS_CellRangerCount/MDS016-09-478_count_output/MDS016-09-478_count/outs/metrics_summary.csv
+⚠️  Missing fallback metrics ['Estimated Number of Cells', 'Total Genes Detected'] for 'Estimated_Cells' in file: /trinity/home/mafechkar/MDS_OUTS_CellRangerCount/MDS016-09-478_count_output/MDS016-09-478_count/outs/metrics_summary.csv
+⚠️  Missing metric 'Mean Reads per Cell' in file: /trinity/home/mafechkar/MDS_OUTS_CellRangerCount_9.0/MDS016-09-478_count_output/MDS016-09-478_count/outs/metrics_summary.csv
+⚠️  Missing metric 'Median Genes per Cell' in file: /trinity/home/mafechkar/MDS_OUTS_CellRangerCount_9.0/MDS016-09-478_count_output/MDS016-09-478_count/outs/metrics_summary.csv
+⚠️  Missing metric 'Fraction Reads in Cells' in file: /trinity/home/mafechkar/MDS_OUTS_CellRangerCount_9.0/MDS016-09-478_count_output/MDS016-09-478_count/outs/metrics_summary.csv
+⚠️  Missing fallback metrics ['Estimated Number of Cells', 'Total Genes Detected'] for 'Estimated_Cells' in file: /trinity/home/mafechkar/MDS_OUTS_CellRangerCount_9.0/MDS016-09-478_count_output/MDS016-09-478_count/outs/metrics_summary.csv
+⚠️  Missing metric 'Mean Reads per Cell' in file: /trinity/home/mafechkar/MDS_OUTS_CellRangerCount/MDS023-10-053_count_output/MDS023-10-053_count/outs/metrics_summary.csv
+⚠️  Missing metric 'Median Genes per Cell' in file: /trinity/home/mafechkar/MDS_OUTS_CellRangerCount/MDS023-10-053_count_output/MDS023-10-053_count/outs/metrics_summary.csv
+⚠️  Missing metric 'Fraction Reads in Cells' in file: /trinity/home/mafechkar/MDS_OUTS_CellRangerCount/MDS023-10-053_count_output/MDS023-10-053_count/outs/metrics_summary.csv
+⚠️  Missing fallback metrics ['Estimated Number of Cells', 'Total Genes Detected'] for 'Estimated_Cells' in file: /trinity/home/mafechkar/MDS_OUTS_CellRangerCount/MDS023-10-053_count_output/MDS023-10-053_count/outs/metrics_summary.csv
+⚠️  Missing metric 'Mean Reads per Cell' in file: /trinity/home/mafechkar/MDS_OUTS_CellRangerCount_9.0/MDS023-10-053_count_output/MDS023-10-053_count/outs/metrics_summary.csv
+⚠️  Missing metric 'Median Genes per Cell' in file: /trinity/home/mafechkar/MDS_OUTS_CellRangerCount_9.0/MDS023-10-053_count_output/MDS023-10-053_count/outs/metrics_summary.csv
+⚠️  Missing metric 'Fraction Reads in Cells' in file: /trinity/home/mafechkar/MDS_OUTS_CellRangerCount_9.0/MDS023-10-053_count_output/MDS023-10-053_count/outs/metrics_summary.csv
+⚠️  Missing fallback metrics ['Estimated Number of Cells', 'Total Genes Detected'] for 'Estimated_Cells' in file: /trinity/home/mafechkar/MDS_OUTS_CellRangerCount_9.0/MDS023-10-053_count_output/MDS023-10-053_count/outs/metrics_summary.csv
+⚠️  Missing metric 'Mean Reads per Cell' in file: /trinity/home/mafechkar/MDS_OUTS_CellRangerCount/MDS029-10-118_count_output/MDS029-10-118_count/outs/metrics_summary.csv
+⚠️  Missing metric 'Median Genes per Cell' in file: /trinity/home/mafechkar/MDS_OUTS_CellRangerCount/MDS029-10-118_count_output/MDS029-10-118_count/outs/metrics_summary.csv
+⚠️  Missing metric 'Fraction Reads in Cells' in file: /trinity/home/mafechkar/MDS_OUTS_CellRangerCount/MDS029-10-118_count_output/MDS029-10-118_count/outs/metrics_summary.csv
+⚠️  Missing fallback metrics ['Estimated Number of Cells', 'Total Genes Detected'] for 'Estimated_Cells' in file: /trinity/home/mafechkar/MDS_OUTS_CellRangerCount/MDS029-10-118_count_output/MDS029-10-118_count/outs/metrics_summary.csv
+⚠️  Missing metric 'Mean Reads per Cell' in file: /trinity/home/mafechkar/MDS_OUTS_CellRangerCount_9.0/MDS029-10-118_count_output/MDS029-10-118_count/outs/metrics_summary.csv
+⚠️  Missing metric 'Median Genes per Cell' in file: /trinity/home/mafechkar/MDS_OUTS_CellRangerCount_9.0/MDS029-10-118_count_output/MDS029-10-118_count/outs/metrics_summary.csv
+⚠️  Missing metric 'Fraction Reads in Cells' in file: /trinity/home/mafechkar/MDS_OUTS_CellRangerCount_9.0/MDS029-10-118_count_output/MDS029-10-118_count/outs/metrics_summary.csv
+⚠️  Missing fallback metrics ['Estimated Number of Cells', 'Total Genes Detected'] for 'Estimated_Cells' in file: /trinity/home/mafechkar/MDS_OUTS_CellRangerCount_9.0/MDS029-10-118_count_output/MDS029-10-118_count/outs/metrics_summary.csv
+⚠️  Missing metric 'Mean Reads per Cell' in file: /trinity/home/mafechkar/MDS_OUTS_CellRangerCount/MDS038-10-241_count_output/MDS038-10-241_count/outs/metrics_summary.csv
+⚠️  Missing metric 'Median Genes per Cell' in file: /trinity/home/mafechkar/MDS_OUTS_CellRangerCount/MDS038-10-241_count_output/MDS038-10-241_count/outs/metrics_summary.csv
+⚠️  Missing metric 'Fraction Reads in Cells' in file: /trinity/home/mafechkar/MDS_OUTS_CellRangerCount/MDS038-10-241_count_output/MDS038-10-241_count/outs/metrics_summary.csv
+⚠️  Missing fallback metrics ['Estimated Number of Cells', 'Total Genes Detected'] for 'Estimated_Cells' in file: /trinity/home/mafechkar/MDS_OUTS_CellRangerCount/MDS038-10-241_count_output/MDS038-10-241_count/outs/metrics_summary.csv
+⚠️  Missing metric 'Mean Reads per Cell' in file: /trinity/home/mafechkar/MDS_OUTS_CellRangerCount_9.0/MDS038-10-241_count_output/MDS038-10-241_count/outs/metrics_summary.csv
+⚠️  Missing metric 'Median Genes per Cell' in file: /trinity/home/mafechkar/MDS_OUTS_CellRangerCount_9.0/MDS038-10-241_count_output/MDS038-10-241_count/outs/metrics_summary.csv
+⚠️  Missing metric 'Fraction Reads in Cells' in file: /trinity/home/mafechkar/MDS_OUTS_CellRangerCount_9.0/MDS038-10-241_count_output/MDS038-10-241_count/outs/metrics_summary.csv
+⚠️  Missing fallback metrics ['Estimated Number of Cells', 'Total Genes Detected'] for 'Estimated_Cells' in file: /trinity/home/mafechkar/MDS_OUTS_CellRangerCount_9.0/MDS038-10-241_count_output/MDS038-10-241_count/outs/metrics_summary.csv
+⚠️  Missing metric 'Mean Reads per Cell' in file: /trinity/home/mafechkar/MDS_OUTS_CellRangerCount/MDS059-10-531_count_output/MDS059-10-531_count/outs/metrics_summary.csv
+⚠️  Missing metric 'Median Genes per Cell' in file: /trinity/home/mafechkar/MDS_OUTS_CellRangerCount/MDS059-10-531_count_output/MDS059-10-531_count/outs/metrics_summary.csv
+⚠️  Missing metric 'Fraction Reads in Cells' in file: /trinity/home/mafechkar/MDS_OUTS_CellRangerCount/MDS059-10-531_count_output/MDS059-10-531_count/outs/metrics_summary.csv
+⚠️  Missing fallback metrics ['Estimated Number of Cells', 'Total Genes Detected'] for 'Estimated_Cells' in file: /trinity/home/mafechkar/MDS_OUTS_CellRangerCount/MDS059-10-531_count_output/MDS059-10-531_count/outs/metrics_summary.csv
+⚠️  Missing metric 'Mean Reads per Cell' in file: /trinity/home/mafechkar/MDS_OUTS_CellRangerCount_9.0/MDS059-10-531_count_output/MDS059-10-531_count/outs/metrics_summary.csv
+⚠️  Missing metric 'Median Genes per Cell' in file: /trinity/home/mafechkar/MDS_OUTS_CellRangerCount_9.0/MDS059-10-531_count_output/MDS059-10-531_count/outs/metrics_summary.csv
+⚠️  Missing metric 'Fraction Reads in Cells' in file: /trinity/home/mafechkar/MDS_OUTS_CellRangerCount_9.0/MDS059-10-531_count_output/MDS059-10-531_count/outs/metrics_summary.csv
+⚠️  Missing fallback metrics ['Estimated Number of Cells', 'Total Genes Detected'] for 'Estimated_Cells' in file: /trinity/home/mafechkar/MDS_OUTS_CellRangerCount_9.0/MDS059-10-531_count_output/MDS059-10-531_count/outs/metrics_summary.csv
+⚠️  Missing metric 'Mean Reads per Cell' in file: /trinity/home/mafechkar/MDS_OUTS_CellRangerCount/MDS065-10-609_count_output/MDS065-10-609_count/outs/metrics_summary.csv
+⚠️  Missing metric 'Median Genes per Cell' in file: /trinity/home/mafechkar/MDS_OUTS_CellRangerCount/MDS065-10-609_count_output/MDS065-10-609_count/outs/metrics_summary.csv
+⚠️  Missing metric 'Fraction Reads in Cells' in file: /trinity/home/mafechkar/MDS_OUTS_CellRangerCount/MDS065-10-609_count_output/MDS065-10-609_count/outs/metrics_summary.csv
+⚠️  Missing fallback metrics ['Estimated Number of Cells', 'Total Genes Detected'] for 'Estimated_Cells' in file: /trinity/home/mafechkar/MDS_OUTS_CellRangerCount/MDS065-10-609_count_output/MDS065-10-609_count/outs/metrics_summary.csv
+⚠️  Missing metric 'Mean Reads per Cell' in file: /trinity/home/mafechkar/MDS_OUTS_CellRangerCount_9.0/MDS065-10-609_count_output/MDS065-10-609_count/outs/metrics_summary.csv
+⚠️  Missing metric 'Median Genes per Cell' in file: /trinity/home/mafechkar/MDS_OUTS_CellRangerCount_9.0/MDS065-10-609_count_output/MDS065-10-609_count/outs/metrics_summary.csv
+⚠️  Missing metric 'Fraction Reads in Cells' in file: /trinity/home/mafechkar/MDS_OUTS_CellRangerCount_9.0/MDS065-10-609_count_output/MDS065-10-609_count/outs/metrics_summary.csv
+⚠️  Missing fallback metrics ['Estimated Number of Cells', 'Total Genes Detected'] for 'Estimated_Cells' in file: /trinity/home/mafechkar/MDS_OUTS_CellRangerCount_9.0/MDS065-10-609_count_output/MDS065-10-609_count/outs/metrics_summary.csv
+⚠️  Missing metric 'Mean Reads per Cell' in file: /trinity/home/mafechkar/MDS_OUTS_CellRangerCount/MDS154-13-486_count_output/MDS154-13-486_count/outs/metrics_summary.csv
+⚠️  Missing metric 'Median Genes per Cell' in file: /trinity/home/mafechkar/MDS_OUTS_CellRangerCount/MDS154-13-486_count_output/MDS154-13-486_count/outs/metrics_summary.csv
+⚠️  Missing metric 'Fraction Reads in Cells' in file: /trinity/home/mafechkar/MDS_OUTS_CellRangerCount/MDS154-13-486_count_output/MDS154-13-486_count/outs/metrics_summary.csv
+⚠️  Missing fallback metrics ['Estimated Number of Cells', 'Total Genes Detected'] for 'Estimated_Cells' in file: /trinity/home/mafechkar/MDS_OUTS_CellRangerCount/MDS154-13-486_count_output/MDS154-13-486_count/outs/metrics_summary.csv
+⚠️  Missing metric 'Mean Reads per Cell' in file: /trinity/home/mafechkar/MDS_OUTS_CellRangerCount_9.0/MDS154-13-486_count_output/MDS154-13-486_count/outs/metrics_summary.csv
+⚠️  Missing metric 'Median Genes per Cell' in file: /trinity/home/mafechkar/MDS_OUTS_CellRangerCount_9.0/MDS154-13-486_count_output/MDS154-13-486_count/outs/metrics_summary.csv
+⚠️  Missing metric 'Fraction Reads in Cells' in file: /trinity/home/mafechkar/MDS_OUTS_CellRangerCount_9.0/MDS154-13-486_count_output/MDS154-13-486_count/outs/metrics_summary.csv
+⚠️  Missing fallback metrics ['Estimated Number of Cells', 'Total Genes Detected'] for 'Estimated_Cells' in file: /trinity/home/mafechkar/MDS_OUTS_CellRangerCount_9.0/MDS154-13-486_count_output/MDS154-13-486_count/outs/metrics_summary.csv
+⚠️  Missing metric 'Mean Reads per Cell' in file: /trinity/home/mafechkar/MDS_OUTS_CellRangerCount/MDS155-13-606_count_output/MDS155-13-606_count/outs/metrics_summary.csv
+⚠️  Missing metric 'Median Genes per Cell' in file: /trinity/home/mafechkar/MDS_OUTS_CellRangerCount/MDS155-13-606_count_output/MDS155-13-606_count/outs/metrics_summary.csv
+⚠️  Missing metric 'Fraction Reads in Cells' in file: /trinity/home/mafechkar/MDS_OUTS_CellRangerCount/MDS155-13-606_count_output/MDS155-13-606_count/outs/metrics_summary.csv
+⚠️  Missing fallback metrics ['Estimated Number of Cells', 'Total Genes Detected'] for 'Estimated_Cells' in file: /trinity/home/mafechkar/MDS_OUTS_CellRangerCount/MDS155-13-606_count_output/MDS155-13-606_count/outs/metrics_summary.csv
+⚠️  Missing metric 'Mean Reads per Cell' in file: /trinity/home/mafechkar/MDS_OUTS_CellRangerCount_9.0/MDS155-13-606_count_output/MDS155-13-606_count/outs/metrics_summary.csv
+⚠️  Missing metric 'Median Genes per Cell' in file: /trinity/home/mafechkar/MDS_OUTS_CellRangerCount_9.0/MDS155-13-606_count_output/MDS155-13-606_count/outs/metrics_summary.csv
+⚠️  Missing metric 'Fraction Reads in Cells' in file: /trinity/home/mafechkar/MDS_OUTS_CellRangerCount_9.0/MDS155-13-606_count_output/MDS155-13-606_count/outs/metrics_summary.csv
+⚠️  Missing fallback metrics ['Estimated Number of Cells', 'Total Genes Detected'] for 'Estimated_Cells' in file: /trinity/home/mafechkar/MDS_OUTS_CellRangerCount_9.0/MDS155-13-606_count_output/MDS155-13-606_count/outs/metrics_summary.csv
+⚠️  Missing metric 'Mean Reads per Cell' in file: /trinity/home/mafechkar/MDS_OUTS_CellRangerCount/MDS167-13-913_count_output/MDS167-13-913_count/outs/metrics_summary.csv
+⚠️  Missing metric 'Median Genes per Cell' in file: /trinity/home/mafechkar/MDS_OUTS_CellRangerCount/MDS167-13-913_count_output/MDS167-13-913_count/outs/metrics_summary.csv
+⚠️  Missing metric 'Fraction Reads in Cells' in file: /trinity/home/mafechkar/MDS_OUTS_CellRangerCount/MDS167-13-913_count_output/MDS167-13-913_count/outs/metrics_summary.csv
+⚠️  Missing fallback metrics ['Estimated Number of Cells', 'Total Genes Detected'] for 'Estimated_Cells' in file: /trinity/home/mafechkar/MDS_OUTS_CellRangerCount/MDS167-13-913_count_output/MDS167-13-913_count/outs/metrics_summary.csv
+⚠️  Missing metric 'Mean Reads per Cell' in file: /trinity/home/mafechkar/MDS_OUTS_CellRangerCount_9.0/MDS167-13-913_count_output/MDS167-13-913_count/outs/metrics_summary.csv
+⚠️  Missing metric 'Median Genes per Cell' in file: /trinity/home/mafechkar/MDS_OUTS_CellRangerCount_9.0/MDS167-13-913_count_output/MDS167-13-913_count/outs/metrics_summary.csv
+⚠️  Missing metric 'Fraction Reads in Cells' in file: /trinity/home/mafechkar/MDS_OUTS_CellRangerCount_9.0/MDS167-13-913_count_output/MDS167-13-913_count/outs/metrics_summary.csv
+⚠️  Missing fallback metrics ['Estimated Number of Cells', 'Total Genes Detected'] for 'Estimated_Cells' in file: /trinity/home/mafechkar/MDS_OUTS_CellRangerCount_9.0/MDS167-13-913_count_output/MDS167-13-913_count/outs/metrics_summary.csv
+⚠️  Missing metric 'Mean Reads per Cell' in file: /trinity/home/mafechkar/MDS_OUTS_CellRangerCount/MDS169-13-919_count_output/MDS169-13-919_count/outs/metrics_summary.csv
+⚠️  Missing metric 'Median Genes per Cell' in file: /trinity/home/mafechkar/MDS_OUTS_CellRangerCount/MDS169-13-919_count_output/MDS169-13-919_count/outs/metrics_summary.csv
+⚠️  Missing metric 'Fraction Reads in Cells' in file: /trinity/home/mafechkar/MDS_OUTS_CellRangerCount/MDS169-13-919_count_output/MDS169-13-919_count/outs/metrics_summary.csv
+⚠️  Missing fallback metrics ['Estimated Number of Cells', 'Total Genes Detected'] for 'Estimated_Cells' in file: /trinity/home/mafechkar/MDS_OUTS_CellRangerCount/MDS169-13-919_count_output/MDS169-13-919_count/outs/metrics_summary.csv
+⚠️  Missing metric 'Mean Reads per Cell' in file: /trinity/home/mafechkar/MDS_OUTS_CellRangerCount_9.0/MDS169-13-919_count_output/MDS169-13-919_count/outs/metrics_summary.csv
+⚠️  Missing metric 'Median Genes per Cell' in file: /trinity/home/mafechkar/MDS_OUTS_CellRangerCount_9.0/MDS169-13-919_count_output/MDS169-13-919_count/outs/metrics_summary.csv
+⚠️  Missing metric 'Fraction Reads in Cells' in file: /trinity/home/mafechkar/MDS_OUTS_CellRangerCount_9.0/MDS169-13-919_count_output/MDS169-13-919_count/outs/metrics_summary.csv
+⚠️  Missing fallback metrics ['Estimated Number of Cells', 'Total Genes Detected'] for 'Estimated_Cells' in file: /trinity/home/mafechkar/MDS_OUTS_CellRangerCount_9.0/MDS169-13-919_count_output/MDS169-13-919_count/outs/metrics_summary.csv
+⚠️  Missing metric 'Mean Reads per Cell' in file: /trinity/home/mafechkar/MDS_OUTS_CellRangerCount/MDS180-14-164_count_output/MDS180-14-164_count/outs/metrics_summary.csv
+⚠️  Missing metric 'Median Genes per Cell' in file: /trinity/home/mafechkar/MDS_OUTS_CellRangerCount/MDS180-14-164_count_output/MDS180-14-164_count/outs/metrics_summary.csv
+⚠️  Missing metric 'Fraction Reads in Cells' in file: /trinity/home/mafechkar/MDS_OUTS_CellRangerCount/MDS180-14-164_count_output/MDS180-14-164_count/outs/metrics_summary.csv
+⚠️  Missing fallback metrics ['Estimated Number of Cells', 'Total Genes Detected'] for 'Estimated_Cells' in file: /trinity/home/mafechkar/MDS_OUTS_CellRangerCount/MDS180-14-164_count_output/MDS180-14-164_count/outs/metrics_summary.csv
+⚠️  Missing metric 'Mean Reads per Cell' in file: /trinity/home/mafechkar/MDS_OUTS_CellRangerCount_9.0/MDS180-14-164_count_output/MDS180-14-164_count/outs/metrics_summary.csv
+⚠️  Missing metric 'Median Genes per Cell' in file: /trinity/home/mafechkar/MDS_OUTS_CellRangerCount_9.0/MDS180-14-164_count_output/MDS180-14-164_count/outs/metrics_summary.csv
+⚠️  Missing metric 'Fraction Reads in Cells' in file: /trinity/home/mafechkar/MDS_OUTS_CellRangerCount_9.0/MDS180-14-164_count_output/MDS180-14-164_count/outs/metrics_summary.csv
+⚠️  Missing fallback metrics ['Estimated Number of Cells', 'Total Genes Detected'] for 'Estimated_Cells' in file: /trinity/home/mafechkar/MDS_OUTS_CellRangerCount_9.0/MDS180-14-164_count_output/MDS180-14-164_count/outs/metrics_summary.csv
+⚠️  Missing metric 'Mean Reads per Cell' in file: /trinity/home/mafechkar/MDS_OUTS_CellRangerCount/MDS189-14-527_count_output/MDS189-14-527_count/outs/metrics_summary.csv
+⚠️  Missing metric 'Median Genes per Cell' in file: /trinity/home/mafechkar/MDS_OUTS_CellRangerCount/MDS189-14-527_count_output/MDS189-14-527_count/outs/metrics_summary.csv
+⚠️  Missing metric 'Fraction Reads in Cells' in file: /trinity/home/mafechkar/MDS_OUTS_CellRangerCount/MDS189-14-527_count_output/MDS189-14-527_count/outs/metrics_summary.csv
+⚠️  Missing fallback metrics ['Estimated Number of Cells', 'Total Genes Detected'] for 'Estimated_Cells' in file: /trinity/home/mafechkar/MDS_OUTS_CellRangerCount/MDS189-14-527_count_output/MDS189-14-527_count/outs/metrics_summary.csv
+⚠️  Missing metric 'Mean Reads per Cell' in file: /trinity/home/mafechkar/MDS_OUTS_CellRangerCount_9.0/MDS189-14-527_count_output/MDS189-14-527_count/outs/metrics_summary.csv
+⚠️  Missing metric 'Median Genes per Cell' in file: /trinity/home/mafechkar/MDS_OUTS_CellRangerCount_9.0/MDS189-14-527_count_output/MDS189-14-527_count/outs/metrics_summary.csv
+⚠️  Missing metric 'Fraction Reads in Cells' in file: /trinity/home/mafechkar/MDS_OUTS_CellRangerCount_9.0/MDS189-14-527_count_output/MDS189-14-527_count/outs/metrics_summary.csv
+⚠️  Missing fallback metrics ['Estimated Number of Cells', 'Total Genes Detected'] for 'Estimated_Cells' in file: /trinity/home/mafechkar/MDS_OUTS_CellRangerCount_9.0/MDS189-14-527_count_output/MDS189-14-527_count/outs/metrics_summary.csv
+⚠️  Missing metric 'Mean Reads per Cell' in file: /trinity/home/mafechkar/MDS_OUTS_CellRangerCount/MDS201-15-093_count_output/MDS201-15-093_count/outs/metrics_summary.csv
+⚠️  Missing metric 'Median Genes per Cell' in file: /trinity/home/mafechkar/MDS_OUTS_CellRangerCount/MDS201-15-093_count_output/MDS201-15-093_count/outs/metrics_summary.csv
+⚠️  Missing metric 'Fraction Reads in Cells' in file: /trinity/home/mafechkar/MDS_OUTS_CellRangerCount/MDS201-15-093_count_output/MDS201-15-093_count/outs/metrics_summary.csv
+⚠️  Missing fallback metrics ['Estimated Number of Cells', 'Total Genes Detected'] for 'Estimated_Cells' in file: /trinity/home/mafechkar/MDS_OUTS_CellRangerCount/MDS201-15-093_count_output/MDS201-15-093_count/outs/metrics_summary.csv
+⚠️  Missing metric 'Mean Reads per Cell' in file: /trinity/home/mafechkar/MDS_OUTS_CellRangerCount_9.0/MDS201-15-093_count_output/MDS201-15-093_count/outs/metrics_summary.csv
+⚠️  Missing metric 'Median Genes per Cell' in file: /trinity/home/mafechkar/MDS_OUTS_CellRangerCount_9.0/MDS201-15-093_count_output/MDS201-15-093_count/outs/metrics_summary.csv
+⚠️  Missing metric 'Fraction Reads in Cells' in file: /trinity/home/mafechkar/MDS_OUTS_CellRangerCount_9.0/MDS201-15-093_count_output/MDS201-15-093_count/outs/metrics_summary.csv
+⚠️  Missing fallback metrics ['Estimated Number of Cells', 'Total Genes Detected'] for 'Estimated_Cells' in file: /trinity/home/mafechkar/MDS_OUTS_CellRangerCount_9.0/MDS201-15-093_count_output/MDS201-15-093_count/outs/metrics_summary.csv
+⚠️  Missing metric 'Mean Reads per Cell' in file: /trinity/home/mafechkar/MDS_OUTS_CellRangerCount/MDS212-15-463_count_output/MDS212-15-463_count/outs/metrics_summary.csv
+⚠️  Missing metric 'Median Genes per Cell' in file: /trinity/home/mafechkar/MDS_OUTS_CellRangerCount/MDS212-15-463_count_output/MDS212-15-463_count/outs/metrics_summary.csv
+⚠️  Missing metric 'Fraction Reads in Cells' in file: /trinity/home/mafechkar/MDS_OUTS_CellRangerCount/MDS212-15-463_count_output/MDS212-15-463_count/outs/metrics_summary.csv
+⚠️  Missing fallback metrics ['Estimated Number of Cells', 'Total Genes Detected'] for 'Estimated_Cells' in file: /trinity/home/mafechkar/MDS_OUTS_CellRangerCount/MDS212-15-463_count_output/MDS212-15-463_count/outs/metrics_summary.csv
+⚠️  Missing metric 'Mean Reads per Cell' in file: /trinity/home/mafechkar/MDS_OUTS_CellRangerCount_9.0/MDS212-15-463_count_output/MDS212-15-463_count/outs/metrics_summary.csv
+⚠️  Missing metric 'Median Genes per Cell' in file: /trinity/home/mafechkar/MDS_OUTS_CellRangerCount_9.0/MDS212-15-463_count_output/MDS212-15-463_count/outs/metrics_summary.csv
+⚠️  Missing metric 'Fraction Reads in Cells' in file: /trinity/home/mafechkar/MDS_OUTS_CellRangerCount_9.0/MDS212-15-463_count_output/MDS212-15-463_count/outs/metrics_summary.csv
+⚠️  Missing fallback metrics ['Estimated Number of Cells', 'Total Genes Detected'] for 'Estimated_Cells' in file: /trinity/home/mafechkar/MDS_OUTS_CellRangerCount_9.0/MDS212-15-463_count_output/MDS212-15-463_count/outs/metrics_summary.csv
+Traceback (most recent call last):
+  File "/net/beegfs/scratch/mafechkar/MDS_Data/compare_cellranger_versions_qc.py", line 85, in <module>
+    g = sns.catplot(
+        ^^^^^^^^^^^^
+  File "/trinity/home/mafechkar/miniconda3/lib/python3.12/site-packages/seaborn/categorical.py", line 2782, in catplot
+    p = Plotter(
+        ^^^^^^^^
+  File "/trinity/home/mafechkar/miniconda3/lib/python3.12/site-packages/seaborn/categorical.py", line 67, in __init__
+    super().__init__(data=data, variables=variables)
+  File "/trinity/home/mafechkar/miniconda3/lib/python3.12/site-packages/seaborn/_base.py", line 634, in __init__
+    self.assign_variables(data, variables)
+  File "/trinity/home/mafechkar/miniconda3/lib/python3.12/site-packages/seaborn/_base.py", line 679, in assign_variables
+    plot_data = PlotData(data, variables)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/trinity/home/mafechkar/miniconda3/lib/python3.12/site-packages/seaborn/_core/data.py", line 58, in __init__
+    frame, names, ids = self._assign_variables(data, variables)
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/trinity/home/mafechkar/miniconda3/lib/python3.12/site-packages/seaborn/_core/data.py", line 232, in _assign_variables
+    raise ValueError(err)
+ValueError: Could not interpret value `Version` for `hue`. An entry with this name does not appear in `data`.
 
 
 import os
