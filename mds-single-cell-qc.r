@@ -1,13 +1,3 @@
-Loading required package: SeuratObject
-Loading required package: sp
-
-Attaching package: ‘SeuratObject’
-
-The following objects are masked from ‘package:base’:
-
-    intersect, t
-
-Genome matrix has multiple modalities, returning a list of matrices for this genome
 Warning: Default search for "data" layer in "RNA" assay yielded no results; utilizing "counts" layer instead.
 Warning: Default search for "data" layer in "RNA" assay yielded no results; utilizing "counts" layer instead.
 Warning: Default search for "data" layer in "RNA" assay yielded no results; utilizing "counts" layer instead.
@@ -15,6 +5,8 @@ Error in if (all(data[, feature] == data[, feature][1])) { :
   missing value where TRUE/FALSE needed
 In addition: Warning message:
 Removing 331437 cells missing data for vars requested 
+
+                                                          
 rm(list = ls())
 
 # Load libraries
