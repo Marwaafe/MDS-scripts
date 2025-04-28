@@ -22,90 +22,6 @@ library(patchwork)
 # Set sample name
 sample_name <- "MDS005-09-247"
 
-# Load data
-data_path <- file.path("/trinity/home/mafechkar", "MDS_OUTS_CellRangerCount_9.0",
-                       paste0(sample_name, "_count_output"),
-                       paste0(sample_name, "_count"),
-                       "outs", "raw_feature_bc_matrix.h5")
-data <- Read10X_h5(data_path)
-
-# Create Seurat object
-seurat_obj <- CreateSeuratObject(counts = data[["Gene Expression"]], assay = "RNA", project = sample_name)
-
-# Add ADT
-if ("Antibody Capture" %in% names(data)) {
-  adt_counts <- data[["Antibody Capture"]]
-  seurat_obj[["ADT"]] <- CreateAssayObject(counts = adt_counts)
-}
-
-# Calculate percent.mt
-seurat_obj[["percent.mt"]] <- PercentageFeatureSet(seurat_obj, pattern = "^MT-")
-
-# Normalize RNA
-seurat_obj <- NormalizeData(seurat_obj, normalization.method = "LogNormalize", assay = "RNA")
-
-# Normalize ADT if present
-if ("ADT" %in% names(seurat_obj@assays)) {
-  seurat_obj <- NormalizeData(seurat_obj, normalization.method = "CLR", margin = 2, assay = "ADT")
-}
-
-# RNA QC violin plots
-p1 <- VlnPlot(seurat_obj, features = "nFeature_RNA") +
-  geom_hline(yintercept = 500, linetype = "dashed", color = "red") +
-  geom_hline(yintercept = 2500, linetype = "dashed", color = "red")
-p2 <- VlnPlot(seurat_obj, features = "nCount_RNA")
-p3 <- VlnPlot(seurat_obj, features = "percent.mt")
-
-p1 + p2 + p3
-
-# ADT plotting if present
-if ("ADT" %in% names(seurat_obj@assays)) {
-  adt_data <- GetAssayData(seurat_obj, assay = "ADT", slot = "data")
-  adt_features <- c("CD3", "CD4", "CD8", "CD14")
-
-  valid_adt_features <- c()
-  for (feature in adt_features) {
-    if (feature %in% rownames(adt_data)) {
-      feature_values <- adt_data[feature, ]
-      if (all(is.na(feature_values))) {
-        next
-      }
-      if (sum(feature_values, na.rm = TRUE) > 0) {
-        valid_adt_features <- c(valid_adt_features, feature)
-      }
-    }
-  }
-
-  print("ADT features selected for plotting:")
-  print(valid_adt_features)
-
-  if (length(valid_adt_features) > 0) {
-    VlnPlot(seurat_obj, features = valid_adt_features, assay = "ADT", slot = "data", ncol = 2)
-  } else {
-    message("No ADT markers with valid non-zero expression found.")
-  }
-}
-
-# Now filter cells
-cat("Cells before filtering:", ncol(seurat_obj), "\n")
-seurat_obj <- subset(seurat_obj, subset = nFeature_RNA > 500 & nFeature_RNA < 2500 & percent.mt < 10)
-cat("Cells after filtering:", ncol(seurat_obj), "\n")
-
-# Save filtered object
-saveRDS(seurat_obj, file = paste0(sample_name, "_filtered_normalized.rds"))
-
-
-
-                                                          
-################
-# Load libraries
-library(Seurat)
-library(Matrix)
-library(ggplot2)
-
-# Set sample name
-sample_name <- "MDS005-09-247"
-
 # Path to raw .h5 file
 data_path <- file.path(
   "/trinity/home/mafechkar",
@@ -126,23 +42,55 @@ seurat_obj <- CreateSeuratObject(
   project = sample_name
 )
 
+# Add ADT assay if present
 if ("Antibody Capture" %in% names(data)) {
   adt_counts <- data[["Antibody Capture"]]
   seurat_obj[["ADT"]] <- CreateAssayObject(counts = adt_counts)
 }
 
-# Calculate percent.mt
+# Calculate percent mitochondrial genes
 seurat_obj[["percent.mt"]] <- PercentageFeatureSet(seurat_obj, pattern = "^MT-")
 
+# Normalize RNA
+seurat_obj <- NormalizeData(seurat_obj, normalization.method = "LogNormalize", assay = "RNA")
+
+# Normalize ADT if present
+if ("ADT" %in% names(seurat_obj@assays)) {
+  seurat_obj <- NormalizeData(seurat_obj, normalization.method = "CLR", margin = 2, assay = "ADT")
+}
+
+# Plot RNA QC violin plots
 p1 <- VlnPlot(seurat_obj, features = "nFeature_RNA") +
   geom_hline(yintercept = 500, linetype = "dashed", color = "red") +
   geom_hline(yintercept = 2500, linetype = "dashed", color = "red")
-
 p2 <- VlnPlot(seurat_obj, features = "nCount_RNA")
 p3 <- VlnPlot(seurat_obj, features = "percent.mt")
 
-library(patchwork)
 p1 + p2 + p3
+
+# Plot ADT markers safely if present
+if ("ADT" %in% names(seurat_obj@assays)) {
+  adt_data <- GetAssayData(seurat_obj, assay = "ADT", slot = "data")
+  
+  # Define ADT markers of interest
+  adt_features <- c("CD3", "CD4", "CD8", "CD14")
+  
+  # Check and plot each ADT feature individually
+  for (feature in adt_features) {
+    if (feature %in% rownames(adt_data)) {
+      feature_values <- FetchData(seurat_obj, vars = feature, assay = "ADT")
+      # Only plot if there's variation (not just one constant value)
+      if (length(unique(feature_values[[feature]])) > 1) {
+        print(paste("Plotting ADT feature:", feature))
+        print(VlnPlot(seurat_obj, features = feature, assay = "ADT", slot = "data") + ggtitle(feature))
+      } else {
+        message(paste("Skipping", feature, "- not enough variation for violin plot"))
+      }
+    } else {
+      message(paste("Skipping", feature, "- not found in ADT assay"))
+    }
+  }
+}
 
 # Print cell count before filtering
 cat("Cells before filtering:", ncol(seurat_obj), "\n")
@@ -153,46 +101,5 @@ seurat_obj <- subset(seurat_obj, subset = nFeature_RNA > 500 & nFeature_RNA < 25
 # Print cell count after filtering
 cat("Cells after filtering:", ncol(seurat_obj), "\n")
 
-# Normalize RNA
-seurat_obj <- NormalizeData(seurat_obj, normalization.method = "LogNormalize", assay = "RNA")
-
-# Normalize and check ADT if present
-if ("ADT" %in% names(seurat_obj@assays)) {
-  seurat_obj <- NormalizeData(seurat_obj, normalization.method = "CLR", margin = 2, assay = "ADT")
-  
-  # Get normalized ADT data
-  adt_data <- GetAssayData(seurat_obj, assay = "ADT", slot = "data")
-  print("Available ADT features:")
-  print(rownames(adt_data))  # List actual ADT feature names
-  
-  # Define target markers (adjust as needed)
-  adt_features <- c("CD3", "CD4", "CD8", "CD14")
-  
-  # Filter valid ADT markers more robustly
-  valid_adt_features <- c()
-  for (feature in adt_features) {
-    if (feature %in% rownames(adt_data)) {
-      feature_values <- adt_data[feature, ]
-      if (all(is.na(feature_values))) {
-        next  # skip if all values are NA
-      }
-      if (sum(feature_values, na.rm = TRUE) > 0) {
-        valid_adt_features <- c(valid_adt_features, feature)
-      }
-    }
-  }
-
-  # Debug print
-  print("ADT features selected for plotting:")
-  print(valid_adt_features)
-  
-  # Plot ADT if valid markers found
-  if (length(valid_adt_features) > 0) {
-    VlnPlot(seurat_obj, features = valid_adt_features, assay = "ADT", slot = "data", ncol = 2)
-  } else {
-    message("No ADT markers with valid non-zero expression found.")
-  }
-}
-# Save filtered object
+# Save filtered and normalized object
 saveRDS(seurat_obj, file = paste0(sample_name, "_filtered_normalized.rds"))
-
