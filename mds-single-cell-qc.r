@@ -1,17 +1,5 @@
-Genome matrix has multiple modalities, returning a list of matrices for this genome
-Normalizing layer: counts
-Performing log-normalization
-0%   10   20   30   40   50   60   70   80   90   100%
-[----|----|----|----|----|----|----|----|----|----|
-**************************************************|
-Normalizing across cells
-  |++++++++++++++++++++++++++++++++++++++++++++++++++| 100% elapsed=05s  
-Error in if (all(data[, feature] == data[, feature][1])) { : 
-  missing value where TRUE/FALSE needed
-In addition: Warning message:
-Removing 331437 cells missing data for vars requested 
-                                                          
-rm(list = ls())
+
+
 
 # Load libraries
 library(Seurat)
