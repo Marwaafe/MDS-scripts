@@ -1,3 +1,4 @@
+> source("R_script/run_seurat_qc.R")
 Genome matrix has multiple modalities, returning a list of matrices for this genome
 Normalizing layer: counts
 Performing log-normalization
@@ -6,7 +7,9 @@ Performing log-normalization
 **************************************************|
 Normalizing across cells
   |++++++++++++++++++++++++++++++++++++++++++++++++++| 100% elapsed=05s  
-
+Error in if (all(data[, feature] == data[, feature][1])) { : 
+  missing value where TRUE/FALSE needed
+In addition: Warning message:
                                                           
 rm(list = ls())
 
