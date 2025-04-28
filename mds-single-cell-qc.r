@@ -87,17 +87,20 @@ if ("ADT" %in% names(seurat_obj@assays)) {
   # Define target markers (adjust as needed)
   adt_features <- c("CD3", "CD4", "CD8", "CD14")
   
-  # Filter valid markers with robust error handling
-  valid_adt_features <- Filter(function(feature) {
-    tryCatch({
-      feature %in% rownames(adt_data) &&
-        !all(is.na(adt_data[feature, ])) &&
-        sum(adt_data[feature, ], na.rm = TRUE) > 0
-    }, error = function(e) {
-      FALSE
-    })
-  }, adt_features)
-  
+  # Filter valid ADT markers more robustly
+  valid_adt_features <- c()
+  for (feature in adt_features) {
+    if (feature %in% rownames(adt_data)) {
+      feature_values <- adt_data[feature, ]
+      if (all(is.na(feature_values))) {
+        next  # skip if all values are NA
+      }
+      if (sum(feature_values, na.rm = TRUE) > 0) {
+        valid_adt_features <- c(valid_adt_features, feature)
+      }
+    }
+  }
+
   # Debug print
   print("ADT features selected for plotting:")
   print(valid_adt_features)
