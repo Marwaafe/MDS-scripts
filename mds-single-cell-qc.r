@@ -72,20 +72,25 @@ p1 + p2 + p3
 if ("ADT" %in% names(seurat_obj@assays)) {
   adt_data <- GetAssayData(seurat_obj, assay = "ADT", slot = "data")
   
-  # Define ADT markers of interest
   adt_features <- c("CD3", "CD4", "CD8", "CD14")
   
-  # Check and plot each ADT feature individually
   for (feature in adt_features) {
     if (feature %in% rownames(adt_data)) {
-      feature_values <- FetchData(seurat_obj, vars = feature, assay = "ADT")
-      # Only plot if there's variation (not just one constant value)
-      if (length(unique(feature_values[[feature]])) > 1) {
-        print(paste("Plotting ADT feature:", feature))
-        print(VlnPlot(seurat_obj, features = feature, assay = "ADT", slot = "data") + ggtitle(feature))
-      } else {
-        message(paste("Skipping", feature, "- not enough variation for violin plot"))
+      feature_values <- as.numeric(adt_data[feature, ])
+      
+      # New robust checks
+      if (all(is.na(feature_values))) {
+        message(paste("Skipping", feature, "- all values are NA"))
+        next
       }
+      if (length(unique(na.omit(feature_values))) <= 1) {
+        message(paste("Skipping", feature, "- not enough variation"))
+        next
+      }
+      
+      # Only if safe, plot it
+      print(paste("Plotting ADT feature:", feature))
+      print(VlnPlot(seurat_obj, features = feature, assay = "ADT", slot = "data") + ggtitle(feature))
     } else {
       message(paste("Skipping", feature, "- not found in ADT assay"))
     }
@@ -103,3 +108,4 @@ cat("Cells after filtering:", ncol(seurat_obj), "\n")
 
 # Save filtered and normalized object
 saveRDS(seurat_obj, file = paste0(sample_name, "_filtered_normalized.rds"))
+
