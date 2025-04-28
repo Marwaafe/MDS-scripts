@@ -1,4 +1,3 @@
-> source("R_script/run_seurat_qc.R")
 Genome matrix has multiple modalities, returning a list of matrices for this genome
 Normalizing layer: counts
 Performing log-normalization
@@ -10,6 +9,7 @@ Normalizing across cells
 Error in if (all(data[, feature] == data[, feature][1])) { : 
   missing value where TRUE/FALSE needed
 In addition: Warning message:
+Removing 331437 cells missing data for vars requested 
                                                           
 rm(list = ls())
 
