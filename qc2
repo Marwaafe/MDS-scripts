@@ -1,18 +1,6 @@
 
-library(pheatmap)
-
-# 1. Optional: scale ADT expression across cells
-cell.adt.raw.scaled <- t(scale(t(cell.adt.raw)))
-
-# 2. Create the heatmap
-pheatmap::pheatmap(
-  mat = cell.adt.raw.scaled,
-  show_rownames = TRUE,
-  show_colnames = FALSE,
-  cluster_rows = TRUE,
-  cluster_cols = TRUE,
-  fontsize_row = 5
-)
+Error in hclust(d, method = method) : 
+  NA/NaN/Inf in foreign function call (arg 10)
 
 
 
