@@ -100,7 +100,6 @@ p3_filtered <- VlnPlot(seurat_obj, features = "percent.mt") +
   geom_hline(yintercept = 10, linetype = "dashed", color = "red") +
   ggtitle("percent.mt after filtering")
 
-# Combine them
 p1_filtered + p2_filtered + p3_filtered
 
 
