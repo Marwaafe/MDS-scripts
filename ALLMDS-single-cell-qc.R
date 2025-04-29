@@ -1,3 +1,41 @@
+An object of class Seurat 
+36738 features across 531131 samples within 2 assays 
+Active assay: RNA (36601 features, 0 variable features)
+ 1 layer present: counts
+ 1 other assay present: ADT
+Error in `FetchData()`:
+! None of the requested variables were found: 
+Run `rlang::last_trace()` to see where the error occurred.
+> rlang::last_trace()
+<error/varsNotFoundError>
+Error in `FetchData()`:
+! None of the requested variables were found: 
+---
+Backtrace:
+    ▆
+ 1. ├─base::subset(...)
+ 2. └─SeuratObject:::subset.Seurat(...)
+ 3.   ├─SeuratObject::WhichCells(...)
+ 4.   └─SeuratObject:::WhichCells.Seurat(...)
+ 5.     ├─SeuratObject::FetchData(...)
+ 6.     └─SeuratObject:::FetchData.Seurat(...)
+Run rlang::last_trace(drop = FALSE) to see 1 hidden frame.
+> rlang::last_trace(drop= FALSE)
+<error/varsNotFoundError>
+Error in `FetchData()`:
+! None of the requested variables were found: 
+---
+Backtrace:
+    ▆
+ 1. ├─base::subset(...)
+ 2. └─SeuratObject:::subset.Seurat(...)
+ 3.   ├─SeuratObject::WhichCells(...)
+ 4.   └─SeuratObject:::WhichCells.Seurat(...)
+ 5.     ├─SeuratObject::FetchData(...)
+ 6.     └─SeuratObject:::FetchData.Seurat(...)
+ 7.       └─rlang::abort(...)
+> 
+
 # Step 0: Load libraries
 library(Seurat)
 library(Matrix)
