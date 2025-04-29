@@ -68,14 +68,7 @@ seurat_obj <- NormalizeData(seurat_obj, normalization.method = "LogNormalize", a
 # Step 8: Normalize ADT
 seurat_obj <- NormalizeData(seurat_obj, normalization.method = "CLR", margin = 2, assay = "ADT")
 
-# Step 9: Plot RNA QC violin plots
-p1 <- VlnPlot(seurat_obj, features = "nFeature_RNA") +
-  geom_hline(yintercept = 500, linetype = "dashed", color = "red") +
-  geom_hline(yintercept = 2500, linetype = "dashed", color = "red")
-p2 <- VlnPlot(seurat_obj, features = "nCount_RNA")
-p3 <- VlnPlot(seurat_obj, features = "percent.mt")
 
-p1 + p2 + p3
 
 # Step 10: Plot ADT markers safely
 adt_data <- GetAssayData(seurat_obj, assay = "ADT", slot = "data")
@@ -110,20 +103,16 @@ seurat_obj <- subset(seurat_obj, subset = nFeature_RNA > 500 & nFeature_RNA < 25
 # Step 13: Print number of cells after filtering
 cat("Cells after filtering:", ncol(seurat_obj), "\n")
 
-# 1. Re-plot clean violin plots
-p1_filtered <- VlnPlot(seurat_obj, features = "nFeature_RNA") +
-  geom_hline(yintercept = 500, linetype = "dashed", color = "red") +
-  geom_hline(yintercept = 2500, linetype = "dashed", color = "red") +
-  ggtitle("nFeature_RNA after filtering")
+# Plot genes per cell after filtering (base R)
+genes_per_cell_filtered <- seurat_obj$nFeature_RNA
+genes_per_cell_filtered_sorted <- sort(genes_per_cell_filtered)
 
-p2_filtered <- VlnPlot(seurat_obj, features = "nCount_RNA") +
-  ggtitle("nCount_RNA after filtering")
-
-p3_filtered <- VlnPlot(seurat_obj, features = "percent.mt") +
-  geom_hline(yintercept = 10, linetype = "dashed", color = "red") +
-  ggtitle("percent.mt after filtering")
-
-p1_filtered + p2_filtered + p3_filtered
+plot(genes_per_cell_filtered_sorted,
+     pch = 1,  # open circle
+     col = "black",
+     xlab = "cell",
+     ylab = "genes per cell",
+     main = "genes per cell (ordered, after filtering)")
 
 
 # Step 14: Save filtered and normalized Seurat object
