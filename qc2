@@ -1,20 +1,20 @@
-
-> isotypes <- c("IgG1_control_TotalSeqB", "IgG2a_control_TotalSeqB", "IgG2b_control_TotalSeqB")
-> cells.dsb.norm <- DSBNormalizeProtein(
-+     cell_protein_matrix = cell.adt.raw,
-+     empty_drop_matrix = background.adt.mtx,
-+     denoise.counts = TRUE,
-+     use.isotype.control = TRUE,
-+     isotype.control.name.vec = isotypes
-+ )
-Error in DSBNormalizeProtein(cell_protein_matrix = cell.adt.raw, empty_drop_matrix = background.adt.mtx,  : 
-  some elements of isotype.control.name.vec are not in input data rownames: 
-cell_protein_matrix - IgG1_control_TotalSeqB 
-empty_drop_matrix - IgG1_control_TotalSeqBsome elements of isotype.control.name.vec are not in input data rownames: 
-cell_protein_matrix - IgG2a_control_TotalSeqB 
-empty_drop_matrix - IgG2a_control_TotalSeqBsome elements of isotype.control.name.vec are not in input data rownames: 
-cell_protein_matrix - IgG2b_control_TotalSeqB 
-empty_drop_matrix - IgG2b_control_TotalSeqB
+rownames(cell.adt.raw)
+  [1] "CD86.1"      "CD274.1"     "TNFRSF14.1"  "PVR.1"       "NECTIN2.1"   "CD47.1"      "CD48.1"      "CD40.1"     
+  [9] "CD40LG.1"    "CD52.1"      "CD3D.1"      "CD8A.1"      "NCAM1.1"     "CD19.1"      "CD33.1"      "ITGAX.1"    
+ [17] "HLA-A.1"     "PTPRC.1"     "IL3RA.1"     "CD7.1"       "ENG.1"       "ITGA6.1"     "CCR4.1"      "CD4.1"      
+ [25] "CD44.1"      "CD14.1"      "FCGR3A.1"    "IL2RA.1"     "PTPRC.2"     "PDCD1.1"     "TIGIT.1"     "MS4A1.1"    
+ [33] "NCR1.1"      "PECAM1.1"    "MCAM.1"      "IGHM.1"      "CD5.1"       "CXCR3.1"     "CCR5.1"      "FCGR2A.1"   
+ [41] "CCR6.1"      "CXCR5.1"     "ITGAE.1"     "CD69.1"      "SELL.1"      "KLRB1.1"     "CTLA4.1"     "LAG3.1"     
+ [49] "KLRG1.1"     "CD27.1"      "LAMP1.1"     "FAS.1"       "TNFRSF4.1"   "HLA-DRA.1"   "CD1C.1"      "ITGAM.1"    
+ [57] "FCGR1A.1"    "THBD.1"      "CD1D.1"      "KLRK1.1"     "CR1.1"       "B3GAT1.1"    "BTLA.1"      "ICOS.1"     
+ [65] "CD58.1"      "ENTPD1.1"    "CX3CR1.1"    "CD24.1"      "CR2.1"       "ITGAL.1"     "CD79B.1"     "CD244.1"    
+ [73] "SIGLEC1.1"   "ITGB7.1"     "TNFRSF13C.1" "GP1BB.1"     "ICAM1.1"     "SELP.1"      "IFNGR1.1"    "IL2RB.1"    
+ [81] "TNFRSF13B.1" "FCER1A.1"    "ITGA2B.1"    "TNFRSF9.1"   "CD163.1"     "CD83.1"      "IL4R.1"      "ANPEP.1"    
+ [89] "CD2.1"       "CD226.1"     "ITGB1.1"     "CLEC4C.1"    "ITGA2.1"     "CD81.1"      "IGHD.1"      "ITGB2.1"    
+ [97] "CD28.1"      "CD38.1"      "IL7R.1"      "PTPRC.3"     "CD22.1"      "TFRC.1"      "DPP4.1"      "CD36.1"     
+[105] "KIR2DL1.1"   "ITGA1.1"     "ITGA4.1"     "NT5E.1"      "OLR1.1"      "KIR2DL3.1"   "KIR3DL1.1"   "SLAMF7.1"   
+[113] "CD99.1"      "CLEC12A.1"   "SLAMF6.1"    "KLRD1.1"     "IGKC.1"      "LILRB1.1"    "FCER2.1"     "SIGLEC7.1"  
+[121] "ADGRG1.1"    "HLA-E.1"     "CD82.1"      "CD101.1"     "C5AR1.1"     "GGT1.2"     
 
 # Load libraries
 library(Seurat)
