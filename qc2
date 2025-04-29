@@ -1,3 +1,17 @@
+ cells.dsb.norm <- DSBNormalizeProtein(
++     cell_protein_matrix = cell.adt.raw,
++     empty_drop_matrix = background.adt.mtx,
++     denoise.counts = TRUE,
++     use.isotype.control = FALSE  # <---- IMPORTANT
++ )
+[1] "correcting ambient protein background noise"
+Error in if (any(sd_u < 0.05)) { : missing value where TRUE/FALSE needed
+In addition: Warning message:
+In DSBNormalizeProtein(cell_protein_matrix = cell.adt.raw, empty_drop_matrix = background.adt.mtx,  :
+  `use.isotype.control` = FALSE is not recommended if setting `denoise.counts` = TRUE 
+when isotype controls are available.
+ If data include isotype controls set `denoise.counts` = TRUE `use.isotype.control` = TRUE nd set `isotype.control.name.vec` to a vector of isotype control rownames
+
 rownames(cell.adt.raw)
   [1] "CD86.1"      "CD274.1"     "TNFRSF14.1"  "PVR.1"       "NECTIN2.1"   "CD47.1"      "CD48.1"      "CD40.1"     
   [9] "CD40LG.1"    "CD52.1"      "CD3D.1"      "CD8A.1"      "NCAM1.1"     "CD19.1"      "CD33.1"      "ITGAX.1"    
