@@ -1,16 +1,9 @@
-# Step 1: Scale
-cell.adt.raw.scaled <- t(scale(t(cell.adt.raw)))
+# Filter out rows (proteins) with all 0s across cells
+cell.adt.filtered <- cell.adt.raw[rowSums(cell.adt.raw) > 0, ]
 
-# Step 2: Remove any rows with NA / Inf / NaN
-valid_rows <- apply(cell.adt.raw.scaled, 1, function(x) all(is.finite(x)))
-cell.adt.clean <- cell.adt.raw.scaled[valid_rows, ]
-
-# Step 3: Check again (optional)
-cat("Plotting", nrow(cell.adt.clean), "markers\n")
-
-# Step 4: Plot safely
-pheatmap::pheatmap(
-  mat = cell.adt.clean,
+# Plot raw ADT expression (no scaling)
+pheatmap(
+  mat = as.matrix(cell.adt.filtered),
   show_rownames = TRUE,
   show_colnames = FALSE,
   cluster_rows = TRUE,
