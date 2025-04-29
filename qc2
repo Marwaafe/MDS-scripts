@@ -1,3 +1,21 @@
+
+> isotypes <- c("IgG1_control_TotalSeqB", "IgG2a_control_TotalSeqB", "IgG2b_control_TotalSeqB")
+> cells.dsb.norm <- DSBNormalizeProtein(
++     cell_protein_matrix = cell.adt.raw,
++     empty_drop_matrix = background.adt.mtx,
++     denoise.counts = TRUE,
++     use.isotype.control = TRUE,
++     isotype.control.name.vec = isotypes
++ )
+Error in DSBNormalizeProtein(cell_protein_matrix = cell.adt.raw, empty_drop_matrix = background.adt.mtx,  : 
+  some elements of isotype.control.name.vec are not in input data rownames: 
+cell_protein_matrix - IgG1_control_TotalSeqB 
+empty_drop_matrix - IgG1_control_TotalSeqBsome elements of isotype.control.name.vec are not in input data rownames: 
+cell_protein_matrix - IgG2a_control_TotalSeqB 
+empty_drop_matrix - IgG2a_control_TotalSeqBsome elements of isotype.control.name.vec are not in input data rownames: 
+cell_protein_matrix - IgG2b_control_TotalSeqB 
+empty_drop_matrix - IgG2b_control_TotalSeqB
+
 # Load libraries
 library(Seurat)
 library(Matrix)
