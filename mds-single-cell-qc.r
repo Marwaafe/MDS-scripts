@@ -87,6 +87,23 @@ seurat_obj <- subset(seurat_obj, subset = nFeature_RNA > 500 & nFeature_RNA < 25
 # Step 13: Print number of cells after filtering
 cat("Cells after filtering:", ncol(seurat_obj), "\n")
 
+# 1. Re-plot clean violin plots
+p1_filtered <- VlnPlot(seurat_obj, features = "nFeature_RNA") +
+  geom_hline(yintercept = 500, linetype = "dashed", color = "red") +
+  geom_hline(yintercept = 2500, linetype = "dashed", color = "red") +
+  ggtitle("nFeature_RNA after filtering")
+
+p2_filtered <- VlnPlot(seurat_obj, features = "nCount_RNA") +
+  ggtitle("nCount_RNA after filtering")
+
+p3_filtered <- VlnPlot(seurat_obj, features = "percent.mt") +
+  geom_hline(yintercept = 10, linetype = "dashed", color = "red") +
+  ggtitle("percent.mt after filtering")
+
+# Combine them
+p1_filtered + p2_filtered + p3_filtered
+
+
 # Step 14: Save filtered and normalized Seurat object
 saveRDS(seurat_obj, file = paste0(sample_name, "_filtered_normalized.rds"))
 
