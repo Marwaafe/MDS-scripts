@@ -49,7 +49,8 @@ data_path <- file.path(
 data_list <- Read10X_h5(data_path)  # Normal message about multiple modalities will appear
 
 # Step 3: Create Seurat object (RNA) and add ADT manually
-seurat_obj <- CreateSeuratObject(counts = data_list[["Gene Expression"]])
+seurat_obj <- CreateSeuratObject(counts = data_list[["Gene Expression"]], 
+                                 min.cells = 30, min.features = 200)
 seurat_obj[["ADT"]] <- CreateAssayObject(counts = data_list[["Antibody Capture"]])
 
 # Step 4: View Seurat object summary
@@ -127,4 +128,3 @@ p1_filtered + p2_filtered + p3_filtered
 
 # Step 14: Save filtered and normalized Seurat object
 saveRDS(seurat_obj, file = paste0(sample_name, "_filtered_normalized.rds"))
-
