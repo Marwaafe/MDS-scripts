@@ -1,4 +1,4 @@
-# Load libraries
+# Step 0: Load libraries
 library(Seurat)
 library(Matrix)
 library(ggplot2)
@@ -13,14 +13,14 @@ sample_names <- c(
   "MDS212-15-463"
 )
 
-# Base path
+# Base folder path
 base_path <- "/trinity/home/mafechkar/MDS_OUTS_CellRangerCount_9.0"
 
-# Loop through samples
+# Loop through each sample
 for (sample_name in sample_names) {
   message("Processing sample: ", sample_name)
-
-  # File path to h5
+  
+  # Set file path
   data_path <- file.path(
     base_path,
     paste0(sample_name, "_count_output"),
@@ -28,44 +28,91 @@ for (sample_name in sample_names) {
     "outs",
     "raw_feature_bc_matrix.h5"
   )
-
-  # Read raw data
+  
+  # Step 2: Read data
   data_list <- Read10X_h5(data_path)
-
-  # Create Seurat object
+  
+  # Step 3: Create Seurat object and add ADT
   seurat_obj <- CreateSeuratObject(counts = data_list[["Gene Expression"]])
   seurat_obj[["ADT"]] <- CreateAssayObject(counts = data_list[["Antibody Capture"]])
+  
+  # Step 4: Print summary
+  print(seurat_obj)
+  
+  # Step 5: Calculate percent mitochondrial genes
   seurat_obj[["percent.mt"]] <- PercentageFeatureSet(seurat_obj, pattern = "^MT-")
-
-  # Remove empty droplets
-  seurat_obj <- subset(seurat_obj, subset = nCount_RNA > 0)
-
-  # Normalize
+  
+  # Step 6: Remove cells with missing QC values
+  seurat_obj <- subset(seurat_obj, subset = !is.na(nFeature_RNA) & !is.na(nCount_RNA) & !is.na(percent.mt))
+  
+  # Step 7: Normalize RNA
   seurat_obj <- NormalizeData(seurat_obj, normalization.method = "LogNormalize", assay = "RNA")
+  
+  # Step 8: Normalize ADT
   seurat_obj <- NormalizeData(seurat_obj, normalization.method = "CLR", margin = 2, assay = "ADT")
-
-  # Filter
-  seurat_obj <- subset(seurat_obj, subset = nFeature_RNA > 500 & nFeature_RNA < 2500 & percent.mt < 10)
-
-  # Create violin plots (after filtering)
+  
+  # Step 9: Plot RNA QC violin plots (before filtering)
   p1 <- VlnPlot(seurat_obj, features = "nFeature_RNA") +
+    geom_hline(yintercept = 500, linetype = "dashed", color = "red") +
+    geom_hline(yintercept = 2500, linetype = "dashed", color = "red")
+  p2 <- VlnPlot(seurat_obj, features = "nCount_RNA")
+  p3 <- VlnPlot(seurat_obj, features = "percent.mt")
+  
+  # Save violin plots before filtering
+  qc_plot_before <- p1 + p2 + p3
+  ggsave(filename = paste0(sample_name, "_QC_violin_before_filtering.png"), plot = qc_plot_before, width = 12, height = 5)
+
+  # Step 10: Plot ADT markers safely
+  adt_data <- GetAssayData(seurat_obj, assay = "ADT", slot = "data")
+  adt_features <- c("CD3", "CD4", "CD8", "CD14")
+  
+  for (feature in adt_features) {
+    if (feature %in% rownames(adt_data)) {
+      feature_values <- as.numeric(adt_data[feature, ])
+      
+      if (all(is.na(feature_values))) {
+        message(paste("Skipping", feature, "- all values are NA"))
+        next
+      }
+      if (length(unique(na.omit(feature_values))) <= 1) {
+        message(paste("Skipping", feature, "- not enough variation"))
+        next
+      }
+      
+      print(paste("Plotting ADT feature:", feature))
+      print(VlnPlot(seurat_obj, features = feature, assay = "ADT", slot = "data") + ggtitle(feature))
+    } else {
+      message(paste("Skipping", feature, "- not found in ADT assay"))
+    }
+  }
+  
+  # Step 11: Print number of cells before filtering
+  cat("Cells before filtering:", ncol(seurat_obj), "\n")
+  
+  # Step 12: Filter cells
+  seurat_obj <- subset(seurat_obj, subset = nFeature_RNA > 500 & nFeature_RNA < 2500 & percent.mt < 10)
+  
+  # Step 13: Print number of cells after filtering
+  cat("Cells after filtering:", ncol(seurat_obj), "\n")
+  
+  # Step 14: Replot QC violin plots after filtering
+  p1_filtered <- VlnPlot(seurat_obj, features = "nFeature_RNA") +
     geom_hline(yintercept = 500, linetype = "dashed", color = "red") +
     geom_hline(yintercept = 2500, linetype = "dashed", color = "red") +
     ggtitle("nFeature_RNA after filtering")
-
-  p2 <- VlnPlot(seurat_obj, features = "nCount_RNA") +
+  p2_filtered <- VlnPlot(seurat_obj, features = "nCount_RNA") +
     ggtitle("nCount_RNA after filtering")
-
-  p3 <- VlnPlot(seurat_obj, features = "percent.mt") +
+  p3_filtered <- VlnPlot(seurat_obj, features = "percent.mt") +
     geom_hline(yintercept = 10, linetype = "dashed", color = "red") +
     ggtitle("percent.mt after filtering")
+  
+  qc_plot_after <- p1_filtered + p2_filtered + p3_filtered
+  
+  # Save violin plots after filtering
+  ggsave(filename = paste0(sample_name, "_QC_violin_after_filtering.png"), plot = qc_plot_after, width = 12, height = 5)
 
-  # Combine plots and save
-  qc_plot <- p1 + p2 + p3
-  ggsave(filename = paste0(sample_name, "_QC_violin_plot.png"), plot = qc_plot, width = 12, height = 5)
-
-  # Save the Seurat object
-  saveRDS(seurat_obj, file = paste0(sample_name, "_Seurat_filtered_normalized.rds"))
-
-  message("Finished: ", sample_name, "\n")
+  # Step 15: Save filtered Seurat object
+  saveRDS(seurat_obj, file = paste0(sample_name, "_filtered_normalized.rds"))
+  
+  message("Finished processing: ", sample_name, "\n")
 }
