@@ -97,14 +97,13 @@ cell.adt.raw <- cell.adt.raw[!grepl("^nan", rownames(cell.adt.raw)), ]
 background.adt.mtx <- background.adt.mtx[rownames(cell.adt.raw), ]
 
 # Normalize ADT with DSB
-isotypes <- c("IgG1_control_TotalSeqB", "IgG2a_control_TotalSeqB", "IgG2b_control_TotalSeqB")
 cells.dsb.norm <- DSBNormalizeProtein(
   cell_protein_matrix = cell.adt.raw,
   empty_drop_matrix = background.adt.mtx,
   denoise.counts = TRUE,
-  use.isotype.control = TRUE,
-  isotype.control.name.vec = isotypes
+  use.isotype.control = FALSE  # <---- IMPORTANT
 )
+
 
 # Create Seurat object
 s <- CreateSeuratObject(counts = cell.rna.raw, meta.data = cellmd)
