@@ -1,3 +1,39 @@
+> seurat_obj <- subset(seurat_obj, subset = !is.na(nFeature_RNA) & !is.na(nCount_RNA) & !is.na(percent.mt))
+Error in `FetchData()`:
+! None of the requested variables were found: 
+Run `rlang::last_trace()` to see where the error occurred.
+> rland::last_trace()
+Error in loadNamespace(x) : there is no package called ‘rland’
+> rlang::last_trace()
+<error/varsNotFoundError>
+Error in `FetchData()`:
+! None of the requested variables were found: 
+---
+Backtrace:
+    ▆
+ 1. ├─base::subset(...)
+ 2. └─SeuratObject:::subset.Seurat(...)
+ 3.   ├─SeuratObject::WhichCells(...)
+ 4.   └─SeuratObject:::WhichCells.Seurat(...)
+ 5.     ├─SeuratObject::FetchData(...)
+ 6.     └─SeuratObject:::FetchData.Seurat(...)
+Run rlang::last_trace(drop = FALSE) to see 1 hidden frame.
+> rlang::last_trace(drop=FALSE)
+<error/varsNotFoundError>
+Error in `FetchData()`:
+! None of the requested variables were found: 
+---
+Backtrace:
+    ▆
+ 1. ├─base::subset(...)
+ 2. └─SeuratObject:::subset.Seurat(...)
+ 3.   ├─SeuratObject::WhichCells(...)
+ 4.   └─SeuratObject:::WhichCells.Seurat(...)
+ 5.     ├─SeuratObject::FetchData(...)
+ 6.     └─SeuratObject:::FetchData.Seurat(...)
+ 7.   
+
+
 # Step 0: Load libraries
 library(Seurat)
 library(Matrix)
