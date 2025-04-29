@@ -2,6 +2,7 @@
 Error in hclust(d, method = method) : 
   NA/NaN/Inf in foreign function call (arg 10)
 
+cell.adt.raw.scaled <- cell.adt.raw.scaled[apply(cell.adt.raw.scaled, 1, function(x) all(!is.na(x) & is.finite(x))), ]
 
 
 # Create a fake zero background matrix with the same features and 10 dummy droplets
