@@ -73,6 +73,9 @@ for (sample_name in sample_names) {
   # Step 3: Create Seurat object and add ADT
   seurat_obj <- CreateSeuratObject(counts = data_list[["Gene Expression"]])
   seurat_obj[["ADT"]] <- CreateAssayObject(counts = data_list[["Antibody Capture"]])
+
+  seurat_obj$nFeature_RNA <- Matrix::colSums(seurat_obj[["RNA"]]@counts > 0)
+  seurat_obj$nCount_RNA <- Matrix::colSums(seurat_obj[["RNA"]]@counts)
   
   # Step 4: Print summary
   print(seurat_obj)
