@@ -76,7 +76,13 @@ md$drop.class <- ifelse(rownames(md) %in% stained_cells, 'cell', 'background')
 md <- md[md$rna.size > 0 & md$prot.size > 0, ]
 
 # Define background droplets
-background_drops <- rownames(md[ md$prot.size > 1.5 & md$prot.size < 3 & md$rna.size < 2.5, ])
+background_drops <- rownames(
+  md[
+    md$prot.size > 1.0 & 
+    md$prot.size < 4.0 & 
+    md$rna.size < 3.0, 
+  ]
+)
 background.adt.mtx <- as.matrix(prot[, background_drops])
 
 # QC cells
