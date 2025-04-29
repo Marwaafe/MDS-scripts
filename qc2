@@ -1,8 +1,22 @@
+# Step 1: Scale
+cell.adt.raw.scaled <- t(scale(t(cell.adt.raw)))
 
-Error in hclust(d, method = method) : 
-  NA/NaN/Inf in foreign function call (arg 10)
+# Step 2: Remove any rows with NA / Inf / NaN
+valid_rows <- apply(cell.adt.raw.scaled, 1, function(x) all(is.finite(x)))
+cell.adt.clean <- cell.adt.raw.scaled[valid_rows, ]
 
-cell.adt.raw.scaled <- cell.adt.raw.scaled[apply(cell.adt.raw.scaled, 1, function(x) all(!is.na(x) & is.finite(x))), ]
+# Step 3: Check again (optional)
+cat("Plotting", nrow(cell.adt.clean), "markers\n")
+
+# Step 4: Plot safely
+pheatmap::pheatmap(
+  mat = cell.adt.clean,
+  show_rownames = TRUE,
+  show_colnames = FALSE,
+  cluster_rows = TRUE,
+  cluster_cols = TRUE,
+  fontsize_row = 5
+)
 
 
 # Create a fake zero background matrix with the same features and 10 dummy droplets
