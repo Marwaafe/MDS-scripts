@@ -1,16 +1,11 @@
-
-
-
-# Load libraries
+# Step 0: Load libraries
 library(Seurat)
 library(Matrix)
 library(ggplot2)
 library(patchwork)
 
-# Set sample name
+# Step 1: Set sample name and file path
 sample_name <- "MDS005-09-247"
-
-# Path to raw .h5 file
 data_path <- file.path(
   "/trinity/home/mafechkar",
   "MDS_OUTS_CellRangerCount_9.0",
@@ -20,34 +15,29 @@ data_path <- file.path(
   "raw_feature_bc_matrix.h5"
 )
 
-# Read RNA + ADT data
-data <- Read10X_h5(data_path)
+# Step 2: Read data (treat output as LIST)
+data_list <- Read10X_h5(data_path)  # Normal message about multiple modalities will appear
 
-# Create Seurat object for RNA
-seurat_obj <- CreateSeuratObject(
-  counts = data[["Gene Expression"]],
-  assay = "RNA",
-  project = sample_name
-)
+# Step 3: Create Seurat object (RNA) and add ADT manually
+seurat_obj <- CreateSeuratObject(counts = data_list[["Gene Expression"]])
+seurat_obj[["ADT"]] <- CreateAssayObject(counts = data_list[["Antibody Capture"]])
 
-# Add ADT assay if present
-if ("Antibody Capture" %in% names(data)) {
-  adt_counts <- data[["Antibody Capture"]]
-  seurat_obj[["ADT"]] <- CreateAssayObject(counts = adt_counts)
-}
+# Step 4: View Seurat object summary
+print(seurat_obj)
 
-# Calculate percent mitochondrial genes
+# Step 5: Calculate percent mitochondrial genes
 seurat_obj[["percent.mt"]] <- PercentageFeatureSet(seurat_obj, pattern = "^MT-")
 
-# Normalize RNA
+# Step 6: (Optional but recommended) Remove cells with missing QC values before plotting
+seurat_obj <- subset(seurat_obj, subset = !is.na(nFeature_RNA) & !is.na(nCount_RNA) & !is.na(percent.mt))
+
+# Step 7: Normalize RNA
 seurat_obj <- NormalizeData(seurat_obj, normalization.method = "LogNormalize", assay = "RNA")
 
-# Normalize ADT if present
-if ("ADT" %in% names(seurat_obj@assays)) {
-  seurat_obj <- NormalizeData(seurat_obj, normalization.method = "CLR", margin = 2, assay = "ADT")
-}
+# Step 8: Normalize ADT
+seurat_obj <- NormalizeData(seurat_obj, normalization.method = "CLR", margin = 2, assay = "ADT")
 
-# Plot RNA QC violin plots
+# Step 9: Plot RNA QC violin plots
 p1 <- VlnPlot(seurat_obj, features = "nFeature_RNA") +
   geom_hline(yintercept = 500, linetype = "dashed", color = "red") +
   geom_hline(yintercept = 2500, linetype = "dashed", color = "red")
@@ -56,44 +46,39 @@ p3 <- VlnPlot(seurat_obj, features = "percent.mt")
 
 p1 + p2 + p3
 
-# Plot ADT markers safely if present
-if ("ADT" %in% names(seurat_obj@assays)) {
-  adt_data <- GetAssayData(seurat_obj, assay = "ADT", slot = "data")
-  
-  adt_features <- c("CD3", "CD4", "CD8", "CD14")
-  
-  for (feature in adt_features) {
-    if (feature %in% rownames(adt_data)) {
-      feature_values <- as.numeric(adt_data[feature, ])
-      
-      # New robust checks
-      if (all(is.na(feature_values))) {
-        message(paste("Skipping", feature, "- all values are NA"))
-        next
-      }
-      if (length(unique(na.omit(feature_values))) <= 1) {
-        message(paste("Skipping", feature, "- not enough variation"))
-        next
-      }
-      
-      # Only if safe, plot it
-      print(paste("Plotting ADT feature:", feature))
-      print(VlnPlot(seurat_obj, features = feature, assay = "ADT", slot = "data") + ggtitle(feature))
-    } else {
-      message(paste("Skipping", feature, "- not found in ADT assay"))
+# Step 10: Plot ADT markers safely
+adt_data <- GetAssayData(seurat_obj, assay = "ADT", slot = "data")
+adt_features <- c("CD3", "CD4", "CD8", "CD14")
+
+for (feature in adt_features) {
+  if (feature %in% rownames(adt_data)) {
+    feature_values <- as.numeric(adt_data[feature, ])
+    
+    if (all(is.na(feature_values))) {
+      message(paste("Skipping", feature, "- all values are NA"))
+      next
     }
+    if (length(unique(na.omit(feature_values))) <= 1) {
+      message(paste("Skipping", feature, "- not enough variation"))
+      next
+    }
+    
+    print(paste("Plotting ADT feature:", feature))
+    print(VlnPlot(seurat_obj, features = feature, assay = "ADT", slot = "data") + ggtitle(feature))
+  } else {
+    message(paste("Skipping", feature, "- not found in ADT assay"))
   }
 }
 
-# Print cell count before filtering
+# Step 11: Print number of cells before filtering
 cat("Cells before filtering:", ncol(seurat_obj), "\n")
 
-# Filter cells using RNA QC thresholds
+# Step 12: Filter cells based on RNA QC thresholds
 seurat_obj <- subset(seurat_obj, subset = nFeature_RNA > 500 & nFeature_RNA < 2500 & percent.mt < 10)
 
-# Print cell count after filtering
+# Step 13: Print number of cells after filtering
 cat("Cells after filtering:", ncol(seurat_obj), "\n")
 
-# Save filtered and normalized object
+# Step 14: Save filtered and normalized Seurat object
 saveRDS(seurat_obj, file = paste0(sample_name, "_filtered_normalized.rds"))
 
