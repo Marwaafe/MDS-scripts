@@ -1,12 +1,9 @@
-> cells.dsb.norm <- DSBNormalizeProtein(
-+     cell_protein_matrix = cell.adt.raw,
-+     empty_drop_matrix = background.adt.mtx,
-+     denoise.counts = FALSE,
-+     use.isotype.control = FALSE  # <---- IMPORTANT
-+ )
-[1] "Not running dsb step II (removal of cell to cell technical noise) Setting use.isotype.control and isotype.control.name.vec to FALSE and NULL"
-[1] "correcting ambient protein background noise"
-Error in if (any(sd_u < 0.05)) { : missing value where TRUE/FALSE needed
+dim(background.adt.mtx)
+[1] 126   0
+> sum(is.na(background.adt.mtx))
+[1] 0
+> summary(Matrix::colSums(background.adt.mtx))
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
 
 rownames(cell.adt.raw)
   [1] "CD86.1"      "CD274.1"     "TNFRSF14.1"  "PVR.1"       "NECTIN2.1"   "CD47.1"      "CD48.1"      "CD40.1"     
