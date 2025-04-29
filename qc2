@@ -1,9 +1,11 @@
-dim(background.adt.mtx)
-[1] 126   0
-> sum(is.na(background.adt.mtx))
-[1] 0
-> summary(Matrix::colSums(background.adt.mtx))
-   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+# Create a fake zero background matrix with the same features and 10 dummy droplets
+background.adt.mtx <- matrix(
+  0,
+  nrow = nrow(cell.adt.raw),
+  ncol = 10,
+  dimnames = list(rownames(cell.adt.raw), paste0("fake_drop_", 1:10))
+)
+
 
 rownames(cell.adt.raw)
   [1] "CD86.1"      "CD274.1"     "TNFRSF14.1"  "PVR.1"       "NECTIN2.1"   "CD47.1"      "CD48.1"      "CD40.1"     
