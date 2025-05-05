@@ -1,4 +1,58 @@
+[mafechkar@ares mafechkar]$ cat MDS_Data/cellranger_count.err
+/var/spool/slurmd/job11638872/slurm_script: line 73: dummy_token_file+/dummy_token.txt: No such file or directory
+/var/spool/slurmd/job11638872/slurm_script: line 74: : No such file or directory
 
+
+/var/spool/slurmd/job11638872/slurm_script: line 73: dummy_token_file+/dummy_token.txt: No such file or directory
+/var/spool/slurmd/job11638872/slurm_script: line 74: : No such file or directory
+
+
+slurmstepd: error: *** JOB 11638872 ON node002 CANCELLED AT 2025-05-01T06:00:02 DUE TO PREEMPTION ***
+[mafechkar@ares mafechkar]$ cat MDS_Data/cellranger_count.out
+Martian Runtime - v4.0.13
+
+RuntimeError: pipestance 'MDS001-09-203_count' already exists and is locked by another Martian instance. If you are sure no other Martian instance is running, delete the _lock file in /net/beegfs/scratch/mafechkar/MDS_Data/ALL_MDS_OUTS_CellRangerCount_9.0/MDS001-09-203_count_output/MDS001-09-203_count and start Martian again.
+
+2025-05-01 05:54:27 Shutting down.
+Saving pipestance info to "MDS001-09-203_count/MDS001-09-203_count.mri.tgz"
+For assistance, upload this file to 10x Genomics by running:
+
+cellranger upload <your_email> "MDS001-09-203_count/MDS001-09-203_count.mri.tgz"
+
+Martian Runtime - v4.0.13
+2025-05-01 05:56:35 [runtime] Reattaching in local mode.
+Serving UI at http://node002.cluster:42309?auth=nvAc88e6d225sxaPJEKfKl2RrZbrtk9HlSbH-OnhcMM
+
+
+Outputs:
+- Run summary HTML:                         /net/beegfs/scratch/mafechkar/MDS_Data/ALL_MDS_OUTS_CellRangerCount_9.0/MDS005-09-247_count_output/MDS005-09-247_count/outs/web_summary.html
+- Run summary CSV:                          /net/beegfs/scratch/mafechkar/MDS_Data/ALL_MDS_OUTS_CellRangerCount_9.0/MDS005-09-247_count_output/MDS005-09-247_count/outs/metrics_summary.csv
+- BAM:                                      null
+- BAM BAI index:                            null
+- BAM CSI index:                            null
+- Filtered feature-barcode matrices MEX:    /net/beegfs/scratch/mafechkar/MDS_Data/ALL_MDS_OUTS_CellRangerCount_9.0/MDS005-09-247_count_output/MDS005-09-247_count/outs/filtered_feature_bc_matrix
+- Filtered feature-barcode matrices HDF5:   /net/beegfs/scratch/mafechkar/MDS_Data/ALL_MDS_OUTS_CellRangerCount_9.0/MDS005-09-247_count_output/MDS005-09-247_count/outs/filtered_feature_bc_matrix.h5
+- Unfiltered feature-barcode matrices MEX:  /net/beegfs/scratch/mafechkar/MDS_Data/ALL_MDS_OUTS_CellRangerCount_9.0/MDS005-09-247_count_output/MDS005-09-247_count/outs/raw_feature_bc_matrix
+- Unfiltered feature-barcode matrices HDF5: /net/beegfs/scratch/mafechkar/MDS_Data/ALL_MDS_OUTS_CellRangerCount_9.0/MDS005-09-247_count_output/MDS005-09-247_count/outs/raw_feature_bc_matrix.h5
+- Secondary analysis output CSV:            /net/beegfs/scratch/mafechkar/MDS_Data/ALL_MDS_OUTS_CellRangerCount_9.0/MDS005-09-247_count_output/MDS005-09-247_count/outs/analysis
+- Per-molecule read information:            /net/beegfs/scratch/mafechkar/MDS_Data/ALL_MDS_OUTS_CellRangerCount_9.0/MDS005-09-247_count_output/MDS005-09-247_count/outs/molecule_info.h5
+- CRISPR-specific analysis:                 null
+- Antibody aggregate barcodes:              null
+- Loupe Browser file:                       /net/beegfs/scratch/mafechkar/MDS_Data/ALL_MDS_OUTS_CellRangerCount_9.0/MDS005-09-247_count_output/MDS005-09-247_count/outs/cloupe.cloupe
+- Feature Reference:                        /net/beegfs/scratch/mafechkar/MDS_Data/ALL_MDS_OUTS_CellRangerCount_9.0/MDS005-09-247_count_output/MDS005-09-247_count/outs/feature_reference.csv
+- Target Panel File:                        null
+- Probe Set File:                           null
+- cell_types:                               null
+- Symlink web_summary_cell_types.html:      null
+
+Waiting 6 seconds for UI to do final refresh.
+Pipestance completed successfully!
+
+2025-05-01 05:58:51 Shutting down.
+Saving pipestance info to "MDS005-09-247_count/MDS005-09-247_count.mri.tgz"
+
+
+////
 
 singularity exec \
   --bind $HOME/rstudio/tmp:/tmp \
