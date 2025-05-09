@@ -1,21 +1,72 @@
-[mafechkar@ares MDS_Data]$ cat cellranger_count.err
-/var/spool/slurmd/job11660473/slurm_script: line 63: /dummy_token.txt: Permission denied
 
+[mafechkar@ares MDS_Data]$ cat cellranger_count.out
+Martian Runtime - v4.0.13
+2025-05-09 14:27:03 [jobmngr] WARNING: User-supplied amount 300 GB is higher than the detected cgroup memory limit of 250.0 GB
 
-/var/spool/slurmd/job11660473/slurm_script: line 63: /dummy_token.txt: Permission denied
+RuntimeError: pipestance 'MDS029-10-118_count' already exists with different invocation file __MDS029-10-118_count.mro
 
+2025-05-09 14:27:03 Shutting down.
+Saving pipestance info to "MDS029-10-118_count/MDS029-10-118_count.mri.tgz"
+For assistance, upload this file to 10x Genomics by running:
 
-/var/spool/slurmd/job11660473/slurm_script: line 63: /dummy_token.txt: Permission denied
+cellranger upload <your_email> "MDS029-10-118_count/MDS029-10-118_count.mri.tgz"
 
+Martian Runtime - v4.0.13
+2025-05-09 14:27:06 [jobmngr] WARNING: User-supplied amount 300 GB is higher than the detected cgroup memory limit of 250.0 GB
 
-/var/spool/slurmd/job11660473/slurm_script: line 63: /dummy_token.txt: Permission denied
+RuntimeError: pipestance 'MDS038-10-241_count' already exists with different invocation file __MDS038-10-241_count.mro
 
+2025-05-09 14:27:06 Shutting down.
+Saving pipestance info to "MDS038-10-241_count/MDS038-10-241_count.mri.tgz"
+For assistance, upload this file to 10x Genomics by running:
 
-/var/spool/slurmd/job11660473/slurm_script: line 63: /dummy_token.txt: Permission denied
+cellranger upload <your_email> "MDS038-10-241_count/MDS038-10-241_count.mri.tgz"
 
+Martian Runtime - v4.0.13
+2025-05-09 14:27:07 [jobmngr] WARNING: User-supplied amount 300 GB is higher than the detected cgroup memory limit of 250.0 GB
 
-/var/spool/slurmd/job11660473/slurm_script: line 63: /dummy_token.txt: Permission denied
+RuntimeError: pipestance 'MDS059-10-531_count' already exists with different invocation file __MDS059-10-531_count.mro
 
+2025-05-09 14:27:07 Shutting down.
+Saving pipestance info to "MDS059-10-531_count/MDS059-10-531_count.mri.tgz"
+For assistance, upload this file to 10x Genomics by running:
+
+cellranger upload <your_email> "MDS059-10-531_count/MDS059-10-531_count.mri.tgz"
+
+Martian Runtime - v4.0.13
+2025-05-09 14:27:09 [jobmngr] WARNING: User-supplied amount 300 GB is higher than the detected cgroup memory limit of 250.0 GB
+
+RuntimeError: pipestance 'MDS065-10-609_count' already exists with different invocation file __MDS065-10-609_count.mro
+
+2025-05-09 14:27:09 Shutting down.
+Saving pipestance info to "MDS065-10-609_count/MDS065-10-609_count.mri.tgz"
+For assistance, upload this file to 10x Genomics by running:
+
+cellranger upload <your_email> "MDS065-10-609_count/MDS065-10-609_count.mri.tgz"
+
+Martian Runtime - v4.0.13
+2025-05-09 14:27:09 [jobmngr] WARNING: User-supplied amount 300 GB is higher than the detected cgroup memory limit of 250.0 GB
+
+RuntimeError: pipestance 'MDS154-13-486_count' already exists with different invocation file __MDS154-13-486_count.mro
+
+2025-05-09 14:27:09 Shutting down.
+Saving pipestance info to "MDS154-13-486_count/MDS154-13-486_count.mri.tgz"
+For assistance, upload this file to 10x Genomics by running:
+
+cellranger upload <your_email> "MDS154-13-486_count/MDS154-13-486_count.mri.tgz"
+
+Martian Runtime - v4.0.13
+2025-05-09 14:27:11 [jobmngr] WARNING: User-supplied amount 300 GB is higher than the detected cgroup memory limit of 250.0 GB
+
+RuntimeError: pipestance 'MDS155-13-606_count' already exists with different invocation file __MDS155-13-606_count.mro
+
+2025-05-09 14:27:11 Shutting down.
+Saving pipestance info to "MDS155-13-606_count/MDS155-13-606_count.mri.tgz"
+For assistance, upload this file to 10x Genomics by running:
+
+cellranger upload <your_email> "MDS155-13-606_count/MDS155-13-606_count.mri.tgz"
+
+[mafechkar@ares MDS_Data]$
 
 ////
 
