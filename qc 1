@@ -1,4 +1,151 @@
-
+ adt_data <- GetAssayData(seurat_obj, assay = "ADT", layer = "data")
+> for (feature in adt_features) {
++     if (feature %in% rownames(adt_data)) {
++         values <- as.numeric(adt_data[feature, ])
++         
++         if (all(is.na(values))) {
++             message(paste("Skipping", feature, "- all values are NA"))
++             next
++         }
++         if (length(unique(na.omit(values))) <= 1) {
++             message(paste("Skipping", feature, "- not enough variation"))
++             next
++         }
++         
++         print(paste("Plotting ADT feature:", feature))
++         print(VlnPlot(seurat_obj, features = feature, assay = "ADT", slot = "data") + ggtitle(feature))
++     } else {
++         message(paste("Skipping", feature, "- not found in ADT assay"))
++     }
++ }
+Skipping  CD86.1 - not found in ADT assay
+Skipping  CD274.1 - not found in ADT assay
+Skipping  TNFRSF14.1 - not found in ADT assay
+Skipping  PVR.1 - not found in ADT assay
+Skipping  NECTIN2.1 - not found in ADT assay
+Skipping  CD47.1 - not found in ADT assay
+Skipping  CD48.1 - not found in ADT assay
+Skipping  CD40.1 - not found in ADT assay
+Skipping  CD40LG.1 - not found in ADT assay
+Skipping  CD52.1 - not found in ADT assay
+Skipping  CD3D.1 - not found in ADT assay
+Skipping  CD8A.1 - not found in ADT assay
+Skipping  NCAM1.1 - not found in ADT assay
+Skipping  CD19.1 - not found in ADT assay
+Skipping  CD33.1 - not found in ADT assay
+Skipping  ITGAX.1 - not found in ADT assay
+Skipping  HLA-A.1 - not found in ADT assay
+Skipping  PTPRC.1 - not found in ADT assay
+Skipping  IL3RA.1 - not found in ADT assay
+Skipping  CD7.1 - not found in ADT assay
+Skipping  ENG.1 - not found in ADT assay
+Skipping  ITGA6.1 - not found in ADT assay
+Skipping  CCR4.1 - not found in ADT assay
+Skipping  CD4.1 - not found in ADT assay
+Skipping  CD44.1 - not found in ADT assay
+Skipping  CD14.1 - not found in ADT assay
+Skipping  FCGR3A.1 - not found in ADT assay
+Skipping  IL2RA.1 - not found in ADT assay
+Skipping  PDCD1.1 - not found in ADT assay
+Skipping  TIGIT.1 - not found in ADT assay
+Skipping  nan.1 - not found in ADT assay
+Skipping  MS4A1.1 - not found in ADT assay
+Skipping  NCR1.1 - not found in ADT assay
+Skipping  PECAM1.1 - not found in ADT assay
+Skipping  MCAM.1 - not found in ADT assay
+Skipping  IGHM.1 - not found in ADT assay
+Skipping  CD5.1 - not found in ADT assay
+Skipping  CXCR3.1 - not found in ADT assay
+Skipping  CCR5.1 - not found in ADT assay
+Skipping  FCGR2A.1 - not found in ADT assay
+Skipping  CCR6.1 - not found in ADT assay
+Skipping  CXCR5.1 - not found in ADT assay
+Skipping  ITGAE.1 - not found in ADT assay
+Skipping  CD69.1 - not found in ADT assay
+Skipping  SELL.1 - not found in ADT assay
+Skipping  KLRB1.1 - not found in ADT assay
+Skipping  CTLA4.1 - not found in ADT assay
+Skipping  LAG3.1 - not found in ADT assay
+Skipping  KLRG1.1 - not found in ADT assay
+Skipping  CD27.1 - not found in ADT assay
+Skipping  LAMP1.1 - not found in ADT assay
+Skipping  FAS.1 - not found in ADT assay
+Skipping  TNFRSF4.1 - not found in ADT assay
+Skipping  HLA-DRA.1 - not found in ADT assay
+Skipping  CD1C.1 - not found in ADT assay
+Skipping  ITGAM.1 - not found in ADT assay
+Skipping  FCGR1A.1 - not found in ADT assay
+Skipping  THBD.1 - not found in ADT assay
+Skipping  CD1D.1 - not found in ADT assay
+Skipping  KLRK1.1 - not found in ADT assay
+Skipping  CR1.1 - not found in ADT assay
+Skipping  B3GAT1.1 - not found in ADT assay
+Skipping  BTLA.1 - not found in ADT assay
+Skipping  ICOS.1 - not found in ADT assay
+Skipping  CD58.1 - not found in ADT assay
+Skipping  ENTPD1.1 - not found in ADT assay
+Skipping  CX3CR1.1 - not found in ADT assay
+Skipping  CD24.1 - not found in ADT assay
+Skipping  CR2.1 - not found in ADT assay
+Skipping  ITGAL.1 - not found in ADT assay
+Skipping  CD79B.1 - not found in ADT assay
+Skipping  CD244.1 - not found in ADT assay
+Skipping  SIGLEC1.1 - not found in ADT assay
+Skipping  ITGB7.1 - not found in ADT assay
+Skipping  TNFRSF13C.1 - not found in ADT assay
+Skipping  GP1BB.1 - not found in ADT assay
+Skipping  ICAM1.1 - not found in ADT assay
+Skipping  SELP.1 - not found in ADT assay
+Skipping  IFNGR1.1 - not found in ADT assay
+Skipping  IL2RB.1 - not found in ADT assay
+Skipping  TNFRSF13B.1 - not found in ADT assay
+Skipping  FCER1A.1 - not found in ADT assay
+Skipping  ITGA2B.1 - not found in ADT assay
+Skipping  TNFRSF9.1 - not found in ADT assay
+Skipping  CD163.1 - not found in ADT assay
+Skipping  CD83.1 - not found in ADT assay
+Skipping  IL4R.1 - not found in ADT assay
+Skipping  ANPEP.1 - not found in ADT assay
+Skipping  CD2.1 - not found in ADT assay
+Skipping  CD226.1 - not found in ADT assay
+Skipping  ITGB1.1 - not found in ADT assay
+Skipping  CLEC4C.1 - not found in ADT assay
+Skipping  ITGA2.1 - not found in ADT assay
+Skipping  CD81.1 - not found in ADT assay
+Skipping  IGHD.1 - not found in ADT assay
+Skipping  ITGB2.1 - not found in ADT assay
+Skipping  CD28.1 - not found in ADT assay
+Skipping  CD38.1 - not found in ADT assay
+Skipping  IL7R.1 - not found in ADT assay
+Skipping  CD22.1 - not found in ADT assay
+Skipping  TFRC.1 - not found in ADT assay
+Skipping  DPP4.1 - not found in ADT assay
+Skipping  CD36.1 - not found in ADT assay
+Skipping  KIR2DL1.1 - not found in ADT assay
+Skipping  ITGA1.1 - not found in ADT assay
+Skipping  ITGA4.1 - not found in ADT assay
+Skipping  NT5E.1 - not found in ADT assay
+Skipping  OLR1.1 - not found in ADT assay
+Skipping  KIR2DL3.1 - not found in ADT assay
+Skipping  KIR3DL1.1 - not found in ADT assay
+Skipping  SLAMF7.1 - not found in ADT assay
+Skipping  CD99.1 - not found in ADT assay
+Skipping  CLEC12A.1 - not found in ADT assay
+Skipping  SLAMF6.1 - not found in ADT assay
+Skipping  KLRD1.1 - not found in ADT assay
+Skipping  IGKC.1 - not found in ADT assay
+Skipping  LILRB1.1 - not found in ADT assay
+Skipping  FCER2.1 - not found in ADT assay
+Skipping  SIGLEC7.1 - not found in ADT assay
+Skipping  ADGRG1.1 - not found in ADT assay
+Skipping  HLA-E.1 - not found in ADT assay
+Skipping  CD82.1 - not found in ADT assay
+Skipping  CD101.1 - not found in ADT assay
+Skipping  C5AR1.1 - not found in ADT assay
+Skipping  GGT1.1 - not found in ADT assay
+Skipping CD34.1 - not found in ADT assay
+Skipping CD159a.1 - not found in ADT assay
+Skipping CD117.1 - not found in ADT assay
 
 # Step 0: Load libraries
 library(Seurat)
