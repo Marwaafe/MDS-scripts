@@ -6,8 +6,14 @@ library(Matrix)
 library(ggplot2)
 library(patchwork)
 
-# Step 1: Set sample name and file path
-sample_name <- "MDS001-09-203"
+# Step 1: Set sample names and file path
+sample_names <- c(
+  "MDS001-09-203", "MDS005-09-247", "MDS006-08-249", "MDS010-09-299", "MDS016-09-478",
+  "MDS023-10-053", "MDS029-10-118", "MDS038-10-241", "MDS059-10-531",
+  "MDS065-10-609", "MDS154-13-486", "MDS155-13-606", "MDS167-13-913",
+  "MDS169-13-919", "MDS180-14-164", "MDS189-14-527", "MDS201-15-093",
+  "MDS212-15-463"
+)
 data_path <- file.path(
   "/trinity/home/mafechkar",
   "ALL_MDS_OUTS_CellRangerCount_9.0",
@@ -16,6 +22,13 @@ data_path <- file.path(
   "outs",
   "raw_feature_bc_matrix.h5"
 )
+
+# Loop to create a folder for each sample under the same parent directory
+base_dir <- "/trinity/home/mafechkar/MDS_Data"
+
+for (sample in sample_names) {
+  dir.create(file.path(base_dir, sample), recursive = TRUE, showWarnings = FALSE)
+}
 
 # Step 2: Read multimodal data (RNA + ADT)
 data_list <- Read10X_h5(data_path)
@@ -125,5 +138,18 @@ DotPlot(seurat_obj, features = top_adt, assay = "ADT") +
   RotatedAxis() +
   ggtitle("Top 15 ADT Markers by Average Expression")
 
+# Save RNA QC plot
+ggsave(filename = file.path("/trinity/home/mafechkar/MDS_Data", sample_name, "RNA_QC_plot.png"),
+       plot = rna_qc_plot, width = 7, height = 7)
+
+# Save ADT DotPlot
+ggsave(filename = file.path("/trinity/home/mafechkar/MDS_Data", sample_name, "ADT_Top15_DotPlot.png"),
+       plot = DotPlot(seurat_obj, features = top_adt, assay = "ADT") +
+              RotatedAxis() +
+              ggtitle("Top 15 ADT Markers by Average Expression"),
+       width = 9, height = 5)
+
+
 # Step 15: Save the processed Seurat object
-saveRDS(seurat_obj, file = paste0(sample_name, "_RNA_ADT_filtered_normalized.rds"))
+saveRDS(seurat_obj, file = file.path("/trinity/home/mafechkar/MDS_Data", sample_name, paste0(sample_name, "_RNA_ADT_filtered_normalized.rds")))
+
