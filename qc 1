@@ -64,19 +64,28 @@ seurat_obj <- NormalizeData(seurat_obj, normalization.method = "LogNormalize", a
 # Step 13: Normalize ADT using CLR
 seurat_obj <- NormalizeData(seurat_obj, normalization.method = "CLR", margin = 2, assay = "ADT")
 
-# Step 14: Safely plot a few key ADT features
+# Step 14: Read in the feature reference file
+feature_ref <- read.csv("feature_ref.csv", stringsAsFactors = FALSE)
+
+# Extract unique antibody names from the 'name' column (exclude NA/malformed ones)
+adt_names <- unique(feature_ref$name)
+adt_names <- adt_names[!is.na(adt_names) & adt_names != "nan"]
+
+# Add ".1" to each feature name to match Seurat ADT rownames
+adt_features <- paste0(adt_names, ".1")
+
+# Plot each valid ADT feature
 adt_data <- GetAssayData(seurat_obj, assay = "ADT", slot = "data")
-adt_features <- c("CD3", "CD4", "CD8", "CD14")  # Adjust to your actual antibody panel
 
 for (feature in adt_features) {
   if (feature %in% rownames(adt_data)) {
-    feature_values <- as.numeric(adt_data[feature, ])
+    values <- as.numeric(adt_data[feature, ])
     
-    if (all(is.na(feature_values))) {
+    if (all(is.na(values))) {
       message(paste("Skipping", feature, "- all values are NA"))
       next
     }
-    if (length(unique(na.omit(feature_values))) <= 1) {
+    if (length(unique(na.omit(values))) <= 1) {
       message(paste("Skipping", feature, "- not enough variation"))
       next
     }
