@@ -74,7 +74,12 @@ print(seurat_obj)
 seurat_obj[["percent.mt"]] <- PercentageFeatureSet(seurat_obj, pattern = "^MT-")
 
 # Step 6: (Optional but recommended) Remove cells with missing QC values before plotting
-seurat_obj <- subset(seurat_obj, subset = !is.na(nFeature_RNA) & !is.na(nCount_RNA) & !is.na(percent.mt))
+seurat_obj <- subset(
+  seurat_obj,
+  subset = !is.na(seurat_obj$nFeature_RNA) &
+           !is.na(seurat_obj$nCount_RNA) &
+           !is.na(seurat_obj$percent.mt)
+)
 
 # Step 7: Normalize RNA
 seurat_obj <- NormalizeData(seurat_obj, normalization.method = "LogNormalize", assay = "RNA")
