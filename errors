@@ -1,4 +1,9 @@
- head(seurat_obj@meta.data)
+ adt_counts <- seurat_obj[["ADT"]]@counts
+> summary(Matrix::colSums(adt_counts))
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+0.00000 0.00000 0.00000 0.01018 0.00000 2.00000 
+
+head(seurat_obj@meta.data)
                       orig.ident nCount_RNA nFeature_RNA nCount_ADT nFeature_ADT percent.mt
 AAACCTGAGAACAATC-1 SeuratProject       2679         1074          0            0   4.143337
 AAACCTGAGATATGCA-1 SeuratProject       1133          722          0            0   6.266549
