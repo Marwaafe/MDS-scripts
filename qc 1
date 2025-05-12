@@ -28,7 +28,7 @@ rna_subset <- data_list[["Gene Expression"]][, adt_positive_barcodes]
 adt_subset <- adt_raw[, adt_positive_barcodes]
 
 # Step 5: Create Seurat object from RNA (minimal filtering to preserve rare ADT+ cells)
-seurat_obj <- CreateSeuratObject(counts = rna_subset, min.cells = 1, min.features = 1)
+seurat_obj <- CreateSeuratObject(counts = rna_subset, min.cells = 30, min.features = 200)
 
 # Step 6: Reorder ADT to match Seurat object cell barcodes before adding
 adt_subset_ordered <- adt_subset[, colnames(seurat_obj)]
