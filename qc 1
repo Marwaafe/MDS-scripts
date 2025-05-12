@@ -114,6 +114,15 @@ hist(adt_features_per_cell,
 # Plot each valid ADT feature
 adt_data <- GetAssayData(seurat_obj, assay = "ADT", layer = "data")
 
+# Filter ADT features that exist in the Seurat object
+adt_present <- adt_features[adt_features %in% rownames(adt_data)]
+
+# Plot all valid ADT markers
+DotPlot(seurat_obj, features = adt_present, assay = "ADT") +
+  RotatedAxis() +
+  ggtitle("ADT Marker Expression (DotPlot)")
+
+
 for (feature in adt_features) {
   if (feature %in% rownames(adt_data)) {
     values <- as.numeric(adt_data[feature, ])
