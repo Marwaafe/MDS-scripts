@@ -46,11 +46,30 @@ seurat_obj$nFeature_ADT <- Matrix::colSums(seurat_obj[["ADT"]]@counts > 0)
 cat("Total cells before RNA QC filtering:", ncol(seurat_obj), "\n")
 cat("Cells with ADT signal before RNA QC:", sum(seurat_obj$nCount_ADT > 0), "\n")
 
-# Step 10: Apply strict RNA QC filtering as your supervisor recommends
+# Step 10: RNA QC Filtering
+# Summarize RNA QC metrics
+nFeature_summary <- summary(seurat_obj$nFeature_RNA)
+nCount_summary <- summary(seurat_obj$nCount_RNA)
+mt_summary <- summary(seurat_obj$percent.mt)
+
+# Define adaptive cutoffs:
+min_features <- nFeature_summary["1st Qu."]      # Bottom 25% threshold
+min_counts <- nCount_summary["1st Qu."]           # Bottom 25%
+max_mt <- mt_summary["3rd Qu."]                   # Top 25%
+
+cat("Adaptive cutoffs:\n")
+cat(" - min nFeature_RNA:", min_features, "\n")
+cat(" - min nCount_RNA:", min_counts, "\n")
+cat(" - max percent.mt:", max_mt, "\n")
+
+# Apply adaptive filter
 seurat_obj <- subset(
   seurat_obj,
-  subset = nFeature_RNA > 200 & nCount_RNA > 500 & percent.mt < 10
+  subset = nFeature_RNA > min_features &
+           nCount_RNA > min_counts &
+           percent.mt < max_mt
 )
+
 
 # Step 11: Print how many cells passed RNA QC and how many still have ADT
 cat("Cells after RNA QC filtering:", ncol(seurat_obj), "\n")
