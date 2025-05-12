@@ -114,34 +114,16 @@ hist(adt_features_per_cell,
 # Plot each valid ADT feature
 adt_data <- GetAssayData(seurat_obj, assay = "ADT", layer = "data")
 
-# Filter ADT features that exist in the Seurat object
-adt_present <- adt_features[adt_features %in% rownames(adt_data)]
+# Calculate average expression for each ADT feature
+adt_means <- Matrix::rowMeans(adt_data)
 
-# Plot all valid ADT markers
-DotPlot(seurat_obj, features = adt_present, assay = "ADT") +
+# Sort descending and get top 15 features
+top_adt <- names(sort(adt_means, decreasing = TRUE))[1:15]
+
+# Plot DotPlot for the top 15 ADT features
+DotPlot(seurat_obj, features = top_adt, assay = "ADT") +
   RotatedAxis() +
-  ggtitle("ADT Marker Expression (DotPlot)")
-
-
-for (feature in adt_features) {
-  if (feature %in% rownames(adt_data)) {
-    values <- as.numeric(adt_data[feature, ])
-    
-    if (all(is.na(values))) {
-      message(paste("Skipping", feature, "- all values are NA"))
-      next
-    }
-    if (length(unique(na.omit(values))) <= 1) {
-      message(paste("Skipping", feature, "- not enough variation"))
-      next
-    }
-    
-    print(paste("Plotting ADT feature:", feature))
-    print(VlnPlot(seurat_obj, features = feature, assay = "ADT", slot = "data") + ggtitle(feature))
-  } else {
-    message(paste("Skipping", feature, "- not found in ADT assay"))
-  }
-}
+  ggtitle("Top 15 ADT Markers by Average Expression")
 
 # Step 15: Save the processed Seurat object
 saveRDS(seurat_obj, file = paste0(sample_name, "_RNA_ADT_filtered_normalized.rds"))
