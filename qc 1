@@ -85,31 +85,31 @@ seurat_obj$genes_per_cell <- genes_per_cell
 seurat_obj$counts_per_cell <- counts_per_cell
 seurat_obj$adt_features_per_cell <- adt_features_per_cell
 
-# Plot 1: Genes per cell
-plot(sort(genes_per_cell),
-     log = "y",
-     xlab = "cell",
-     ylab = "log10(genes)",
-     main = "genes per cell (ordered, after filtering)")
+# Convert metrics to data frames for ggplot
+df_genes <- data.frame(cell = seq_along(genes_per_cell), value = sort(genes_per_cell))
+df_umis <- data.frame(cell = seq_along(counts_per_cell), value = sort(counts_per_cell))
+df_mt <- data.frame(percent.mt = seurat_obj$percent.mt)
 
-# Plot 2: UMIs per cell
-plot(sort(counts_per_cell),
-     log = "y",
-     xlab = "cell",
-     ylab = "log10(UMIs)",
-     main = "UMIs per cell (ordered, after filtering)")
+# ggplot versions
+p1 <- ggplot(df_genes, aes(x = cell, y = value)) +
+  geom_point(size = 0.7) +
+  scale_y_log10() +
+  labs(x = "cell", y = "log10(genes)", title = "Genes per cell (ordered, after filtering)")
 
-# Plot 3: Mitochondrial content
-hist(seurat_obj$percent.mt,
-     breaks = 50,
-     main = "Mitochondrial percentage (after filtering)",
-     xlab = "percent.mt")
+p2 <- ggplot(df_umis, aes(x = cell, y = value)) +
+  geom_point(size = 0.7) +
+  scale_y_log10() +
+  labs(x = "cell", y = "log10(UMIs)", title = "UMIs per cell (ordered, after filtering)")
 
-# Plot 4: ADT features per cell
-hist(adt_features_per_cell,
-     breaks = 30,
-     main = "ADT features per cell (after filtering)",
-     xlab = "Number of ADT features > 0")
+p3 <- ggplot(df_mt, aes(x = percent.mt)) +
+  geom_histogram(bins = 50, fill = "grey70", color = "black") +
+  labs(x = "percent.mt", y = "Frequency", title = "Mitochondrial percentage (after filtering)")
+
+# Combine them into one page using patchwork
+rna_qc_plot <- (p1 / p2 / p3) + plot_annotation(title = paste0("RNA QC: ", sample_name))
+
+# Print to screen or export (optional)
+print(rna_qc_plot)
 
 # Plot each valid ADT feature
 adt_data <- GetAssayData(seurat_obj, assay = "ADT", layer = "data")
