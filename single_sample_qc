@@ -1,0 +1,127 @@
+# Step 0: Load libraries
+library(Seurat)
+library(Matrix)
+library(ggplot2)
+library(patchwork)
+
+# Step 1: Set sample name and file path
+sample_name <- "MDS001-09-203"
+data_path <- file.path(
+  "/trinity/home/mafechkar",
+  "ALL_MDS_OUTS_CellRangerCount_9.0",
+  paste0(sample_name, "_count_output"),
+  paste0(sample_name, "_count"),
+  "outs",
+  "raw_feature_bc_matrix.h5"
+)
+
+# Step 2: Read multimodal data (RNA + ADT)
+data_list <- Read10X_h5(data_path)
+
+# Step 3: Identify barcodes with non-zero ADT counts
+adt_raw <- data_list[["Antibody Capture"]]
+adt_positive_barcodes <- colnames(adt_raw)[Matrix::colSums(adt_raw) > 0]
+cat("Number of ADT-positive cells:", length(adt_positive_barcodes), "\n")
+
+# Step 4: Subset RNA and ADT matrices to ADT-positive barcodes
+rna_subset <- data_list[["Gene Expression"]][, adt_positive_barcodes]
+adt_subset <- adt_raw[, adt_positive_barcodes]
+
+# Step 5: Create Seurat object from RNA (minimal filtering to preserve rare ADT+ cells)
+seurat_obj <- CreateSeuratObject(counts = rna_subset, min.cells = 30, min.features = 200)
+
+# Step 6: Reorder ADT to match Seurat object cell barcodes before adding
+adt_subset_ordered <- adt_subset[, colnames(seurat_obj)]
+seurat_obj[["ADT"]] <- CreateAssayObject(counts = adt_subset_ordered)
+
+# Step 7: Add mitochondrial percentage (RNA)
+DefaultAssay(seurat_obj) <- "RNA"
+seurat_obj[["percent.mt"]] <- PercentageFeatureSet(seurat_obj, pattern = "^MT-")
+
+# Step 8: Add ADT QC metrics manually
+seurat_obj$nCount_ADT <- Matrix::colSums(seurat_obj[["ADT"]]@counts)
+seurat_obj$nFeature_ADT <- Matrix::colSums(seurat_obj[["ADT"]]@counts > 0)
+
+# Step 9: Print basic object summary before RNA filtering
+cat("Total cells before RNA QC filtering:", ncol(seurat_obj), "\n")
+cat("Cells with ADT signal before RNA QC:", sum(seurat_obj$nCount_ADT > 0), "\n")
+
+# Step 10: Apply strict RNA QC filtering as your supervisor recommends
+seurat_obj <- subset(
+  seurat_obj,
+  subset = nFeature_RNA > 200 & nCount_RNA > 500 & percent.mt < 10
+)
+
+# Step 11: Print how many cells passed RNA QC and how many still have ADT
+cat("Cells after RNA QC filtering:", ncol(seurat_obj), "\n")
+cat("ADT+ cells remaining after RNA QC:", sum(seurat_obj$nCount_ADT > 0), "\n")
+
+# Step 12: Normalize RNA
+seurat_obj <- NormalizeData(seurat_obj, normalization.method = "LogNormalize", assay = "RNA")
+
+# Step 13: Normalize ADT using CLR
+seurat_obj <- NormalizeData(seurat_obj, normalization.method = "CLR", margin = 2, assay = "ADT")
+
+# Step 14: Read in the feature reference file
+feature_ref <- read.csv("/trinity/home/mafechkar/MDS_Data/feature_ref.csv", stringsAsFactors = FALSE)
+
+# Extract unique antibody names from the 'name' column (exclude NA/malformed ones)
+adt_names <- unique(feature_ref$name)
+adt_names <- trimws(unique(feature_ref$name))
+adt_names <- adt_names[!is.na(adt_names) & adt_names != "nan"]
+
+# Add ".1" to each feature name to match Seurat ADT rownames
+adt_features <- paste0(adt_names, ".1")
+
+# Calculate post-filtering QC metrics
+genes_per_cell <- Matrix::colSums(GetAssayData(seurat_obj, assay = "RNA", layer = "counts") > 0)
+counts_per_cell <- Matrix::colSums(GetAssayData(seurat_obj, assay = "RNA", layer = "counts"))
+adt_features_per_cell <- Matrix::colSums(GetAssayData(seurat_obj, assay = "ADT", layer = "counts") > 0)
+
+# Optional: save to metadata
+seurat_obj$genes_per_cell <- genes_per_cell
+seurat_obj$counts_per_cell <- counts_per_cell
+seurat_obj$adt_features_per_cell <- adt_features_per_cell
+
+# Convert metrics to data frames for ggplot
+df_genes <- data.frame(cell = seq_along(genes_per_cell), value = sort(genes_per_cell))
+df_umis <- data.frame(cell = seq_along(counts_per_cell), value = sort(counts_per_cell))
+df_mt <- data.frame(percent.mt = seurat_obj$percent.mt)
+
+# ggplot versions
+p1 <- ggplot(df_genes, aes(x = cell, y = value)) +
+  geom_point(size = 0.7) +
+  scale_y_log10() +
+  labs(x = "cell", y = "log10(genes)", title = "Genes per cell (ordered, after filtering)")
+
+p2 <- ggplot(df_umis, aes(x = cell, y = value)) +
+  geom_point(size = 0.7) +
+  scale_y_log10() +
+  labs(x = "cell", y = "log10(UMIs)", title = "UMIs per cell (ordered, after filtering)")
+
+p3 <- ggplot(df_mt, aes(x = percent.mt)) +
+  geom_histogram(bins = 50, fill = "grey70", color = "black") +
+  labs(x = "percent.mt", y = "Frequency", title = "Mitochondrial percentage (after filtering)")
+
+# Combine them into one page using patchwork
+rna_qc_plot <- (p1 / p2 / p3) + plot_annotation(title = paste0("RNA QC: ", sample_name))
+
+# Print to screen or export (optional)
+print(rna_qc_plot)
+
+# Plot each valid ADT feature
+adt_data <- GetAssayData(seurat_obj, assay = "ADT", layer = "data")
+
+# Calculate average expression for each ADT feature
+adt_means <- Matrix::rowMeans(adt_data)
+
+# Sort descending and get top 15 features
+top_adt <- names(sort(adt_means, decreasing = TRUE))[1:15]
+
+# Plot DotPlot for the top 15 ADT features
+DotPlot(seurat_obj, features = top_adt, assay = "ADT") +
+  RotatedAxis() +
+  ggtitle("Top 15 ADT Markers by Average Expression")
+
+# Step 15: Save the processed Seurat object
+saveRDS(seurat_obj, file = paste0(sample_name, "_RNA_ADT_filtered_normalized.rds"))
