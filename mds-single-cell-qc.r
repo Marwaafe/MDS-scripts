@@ -38,7 +38,7 @@ library(patchwork)
 sample_name <- "MDS005-09-247"
 data_path <- file.path(
   "/trinity/home/mafechkar",
-  "MDS_OUTS_CellRangerCount_9.0",
+  "ALL_MDS_OUTS_CellRangerCount_9.0",
   paste0(sample_name, "_count_output"),
   paste0(sample_name, "_count"),
   "outs",
@@ -67,7 +67,6 @@ seurat_obj <- NormalizeData(seurat_obj, normalization.method = "LogNormalize", a
 
 # Step 8: Normalize ADT
 seurat_obj <- NormalizeData(seurat_obj, normalization.method = "CLR", margin = 2, assay = "ADT")
-
 
 
 # Step 10: Plot ADT markers safely
@@ -113,7 +112,6 @@ plot(genes_per_cell_filtered_sorted,
      xlab = "cell",
      ylab = "genes per cell",
      main = "genes per cell (ordered, after filtering)")
-
 
 # Step 14: Save filtered and normalized Seurat object
 saveRDS(seurat_obj, file = paste0(sample_name, "_filtered_normalized.rds"))
