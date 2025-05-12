@@ -1,4 +1,12 @@
- seurat_obj[["percent.mt"]] <- PercentageFeatureSet(seurat_obj, pattern = "^MT-")
+ head(seurat_obj@meta.data)
+                      orig.ident nCount_RNA nFeature_RNA nCount_ADT nFeature_ADT percent.mt
+AAACCTGAGAACAATC-1 SeuratProject       2679         1074          0            0   4.143337
+AAACCTGAGATATGCA-1 SeuratProject       1133          722          0            0   6.266549
+AAACCTGAGCAGATCG-1 SeuratProject       3552         1466          0            0   2.561937
+AAACCTGAGCCGATTT-1 SeuratProject       1995         1087          0            0   3.258145
+AAACCTGAGCTAAACA-1 SeuratProject       3765         1494          0            0   3.665339
+
+seurat_obj[["percent.mt"]] <- PercentageFeatureSet(seurat_obj, pattern = "^MT-")
 > seurat_obj <- subset(seurat_obj, subset = !is.na(nFeature_RNA) & !is.na(nCount_RNA) & !is.na(percent.mt))
 Error in `FetchData()`:
 ! None of the requested variables were found: 
