@@ -1,3 +1,12 @@
+print(seurat_obj)
+An object of class Seurat 
+16915 features across 15911 samples within 2 assays 
+Active assay: RNA (16778 features, 0 variable features)
+ 1 layer present: counts
+ 1 other assay present: ADT
+
+////
+
 > DefaultAssay(seurat_obj) <- 'RNA'
 > rownames(seurat_obj)[1:10]
  [1] "MIR1302-2HG" "FAM138A"     "OR4F5"       "AL627309.1"  "AL627309.3"  "AL627309.2"  "AL627309.5"  "AL627309.4" 
