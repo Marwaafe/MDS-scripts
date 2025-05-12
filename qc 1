@@ -1,8 +1,4 @@
- genes_per_cell <- Matrix::colSums(seurat_obj[["RNA"]]@counts > 0)
-Error in h(simpleError(msg, call)) : 
-  error in evaluating the argument 'x' in selecting a method for function 'colSums': no slot of name "counts" for this object of class "Assay5"
 
-//////////
 
 # Step 0: Load libraries
 library(Seurat)
@@ -80,9 +76,9 @@ adt_names <- adt_names[!is.na(adt_names) & adt_names != "nan"]
 adt_features <- paste0(adt_names, ".1")
 
 # Calculate post-filtering QC metrics
-genes_per_cell <- Matrix::colSums(seurat_obj[["RNA"]]@counts > 0)
-counts_per_cell <- Matrix::colSums(seurat_obj[["RNA"]]@counts)
-adt_features_per_cell <- Matrix::colSums(seurat_obj[["ADT"]]@counts > 0)
+genes_per_cell <- Matrix::colSums(GetAssayData(seurat_obj, assay = "RNA", layer = "counts") > 0)
+counts_per_cell <- Matrix::colSums(GetAssayData(seurat_obj, assay = "RNA", layer = "counts"))
+adt_features_per_cell <- Matrix::colSums(GetAssayData(seurat_obj, assay = "ADT", layer = "counts") > 0)
 
 # Optional: save to metadata
 seurat_obj$genes_per_cell <- genes_per_cell
