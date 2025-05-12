@@ -1,7 +1,154 @@
- rownames(seurat_obj[["ADT"]])[1:20]
- [1] "CD86.1"     "CD274.1"    "TNFRSF14.1" "PVR.1"      "NECTIN2.1"  "CD47.1"     "CD48.1"     "CD40.1"     "CD40LG.1"  
-[10] "CD52.1"     "CD3D.1"     "CD8A.1"     "NCAM1.1"    "CD19.1"     "CD33.1"     "ITGAX.1"    "HLA-A.1"    "PTPRC.1"   
-[19] "IL3RA.1"    "CD7.1"  
+ for (feature in adt_features) {
++     if (feature %in% rownames(adt_data)) {
++         values <- as.numeric(adt_data[feature, ])
++         
++         if (all(is.na(values))) {
++             message(paste("Skipping", feature, "- all values are NA"))
++             next
++         }
++         if (length(unique(na.omit(values))) <= 1) {
++             message(paste("Skipping", feature, "- not enough variation"))
++             next
++         }
++         
++         print(paste("Plotting ADT feature:", feature))
++         print(VlnPlot(seurat_obj, features = feature, assay = "ADT", slot = "data") + ggtitle(feature))
++     } else {
++         message(paste("Skipping", feature, "- not found in ADT assay"))
++     }
++ }
+Skipping CD86.1 - not enough variation
+Skipping CD274.1 - not enough variation
+[1] "Plotting ADT feature: TNFRSF14.1"
+[1] "Plotting ADT feature: PVR.1"
+Skipping NECTIN2.1 - not enough variation
+Skipping CD47.1 - not enough variation
+[1] "Plotting ADT feature: CD48.1"
+Skipping CD40.1 - not enough variation
+[1] "Plotting ADT feature: CD40LG.1"
+Skipping CD52.1 - not enough variation
+Skipping CD3D.1 - not enough variation
+Skipping CD8A.1 - not enough variation
+[1] "Plotting ADT feature: NCAM1.1"
+Skipping CD19.1 - not enough variation
+Skipping CD33.1 - not enough variation
+Skipping ITGAX.1 - not enough variation
+Skipping HLA-A.1 - not enough variation
+[1] "Plotting ADT feature: PTPRC.1"
+Skipping IL3RA.1 - not enough variation
+Skipping CD7.1 - not enough variation
+[1] "Plotting ADT feature: ENG.1"
+[1] "Plotting ADT feature: ITGA6.1"
+[1] "Plotting ADT feature: CCR4.1"
+Skipping CD4.1 - not enough variation
+Skipping CD44.1 - not enough variation
+Skipping CD14.1 - not enough variation
+Skipping FCGR3A.1 - not enough variation
+[1] "Plotting ADT feature: IL2RA.1"
+[1] "Plotting ADT feature: PDCD1.1"
+Skipping TIGIT.1 - not enough variation
+Skipping MS4A1.1 - not enough variation
+[1] "Plotting ADT feature: NCR1.1"
+[1] "Plotting ADT feature: PECAM1.1"
+[1] "Plotting ADT feature: MCAM.1"
+[1] "Plotting ADT feature: IGHM.1"
+[1] "Plotting ADT feature: CD5.1"
+[1] "Plotting ADT feature: CXCR3.1"
+[1] "Plotting ADT feature: CCR5.1"
+[1] "Plotting ADT feature: FCGR2A.1"
+Skipping CCR6.1 - not enough variation
+[1] "Plotting ADT feature: CXCR5.1"
+[1] "Plotting ADT feature: ITGAE.1"
+Skipping CD69.1 - not enough variation
+Skipping SELL.1 - not enough variation
+Skipping KLRB1.1 - not enough variation
+[1] "Plotting ADT feature: CTLA4.1"
+Skipping LAG3.1 - not enough variation
+Skipping KLRG1.1 - not enough variation
+Skipping CD27.1 - not enough variation
+[1] "Plotting ADT feature: LAMP1.1"
+[1] "Plotting ADT feature: FAS.1"
+Skipping TNFRSF4.1 - not enough variation
+Skipping HLA-DRA.1 - not enough variation
+Skipping CD1C.1 - not enough variation
+[1] "Plotting ADT feature: ITGAM.1"
+Skipping FCGR1A.1 - not enough variation
+Skipping THBD.1 - not enough variation
+Skipping CD1D.1 - not enough variation
+Skipping KLRK1.1 - not enough variation
+Skipping CR1.1 - not enough variation
+Skipping B3GAT1.1 - not enough variation
+Skipping BTLA.1 - not enough variation
+[1] "Plotting ADT feature: ICOS.1"
+Skipping CD58.1 - not enough variation
+[1] "Plotting ADT feature: ENTPD1.1"
+Skipping CX3CR1.1 - not enough variation
+Skipping CD24.1 - not enough variation
+Skipping CR2.1 - not enough variation
+Skipping ITGAL.1 - not enough variation
+[1] "Plotting ADT feature: CD79B.1"
+[1] "Plotting ADT feature: CD244.1"
+Skipping SIGLEC1.1 - not enough variation
+[1] "Plotting ADT feature: ITGB7.1"
+Skipping TNFRSF13C.1 - not enough variation
+Skipping GP1BB.1 - not enough variation
+[1] "Plotting ADT feature: ICAM1.1"
+Skipping SELP.1 - not enough variation
+[1] "Plotting ADT feature: IFNGR1.1"
+Skipping IL2RB.1 - not enough variation
+[1] "Plotting ADT feature: TNFRSF13B.1"
+Skipping FCER1A.1 - not enough variation
+[1] "Plotting ADT feature: ITGA2B.1"
+[1] "Plotting ADT feature: TNFRSF9.1"
+Skipping CD163.1 - not enough variation
+[1] "Plotting ADT feature: CD83.1"
+Skipping IL4R.1 - not enough variation
+Skipping ANPEP.1 - not enough variation
+Skipping CD2.1 - not enough variation
+[1] "Plotting ADT feature: CD226.1"
+[1] "Plotting ADT feature: ITGB1.1"
+Skipping CLEC4C.1 - not enough variation
+Skipping ITGA2.1 - not enough variation
+Skipping CD81.1 - not enough variation
+Skipping IGHD.1 - not enough variation
+[1] "Plotting ADT feature: ITGB2.1"
+[1] "Plotting ADT feature: CD28.1"
+[1] "Plotting ADT feature: CD38.1"
+Skipping IL7R.1 - not enough variation
+[1] "Plotting ADT feature: CD22.1"
+[1] "Plotting ADT feature: TFRC.1"
+Skipping DPP4.1 - not enough variation
+Skipping CD36.1 - not enough variation
+[1] "Plotting ADT feature: KIR2DL1.1"
+[1] "Plotting ADT feature: ITGA1.1"
+[1] "Plotting ADT feature: ITGA4.1"
+Skipping NT5E.1 - not enough variation
+[1] "Plotting ADT feature: OLR1.1"
+[1] "Plotting ADT feature: KIR2DL3.1"
+Skipping KIR3DL1.1 - not enough variation
+[1] "Plotting ADT feature: SLAMF7.1"
+Skipping CD99.1 - not enough variation
+Skipping CLEC12A.1 - not enough variation
+Skipping SLAMF6.1 - not enough variation
+[1] "Plotting ADT feature: KLRD1.1"
+Skipping IGKC.1 - not enough variation
+[1] "Plotting ADT feature: LILRB1.1"
+Skipping FCER2.1 - not enough variation
+Skipping SIGLEC7.1 - not enough variation
+Skipping ADGRG1.1 - not enough variation
+[1] "Plotting ADT feature: HLA-E.1"
+Skipping CD82.1 - not enough variation
+Skipping CD101.1 - not enough variation
+[1] "Plotting ADT feature: C5AR1.1"
+Skipping GGT1.1 - not found in ADT assay
+Skipping CD34.1 - not found in ADT assay
+Skipping CD159a.1 - not found in ADT assay
+Skipping CD117.1 - not found in ADT assay
+Warning message:
+The `slot` argument of `VlnPlot()` is deprecated as of Seurat 5.0.0.
+ℹ Please use the `layer` argument instead.
+This warning is displayed once every 8 hours.
+Call `lifecycle::last_lifecycle_warnings()` to see where this warning was generated.  
 
 # Step 0: Load libraries
 library(Seurat)
