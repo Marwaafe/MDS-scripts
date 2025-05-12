@@ -48,10 +48,15 @@ data_path <- file.path(
 # Step 2: Read data (treat output as LIST)
 data_list <- Read10X_h5(data_path)  # Normal message about multiple modalities will appear
 
-# Step 3: Create Seurat object (RNA) and add ADT manually
+# Step 3: Create the Seurat object from RNA
 seurat_obj <- CreateSeuratObject(counts = data_list[["Gene Expression"]], 
                                  min.cells = 30, min.features = 200)
-seurat_obj[["ADT"]] <- CreateAssayObject(counts = data_list[["Antibody Capture"]])
+
+# Subset ADT to match the cells in seurat_obj
+adt_counts <- data_list[["Antibody Capture"]][, colnames(seurat_obj)]
+
+# Add the ADT assay
+seurat_obj[["ADT"]] <- CreateAssayObject(counts = adt_counts)
 
 # Step 4: View Seurat object summary
 print(seurat_obj)
