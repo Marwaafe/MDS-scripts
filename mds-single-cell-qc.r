@@ -84,6 +84,9 @@ seurat_obj <- subset(
 # Step 7: Normalize RNA
 seurat_obj <- NormalizeData(seurat_obj, normalization.method = "LogNormalize", assay = "RNA")
 
+seurat_obj$`nCount_ADT` <- Matrix::colSums(seurat_obj[["ADT"]]@counts)
+seurat_obj$`nFeature_ADT` <- Matrix::colSums(seurat_obj[["ADT"]]@counts > 0)
+
 # Step 8: Normalize ADT
 seurat_obj <- NormalizeData(seurat_obj, normalization.method = "CLR", margin = 2, assay = "ADT")
 
