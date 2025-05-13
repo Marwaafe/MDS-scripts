@@ -1,4 +1,8 @@
- adt_counts <- seurat_obj[["ADT"]]@counts
+ seurat_obj <- CreateSeuratObject(counts = rna_subset, min.cells = 30, min.features = 200)
+Error in validObject(.Object) : 
+  invalid class “LogMap” object: Rownames must be supplied
+
+adt_counts <- seurat_obj[["ADT"]]@counts
 > summary(Matrix::colSums(adt_counts))
    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
 0.00000 0.00000 0.00000 0.01018 0.00000 2.00000 
