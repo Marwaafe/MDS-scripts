@@ -1,6 +1,20 @@
- seurat_obj <- CreateSeuratObject(counts = rna_subset, min.cells = 30, min.features = 200)
+ rn <- rownames(rna_subset)
+> rn <- make.unique(as.character(rn))
+> rn[rn == ""] <- paste0("Gene_", which(rn == ""))
+> rownames(rna_subset) <- rn
+> seurat_obj <- CreateSeuratObject(counts = rna_subset, min.cells = 30, min.features = 200)
 Error in validObject(.Object) : 
   invalid class “LogMap” object: Rownames must be supplied
+> str(rna_subset)
+Formal class 'dgCMatrix' [package "Matrix"] with 6 slots
+  ..@ i       : int [1:13981] 36565 31981 25667 3527 15495 25903 370 625 1427 1847 ...
+  ..@ p       : int [1:407] 0 0 1 2 2 2 2 3 3 6 ...
+  ..@ Dim     : int [1:2] 36601 406
+  ..@ Dimnames:List of 2
+  .. ..$ : chr [1:36601] "MIR1302-2HG" "FAM138A" "OR4F5" "AL627309.1" ...
+  .. ..$ : chr [1:406] "AAACGGGCAGGCTGAA-1" "AAAGATGCATCGTCGG-1" "AAAGATGTCTATCCTA-1" "AAAGCAAGTACTTCTT-1" ...
+  ..@ x       : num [1:13981] 1 1 1 1 1 2 1 1 1 2 ...
+  ..@ factors : list()
 
 adt_counts <- seurat_obj[["ADT"]]@counts
 > summary(Matrix::colSums(adt_counts))
