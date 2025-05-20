@@ -142,5 +142,23 @@ DotPlot(seurat_obj, features = top_adt, assay = "ADT") +
   RotatedAxis() +
   ggtitle("Top 15 ADT Markers by Average Expression")
 
+
+library(pheatmap)
+
+# Calculate average expression of ADT markers per cluster
+adt_avg <- AverageExpression(seurat_obj, assays = "ADT")$ADT
+
+# Optional: scale for better visual contrast
+adt_avg_scaled <- t(scale(t(adt_avg)))
+
+# Plot heatmap
+pheatmap(adt_avg_scaled,
+         main = "Average ADT Expression per Cluster",
+         cluster_rows = TRUE,
+         cluster_cols = TRUE,
+         fontsize_row = 8,
+         fontsize_col = 10)
+
+
 # Step 15: Save the processed Seurat object
 saveRDS(seurat_obj, file = paste0(sample_name, "_RNA_ADT_filtered_normalized.rds"))
