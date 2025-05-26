@@ -27,3 +27,7 @@ for (name in sample_names) {
     cat("Error processing", name, ":", conditionMessage(e), "\n")
   })
 }
+
+seu_test <- readRDS("/trinity/home/mafechkar/MDS_Data/MDS155-13-606_SeuratObj.rds")
+length(VariableFeatures(seu_test))  # Should be ~2000
+head(VariableFeatures(seu_test))    # See top variable genes
