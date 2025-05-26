@@ -74,8 +74,6 @@ seu_mds155$IDs <- seu_mds155$orig.ident
 levels(seu_mds155$IDs) <- 'HL_control'
 
 
-
-
 # Step 14: Read in the feature reference file
 feature_ref <- read.csv("/trinity/home/mafechkar/MDS_Data/feature_ref.csv", stringsAsFactors = FALSE)
 
@@ -87,11 +85,8 @@ adt_names <- adt_names[!is.na(adt_names) & adt_names != "nan"]
 # Add ".1" to each feature name to match Seurat ADT rownames
 adt_features <- paste0(adt_names, ".1")
 
-
-###
-adt_data <- rownames(seu_mds155[["ADT"]])
-adt_data
-###
+seu_mds155 <- NormalizeData(seurat_obj, assay = "RNA", normalization.method = "LogNormalize", scale.factor = 10000)
+seu_mds155 <- NormalizeData(seurat_obj, assay = "ADT", normalization.method = "CLR")
 
 # Plot each valid ADT feature
 adt_data <- GetAssayData(seu_mds155, assay = "ADT", layer = "data")
@@ -107,8 +102,6 @@ DotPlot(seu_mds155, features = top_adt, assay = "ADT") +
   RotatedAxis() +
   ggtitle("Top 15 ADT Markers by Average Expression")
 
-seu_mds155 <- NormalizeData(seurat_obj, assay = "RNA", normalization.method = "LogNormalize", scale.factor = 10000)
-seu_mds155 <- NormalizeData(seurat_obj, assay = "ADT", normalization.method = "CLR")
 
 # For RNA
 rna_data <- GetAssayData(seu_mds155, assay = "RNA", slot = "data")
