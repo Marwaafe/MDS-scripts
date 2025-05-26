@@ -17,6 +17,7 @@ merged_seurat <- merge(
   project = "MDS_Merged",
   merge.data = TRUE  # keep normalized RNA and ADT layers
 )
+merged_seurat$orig.ident <- sapply(strsplit(colnames(merged_seurat), "_"), `[`, 1)
 
 
 
