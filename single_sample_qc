@@ -107,14 +107,14 @@ DotPlot(seu_mds155, features = top_adt, assay = "ADT") +
   RotatedAxis() +
   ggtitle("Top 15 ADT Markers by Average Expression")
 
-seurat_obj <- NormalizeData(seurat_obj, assay = "RNA", normalization.method = "LogNormalize", scale.factor = 10000)
-seurat_obj <- NormalizeData(seurat_obj, assay = "ADT", normalization.method = "CLR")
+seu_mds155 <- NormalizeData(seurat_obj, assay = "RNA", normalization.method = "LogNormalize", scale.factor = 10000)
+seu_mds155 <- NormalizeData(seurat_obj, assay = "ADT", normalization.method = "CLR")
 
 # For RNA
-rna_data <- GetAssayData(seurat_obj, assay = "RNA", slot = "data")
+rna_data <- GetAssayData(seu_mds155, assay = "RNA", slot = "data")
 
 # For ADT
-adt_data <- GetAssayData(seurat_obj, assay = "ADT", slot = "data")
+adt_data <- GetAssayData(seu_mds155, assay = "ADT", slot = "data")
 
 
 
