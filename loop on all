@@ -1,0 +1,29 @@
+sample_names <- c(
+  "MDS001-09-203", "MDS005-09-247", "MDS006-08-249", "MDS010-09-299",
+  "MDS016-09-478", "MDS023-10-053", "MDS029-10-118", "MDS038-10-241",
+  "MDS059-10-531", "MDS065-10-609", "MDS154-13-486", "MDS155-13-606",
+  "MDS167-13-913", "MDS169-13-919", "MDS180-14-164", "MDS189-14-527",
+  "MDS201-15-093", "MDS212-15-463"
+)
+
+for (name in sample_names) {
+  path <- file.path("/trinity/home/mafechkar/MDS_Data", paste0(name, "_SeuratObj.rds"))
+  
+  if (!file.exists(path)) {
+    cat("File not found:", path, "\n")
+    next
+  }
+  
+  tryCatch({
+    seu <- readRDS(path)
+    if (length(VariableFeatures(seu)) == 0) {
+      cat("Adding variable features for", name, "\n")
+      seu <- FindVariableFeatures(seu)
+      saveRDS(seu, file = path)
+    } else {
+      cat("Variable features already present in", name, "\n")
+    }
+  }, error = function(e) {
+    cat("Error processing", name, ":", conditionMessage(e), "\n")
+  })
+}
