@@ -28,3 +28,15 @@ merged_seurat <- RunUMAP(merged_seurat, dims = 1:30)
 
 DimPlot(merged_seurat, group.by = "orig.ident", label = TRUE)
 saveRDS(merged_seurat, file = "/trinity/home/mafechkar/MDS_Data/MDS_Merged_SeuratObj.rds")
+
+
+
+anchors <- FindIntegrationAnchors(object.list = seurat_list)
+seurat_integrated <- IntegrateData(anchorset = anchors)
+
+immune <- subset(seurat_integrated, idents = c("T cells", "B cells", "NK", "NKT"))  # after annotations
+
+
+anchors <- FindIntegrationAnchors(object.list = seurat_immune_list)
+seurat_integrated <- IntegrateData(anchorset = anchors)
+
