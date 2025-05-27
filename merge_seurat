@@ -41,6 +41,28 @@ saveRDS(merged_seurat, file = "/trinity/home/mafechkar/MDS_Data/MDS_Merged_Seura
 anchors <- FindIntegrationAnchors(object.list = seurat_list)
 seurat_integrated <- IntegrateData(anchorset = anchors)
 
+# Step 1: Run Integration using CCA
+merged_seurat <- IntegrateLayers(
+  object = merged_seurat,
+  method = CCAIntegration,
+  orig.reduction = "pca",
+  new.reduction = "integrated.cca",
+  verbose = TRUE
+)
+# Step 2: (Optional) Join layers back if you want a unified matrix
+merged_seurat[["RNA"]] <- JoinLayers(merged_seurat[["RNA"]])
+
+# Step 3: Run dimensionality reduction and clustering using integrated reduction
+merged_seurat <- FindNeighbors(merged_seurat, reduction = "integrated.cca", dims = 1:30)
+merged_seurat <- FindClusters(merged_seurat, resolution = 0.8)
+merged_seurat <- RunUMAP(merged_seurat, reduction = "integrated.cca", dims = 1:30)
+
+# Step 4: Visualize again — compare to unintegrated
+DimPlot(merged_seurat, group.by = "orig.ident", reduction = "umap")  # integrated
+DimPlot(merged_seurat, group.by = "seurat_clusters", reduction = "umap")  # integrated clusters
+
+
+
 immune <- subset(seurat_integrated, idents = c("T cells", "B cells", "NK", "NKT"))  # after annotations
 
 
