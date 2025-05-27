@@ -61,6 +61,16 @@ merged_seurat <- RunUMAP(merged_seurat, reduction = "integrated.cca", dims = 1:3
 DimPlot(merged_seurat, group.by = "orig.ident", reduction = "umap")  # integrated
 DimPlot(merged_seurat, group.by = "seurat_clusters", reduction = "umap")  # integrated clusters
 
+DefaultAssay(merged_seurat) <- "RNA"
+
+FeaturePlot(
+  merged_seurat,
+  features = c("CD3D", "CD8A", "MS4A1", "NKG7", "CD14", "LYZ"),
+  reduction = "umap",  # or "umap.integrated" if that’s the name in your object
+  pt.size = 0.5
+)
+
+DotPlot(merged_seurat, features = c("CD3D", "CD8A", "MS4A1", "NKG7", "CD14", "LYZ"), group.by = "seurat_clusters") + RotatedAxis()
 
 
 immune <- subset(seurat_integrated, idents = c("T cells", "B cells", "NK", "NKT"))  # after annotations
