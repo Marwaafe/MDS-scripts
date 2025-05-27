@@ -1,0 +1,35 @@
+# Load all 18 preprocessed Seurat objects
+sample_names <- c(
+  "MDS001-09-203", "MDS005-09-247", "MDS006-08-249", "MDS010-09-299",
+  "MDS016-09-478", "MDS023-10-053", "MDS029-10-118", "MDS038-10-241",
+  "MDS059-10-531", "MDS065-10-609", "MDS154-13-486", "MDS155-13-606",
+  "MDS167-13-913", "MDS169-13-919", "MDS180-14-164", "MDS189-14-527",
+  "MDS201-15-093", "MDS212-15-463"
+)
+
+# Load as a named list
+seurat_list <- lapply(sample_names, function(name) {
+  readRDS(file.path("/trinity/home/mafechkar/MDS_Data", paste0(name, "_SeuratObj.rds")))
+})
+names(seurat_list) <- sample_names
+
+# Create a single object using the first one
+seurat_v5 <- seurat_list[[1]]
+Assays(seurat_v5) <- list(RNA = JoinLayers(lapply(seurat_list, `[[`, "RNA")))
+seurat_v5$sample <- sapply(strsplit(colnames(seurat_v5), "_"), `[`, 1)
+
+# Normalization and feature selection (operates on each layer)
+seurat_v5 <- NormalizeData(seurat_v5)
+seurat_v5 <- FindVariableFeatures(seurat_v5)
+seurat_v5 <- ScaleData(seurat_v5)
+seurat_v5 <- RunPCA(seurat_v5)
+
+# Clustering
+seurat_v5 <- FindNeighbors(seurat_v5, dims = 1:30, reduction = "pca")
+seurat_v5 <- FindClusters(seurat_v5, resolution = 0.8, cluster.name = "unintegrated_clusters")
+
+# UMAP before integration
+seurat_v5 <- RunUMAP(seurat_v5, dims = 1:30, reduction = "pca", reduction.name = "umap.unintegrated")
+
+# Visualize
+DimPlot(seurat_v5, reduction = "umap.unintegrated", group.by = "sample")
