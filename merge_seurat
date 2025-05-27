@@ -21,17 +21,17 @@ merged_seurat$orig.ident <- sapply(strsplit(colnames(merged_seurat), "_"), `[`, 
 
 
 
+merged_seurat <- NormalizeData(merged_seurat)
+merged_seurat <- FindVariableFeatures(merged_seurat)
 merged_seurat <- ScaleData(merged_seurat)
 merged_seurat <- RunPCA(merged_seurat)
-merged_seurat <- RunUMAP(merged_seurat, dims = 1:30)
+merged_seurat <- FindNeighbors(merged_seurat, dims = 1:30, reduction = "pca")
+merged_seurat <- FindClusters(merged_seurat, resolution = 0.5, cluster.name = "unintegrated_clusters")
+merged_seurat <- RunUMAP(merged_seurat, dims = 1:30, reduction = "pca", reduction.name = "umap.unintegrated")
 
+DimPlot(merged_seurat, reduction = "umap.unintegrated", group.by = "sample")
 
-DimPlot(merged_seurat, group.by = "orig.ident", label = TRUE)
-
-
-merged_seurat <- FindNeighbors(merged_seurat, dims = 1:30)
-merged_seurat <- FindClusters(merged_seurat, resolution = 0.5)
-DimPlot(merged_seurat, group.by = "seurat_clusters", label = TRUE)
+DimPlot(merged_seurat, reduction = "umap.unintegrated", group.by = "seurat_clusters", label = TRUE)
 
 
 saveRDS(merged_seurat, file = "/trinity/home/mafechkar/MDS_Data/MDS_Merged_SeuratObj.rds")
