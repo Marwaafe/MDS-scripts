@@ -18,6 +18,19 @@ seurat_v5 <- seurat_list[[1]]
 Assays(seurat_v5) <- list(RNA = JoinLayers(lapply(seurat_list, `[[`, "RNA")))
 seurat_v5$sample <- sapply(strsplit(colnames(seurat_v5), "_"), `[`, 1)
 
+# Step 1: Get only the RNA count matrices (not Assay objects)
+rna_layers <- lapply(seurat_list, function(obj) GetAssayData(obj, assay = "RNA", slot = "counts"))
+
+# Step 2: Join them into one layered object
+rna_joined <- JoinLayers(rna_layers)
+
+# Step 3: Create the layered Seurat object
+seurat_v5 <- CreateSeuratObject(rna_joined)
+
+# Step 4: Add sample IDs (from layer names)
+seurat_v5$sample <- LayerData(seurat_v5[["RNA"]], "layer")
+
+
 # Normalization and feature selection (operates on each layer)
 seurat_v5 <- NormalizeData(seurat_v5)
 seurat_v5 <- FindVariableFeatures(seurat_v5)
