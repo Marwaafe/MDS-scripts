@@ -27,6 +27,13 @@ merged_seurat <- RunUMAP(merged_seurat, dims = 1:30)
 
 
 DimPlot(merged_seurat, group.by = "orig.ident", label = TRUE)
+
+
+merged_seurat <- FindNeighbors(merged_seurat, dims = 1:30)
+merged_seurat <- FindClusters(merged_seurat, resolution = 0.5)
+DimPlot(merged_seurat, group.by = "seurat_clusters", label = TRUE)
+
+
 saveRDS(merged_seurat, file = "/trinity/home/mafechkar/MDS_Data/MDS_Merged_SeuratObj.rds")
 
 
@@ -39,4 +46,7 @@ immune <- subset(seurat_integrated, idents = c("T cells", "B cells", "NK", "NKT"
 
 anchors <- FindIntegrationAnchors(object.list = seurat_immune_list)
 seurat_integrated <- IntegrateData(anchorset = anchors)
+
+
+
 
