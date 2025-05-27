@@ -72,6 +72,21 @@ FeaturePlot(
 
 DotPlot(merged_seurat, features = c("CD3D", "CD8A", "MS4A1", "NKG7", "CD14", "LYZ"), group.by = "seurat_clusters") + RotatedAxis()
 
+# Visualize selected marker genes on UMAP
+FeaturePlot(merged_seurat, features = c("CD3D", "CD8A", "MS4A1", "NKG7", "CD14", "LYZ"),
+            reduction = "umap", cols = c("lightgrey", "blue"), label = TRUE)
+
+FeaturePlot(merged_seurat, features = "CD3D")
+
+DotPlot(merged_seurat,
+        features = list(
+          "T cells" = c("CD3D", "CD4", "CD8A"),
+          "B cells" = c("MS4A1", "CD79A"),
+          "NK cells" = c("NKG7", "GNLY"),
+          "Monocytes" = c("CD14", "LYZ"),
+          "DCs" = c("FCER1A", "CST3")
+        )) + RotatedAxis()
+
 
 immune <- subset(seurat_integrated, idents = c("T cells", "B cells", "NK", "NKT"))  # after annotations
 
