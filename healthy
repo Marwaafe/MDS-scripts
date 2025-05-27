@@ -1,0 +1,139 @@
+# Step 0: Load libraries
+library(Seurat)
+library(Matrix)
+library(ggplot2)
+library(patchwork)
+
+# Step 1: Set sample name and file path
+sample_name <- "HealthyBM2"
+data_path<- file.path(
+  "/trinity/home/mafechkar/Healthy_BoneM/ERX4720940.h5"
+)
+
+output_path <- file.path("/trinity/home/mafechkar/Healthy_BoneM", paste0(sample_name, "_SeuratObj.rds"))
+
+
+# Step 2: Read multimodal data (RNA + ADT)
+data_list <- Read10X_h5(data_path)
+
+class(data_list)
+names(data_list)
+# Step 4: Subset RNA and ADT matrices to ADT-positive barcodes
+### rna_subset <- data_list[["Gene Expression"]]
+
+
+# Step 5: Create Seurat object from RNA (minimal filtering to preserve rare ADT+ cells)
+seu_healthy<- CreateSeuratObject(counts = data_list, min.cells = 30, min.features = 200)
+dim(seu_healthy
+)
+
+# Add adt assay
+adt_subset <- data_list
+adt_subset <- adt_subset[,colnames(seu_healthy
+)]
+seu_healthy[["ADT"]] <- CreateAssayObject(counts = adt_subset)
+
+# Step 7: Add mitochondrial percentage (RNA)
+DefaultAssay(seu_healthy
+) <- "RNA"
+seu_healthy[["percent.mt"]] <- PercentageFeatureSet(seu_healthy
+                                                , pattern = "^MT-")
+
+# Step 8: Add ADT QC metrics manually
+seu_healthy$nCount_ADT <- Matrix::colSums(seu_healthy
+                                      [["ADT"]]@counts)
+seu_healthy$nFeature_ADT <- Matrix::colSums(seu_healthy
+                                        [["ADT"]]@counts > 0)
+
+# Step 9: Print basic object summary 
+cat("Total cells before RNA QC filtering:", ncol(seu_healthy
+), "\n")
+cat("Cells with ADT signal:", sum(seu_healthy
+                                  $nCount_ADT > 0), "\n")
+
+
+#QC
+counts <-seu_healthy@assays$RNA$counts
+counts[1:10,1:3]
+genes_per_cell <- Matrix::colSums(counts>0) # count a gene only if it has non-zero reads mapped.
+counts_per_cell <- Matrix::colSums(counts)
+plot(sort(genes_per_cell), xlab='cell', log='y', main='genes per cell (ordered)')
+MIN_GENES_PER_CELL <- 500
+MAX_GENES_PER_CELL <- 5000
+# now replot with the thresholds being shown:
+plot(sort(genes_per_cell), xlab='cell', log='y', main='genes per cell (ordered)')
+abline(h=MIN_GENES_PER_CELL, col='magenta')  # lower threshold
+abline(h=MAX_GENES_PER_CELL, col='gold') # upper threshold
+
+#MT
+seu_healthy[["percent.mt"]] <- PercentageFeatureSet(seu_healthy
+                                                , pattern = "^MT-")
+mito_genes <- grep("^mt-", rownames(counts) , ignore.case=T, value=T)
+mito_gene_read_counts = Matrix::colSums(counts[mito_genes,])
+pct_mito = mito_gene_read_counts / counts_per_cell * 100
+plot(sort(pct_mito), xlab = "cells sorted by percentage mitochondrial counts", ylab =
+       "percentage mitochondrial counts")
+
+MAX_PCT_MITO <- 10
+plot(sort(pct_mito))
+abline(h=MAX_PCT_MITO, col='red')
+seu_healthy<- subset(seu_healthy
+                 , subset = nFeature_RNA >500 & nFeature_RNA <5000 & percent.mt<10)
+dim(seu_healthy
+)
+seu_healthy$IDs <- seu_healthy$orig.ident
+levels(seu_healthy
+       $IDs) <- 'HL_control'
+
+
+
+
+# Step 14: Read in the feature reference file
+feature_ref <- read.csv("/trinity/home/mafechkar/MDS_Data/feature_ref.csv", stringsAsFactors = FALSE)
+
+# Extract unique antibody names from the 'name' column (exclude NA/malformed ones)
+adt_names <- unique(feature_ref$name)
+adt_names <- trimws(unique(feature_ref$name))
+adt_names <- adt_names[!is.na(adt_names) & adt_names != "nan"]
+
+# Add ".1" to each feature name to match Seurat ADT rownames
+adt_features <- paste0(adt_names, ".1")
+
+
+###
+adt_data <- rownames(seu_healthy
+                     [["ADT"]])
+adt_data [1:10]
+###
+
+seu_healthy <- NormalizeData(seu_healthy, assay = "RNA", normalization.method = "LogNormalize", scale.factor = 10000)
+seu_healthy <- NormalizeData(seu_healthy, assay = "ADT", normalization.method = "CLR")
+
+# Plot each valid ADT feature
+adt_data <- GetAssayData(seu_healthy
+                         , assay = "ADT", layer = "data")
+
+# Calculate average expression for each ADT feature
+adt_means <- Matrix::rowMeans(adt_data)
+
+# Sort descending and get top 15 features
+top_adt <- names(sort(adt_means, decreasing = TRUE))[1:30]
+
+# Plot DotPlot for the top 15 ADT features
+DotPlot(seu_healthy
+        , features = top_adt, assay = "ADT") +
+  RotatedAxis() +
+  ggtitle("Top 15 ADT Markers by Average Expression")
+
+# For RNA
+rna_data <- GetAssayData(seu_healthy, assay = "RNA", layer = "data")
+rna_data [1:5]
+
+# For ADT
+adt_data <- GetAssayData(seu_healthy, assay = "ADT", layer = "data")
+adt_data 
+
+seu_healthy <- FindVariableFeatures(seu_healthy)
+head(VariableFeatures(seu_healthy))
+# Step 15: Save the processed Seurat object
+saveRDS(seu_healthy, file = output_path)
