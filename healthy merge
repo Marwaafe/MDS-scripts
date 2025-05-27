@@ -1,0 +1,34 @@
+# Split merged_seurat into individual sample objects
+seurat_list <- SplitObject(merged_seurat, split.by = "orig.ident")
+
+# Normalize + HVGs for each
+seurat_list <- lapply(seurat_list, function(obj) {
+  obj <- NormalizeData(obj)
+  obj <- FindVariableFeatures(obj)
+  return(obj)
+})
+
+# Set healthy donors as anchors
+anchors <- FindIntegrationAnchors(
+  object.list = seurat_list,
+  reference = which(names(seurat_list) %in% healthy_donor_names)
+)
+
+# Integrate!
+seurat_integrated <- IntegrateData(anchorset = anchors)
+
+
+FeaturePlot(merged_seurat, features = c("CD3D", "CD3E"), reduction = "umap")  # Pan-T cell
+FeaturePlot(merged_seurat, features = c("CD4"), reduction = "umap")          # CD4 T
+FeaturePlot(merged_seurat, features = c("CD8A", "CD8B"), reduction = "umap") # CD8 T
+FeaturePlot(merged_seurat, features = c("MS4A1", "CD79A", "CD19"), reduction = "umap")
+
+FeaturePlot(merged_seurat, features = c("NKG7", "GNLY", "KLRD1"), reduction = "umap")
+
+FeaturePlot(merged_seurat, features = c("CD14", "LYZ", "FCGR3A"), reduction = "umap")
+
+FeaturePlot(merged_seurat, features = c("FCER1A", "CST3"), reduction = "umap")
+
+FeaturePlot(merged_seurat, features = "PPBP", reduction = "umap")
+
+FeaturePlot(merged_seurat, features = c("HBB", "HBA2"), reduction = "umap")
