@@ -1,0 +1,79 @@
+library(Seurat)
+library(Matrix)
+library(ggplot2)
+library(patchwork)
+library(dplyr)
+library(clustree)
+library(UCell)
+library(RColorBrewer)
+library(GeneNMF)
+
+sample_names <- c(
+  "MDS001-09-203", "MDS005-09-247", "MDS006-08-249", "MDS010-09-299",
+  "MDS016-09-478", "MDS023-10-053", "MDS029-10-118", "MDS038-10-241",
+  "MDS059-10-531", "MDS065-10-609", "MDS154-13-486", "MDS155-13-606",
+  "MDS167-13-913", "MDS169-13-919", "MDS180-14-164", "MDS189-14-527",
+  "MDS201-15-093", "MDS212-15-463"
+)
+
+seurat_list <- lapply(sample_names, function(name) {
+  readRDS(file.path("/trinity/home/mafechkar/MDS_Data", paste0(name, "_SeuratObj.rds")))
+})
+names(seurat_list) <- sample_names
+merged_seurat <- merge(
+  x = seurat_list[[1]],
+  y = seurat_list[-1],
+  add.cell.ids = sample_names,
+  project = "MDS_Merged",
+  merge.data = TRUE  # keep normalized RNA and ADT layers
+)
+
+merged_seurat$orig.ident <- sapply(strsplit(colnames(merged_seurat), "_"), `[`, 1)
+
+#Normalize using LogNormalize with median scaling factor
+median_umi <- median(merged_seurat$nCount_RNA)
+print(median_umi)
+merged_seurat_log <- NormalizeData(merged_seurat, normalization.method = "LogNormalize", scale.factor = median_umi)
+
+#Detecting Batch effect
+merged_seurat_log <- FindVariableFeatures(merged_seurat_log)
+merged_seurat_log <- ScaleData(merged_seurat_log)
+merged_seurat_log <- RunPCA(merged_seurat_log)
+DimPlot(merged_seurat_log, reduction = "pca", group.by = "orig.ident")
+
+#set RNA assay as default and split object by sample 
+DefaultAssay(merged_seurat_log) <- "RNA"
+seurat_list <- SplitObject(merged_seurat_log, split.by = "orig.ident")
+
+common_genes <- Reduce(intersect, lapply(seurat_list, function(x) rownames(x)))
+
+seurat_list <- lapply(seurat_list, function(x) {
+  x[common_genes,]
+})
+
+#Run NMF across multiple k values
+geneNMF.programs <- multiNMF(seurat_list, assay = "RNA", k = 4:9, min.exp = 0.05)
+
+#Collapse those programs into consensus metaprograms (MPs)
+geneNMF.metaprograms <- getMetaPrograms(
+  geneNMF.programs,
+  metric = "cosine",
+  weight.explained = 0.5,
+  nMP = 7
+)
+
+ph <- plotMetaPrograms(geneNMF.metaprograms, similarity.cutoff = c(0.1, 1))
+
+geneNMF.metaprograms$metaprograms.metrics
+
+#identify non wanted genes by prefix 
+ALs <- grep('^AL[0-9]',rownames(merged_seurat_log[['RNA']]),value = TRUE)
+ACs <- grep('^AC[0-9]',rownames(merged_seurat_log[['RNA']]),value = TRUE)
+ADs <- grep('^AD[0-9]',rownames(merged_seurat_log[['RNA']]),value = TRUE)
+APs <- grep('^AP[0-9]',rownames(merged_seurat_log[['RNA']]),value = TRUE)
+EFs <-  grep('^EEF',rownames(merged_seurat_log[['RNA']]),value = TRUE)
+LINCs <-  grep('^LINC',rownames(merged_seurat_log[['RNA']]),value = TRUE)
+
+#combine into a single gene list
+genes_to_remove <- c('MALAT1','LNCAROD','IGKC', ALs, ACs, ADs,APs,EFs,LINCs)
+merged_seurat_log[['RNA']] <- subset(merged_seurat_log[['RNA']], features = setdiff(rownames(merged_seurat_log[['RNA']]), gene))
