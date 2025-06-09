@@ -59,12 +59,17 @@ geneNMF.metaprograms <- getMetaPrograms(
   geneNMF.programs,
   metric = "cosine",
   weight.explained = 0.5,
-  nMP = 7
+  nMP = 10
 )
 
 ph <- plotMetaPrograms(geneNMF.metaprograms, similarity.cutoff = c(0.1, 1))
 
 geneNMF.metaprograms$metaprograms.metrics
+
+keep_mps <- c("MP1", "MP2", "MP3", "MP4", "MP6", "MP7", "MP8", "MP10")
+filtered_metaprograms <- geneNMF.metaprograms$metaprograms.genes[keep_mps]
+
+str(filtered_metaprograms)
 
 #identify non wanted genes by prefix 
 ALs <- grep('^AL[0-9]',rownames(merged_seurat_log[['RNA']]),value = TRUE)
@@ -76,4 +81,5 @@ LINCs <-  grep('^LINC',rownames(merged_seurat_log[['RNA']]),value = TRUE)
 
 #combine into a single gene list
 genes_to_remove <- c('MALAT1','LNCAROD','IGKC', ALs, ACs, ADs,APs,EFs,LINCs)
-merged_seurat_log[['RNA']] <- subset(merged_seurat_log[['RNA']], features = setdiff(rownames(merged_seurat_log[['RNA']]), gene))
+merged_seurat_log[['RNA']] <- subset(merged_seurat_log[['RNA']], features = setdiff(rownames(merged_seurat_log[['RNA']]), genes_to_remove))
+
