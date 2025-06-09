@@ -1,42 +1,33 @@
-merged_seurat_log[['RNA']] <- subset(merged_seurat_log[['RNA']], features = setdiff(rownames(merged_seurat_log[['RNA']]), genes_to_remove))
-Warning: Different features in new layer data than already exists for counts.1
-Warning: Different features in new layer data than already exists for counts.2
-Warning: Different features in new layer data than already exists for counts.3
-Warning: Different features in new layer data than already exists for counts.4
-Warning: Different features in new layer data than already exists for counts.5
-Warning: Different features in new layer data than already exists for counts.6
-Warning: Different features in new layer data than already exists for counts.7
-Warning: Different features in new layer data than already exists for counts.8
-Warning: Different features in new layer data than already exists for counts.9
-Warning: Different features in new layer data than already exists for counts.10
-Warning: Different features in new layer data than already exists for counts.11
-Warning: Different features in new layer data than already exists for counts.12
-Warning: Different features in new layer data than already exists for counts.13
-Warning: Different features in new layer data than already exists for counts.14
-Warning: Different features in new layer data than already exists for counts.15
-Warning: Different features in new layer data than already exists for counts.16
-Warning: Different features in new layer data than already exists for counts.17
-Warning: Different features in new layer data than already exists for counts.18
-Warning: Different features in new layer data than already exists for data.1
-Warning: Different features in new layer data than already exists for data.2
-Warning: Different features in new layer data than already exists for data.3
-Warning: Different features in new layer data than already exists for data.4
-Warning: Different features in new layer data than already exists for data.5
-Warning: Different features in new layer data than already exists for data.6
-Warning: Different features in new layer data than already exists for data.7
-Warning: Different features in new layer data than already exists for data.8
-Warning: Different features in new layer data than already exists for data.9
-Warning: Different features in new layer data than already exists for data.10
-Warning: Different features in new layer data than already exists for data.11
-Warning: Different features in new layer data than already exists for data.12
-Warning: Different features in new layer data than already exists for data.13
-Warning: Different features in new layer data than already exists for data.14
-Warning: Different features in new layer data than already exists for data.15
-Warning: Different features in new layer data than already exists for data.16
-Warning: Different features in new layer data than already exists for data.17
-Warning: Different features in new layer data than already exists for data.18
-Warning message:
-Different cells and/or features from existing assay RNA 
+lapply(geneNMF.metaprograms$metaprograms.genes, head)
+$MP1
+[1] "GNLY"   "NKG7"   "CCL5"   "GZMB"   "FGFBP2"
+
+$MP2
+[1] "RPS5"   "EEF1B2" "RPL36"  "RPL36A" "RPL22"  "RPL10A"
+
+$MP3
+[1] "PDE3B"   "ZEB1"    "JARID2"  "SERINC5" "BACH2"   "PRKCA"  
+
+$MP4
+[1] "S100A9" "S100A8" "LYZ"    "CST3"  
+
+$MP5
+[1] "CD3E"  "DUSP2" "IL32"  "CCL5"  "LTB"   "ZFP36"
+
+$MP6
+[1] "TUBB"    "TUBA1B"  "ATP5IF1" "ATP5MC1" "TMEM14B" "HMGA1"  
+
+$MP7
+[1] "HLA-DRA"  "HLA-DPB1" "HLA-DRB1" "HLA-DPA1"
+
+$MP8
+[1] "LTB"    "IL7R"   "FLT3LG" "CD3E"   "CD2"    "CD3D"  
+
+$MP9
+[1] "LYZ"     "HLA-DRA" "SNHG7"   "SNHG29"  "TUBB"    "CD74"   
+
+$MP10
+[1] "SLC25A39" "HECTD4"   "BSG"      "WNK1"     "NUDT4"    "EPB41"   
 
 
 library(Seurat)
