@@ -1,0 +1,125 @@
+# script to identify cluster identity -----------------
+# Finding markers in every cluster
+# Finding conserved markers 
+# Finding markers DE between conditions
+
+# setwd("~/")
+
+set.seed(1234)
+
+library(Seurat)
+install.packages("tidyverse")
+install.packages("BiocManager")
+BiocManager::install("multtest")
+install.packages("metap")
+library(tidyverse)
+library(conflicted)
+conflict_prefer("filter", "dplyr")
+
+# load data
+merged_seurat_log.harmony <- readRDS(merged_seurat_log.harmony)
+str(merged_seurat_log.harmony)
+View(merged_seurat_log.harmony@meta.data)
+
+library(clustree)
+
+merged_seurat_log.harmony <- FindNeighbors(merged_seurat_log.harmony, reduction = 'harmony', dims = 1:20)  #  can tweak dims
+
+merged_seurat_log.harmony <- FindClusters(merged_seurat_log.harmony, resolution = seq(from = 0.1, to = 0.9, by = 0.1))
+merged_seurat_log.harmony@meta.data
+clust_seurat <- merged_seurat_log.harmony@meta.data %>% dplyr::select(dplyr::contains("RNA_snn_res."))
+clustree(clust_seurat, prefix="RNA_snn_res.")
+
+
+# 5. re-run clustering at that specific resolution
+merged_seurat_log.harmony <- FindClusters(merged_seurat_log.harmony, resolution = 0.8)  # resolution controls granularity
+
+# 6. Run UMAP
+merged_seurat_log.harmony <- RunUMAP(merged_seurat_log.harmony, reduction = 'harmony', dims = 1:20)
+
+
+# visualize data
+clusters <- DimPlot(merged_seurat_log.harmony, reduction = 'umap', group.by = 'seurat_clusters', label = TRUE) + scale_color_manual(values = distinct_colors) +
+  ggtitle("MDS colored by clusers 0.8") +
+  theme(aspect.ratio = 1)
+condition <- DimPlot(merged_seurat_log.harmony, reduction = "umap", group.by = "orig.ident") +
+  scale_color_manual(values = distinct_colors) +
+  ggtitle("MDS colored by samples") +
+  theme(aspect.ratio = 1)
+
+condition|clusters
+
+# findAll markers -----------------
+
+FindAllMarkers(merged_seurat_log.harmony,
+               logfc.threshold = 0.25,
+               min.pct = 0.1,
+               only.pos = TRUE,
+               test.use = 'DESeq2',
+               slot = 'counts')
+
+markers <- FindAllMarkers(
+  merged_seurat_log.harmony,
+  only.pos = TRUE,
+  min.pct = 0.1,
+  logfc.threshold = 0.25,
+  test.use = "wilcox",   # default
+  slot = "data"          # default slot for normalized data
+)
+
+# Run this BEFORE FindAllMarkers
+merged_seurat_log.harmony <- JoinLayers(merged_seurat_log.harmony)
+install.packages('devtools')
+devtools::install_github('immunogenomics/presto', force = TRUE)
+library(presto)
+
+markers <- FindAllMarkers(
+  merged_seurat_log.harmony,
+  min.pct = 0.2,
+  min.diff.pct = 0.2,
+  only.pos = TRUE,
+  verbose = TRUE,
+  slot = "data"
+) 
+
+# Then run marker detection
+markers <- FindAllMarkers(
+  merged_seurat_log.harmony,
+  only.pos = TRUE,
+  min.pct = 0.1,
+  logfc.threshold = 0.25
+)
+
+
+top_markers <- markers %>%
+  group_by(cluster) %>%
+  top_n(n = 5, wt = avg_log2FC)
+
+top_markers
+print(top_markers, n = 115)
+
+# Top 5 genes per cluster
+top5_markers <- markers %>%
+  group_by(cluster) %>%
+  top_n(5, wt = avg_log2FC) %>%
+  arrange(cluster, desc(avg_log2FC))
+
+
+# Ensure uniqueness of gene names (DotPlot can't handle duplicates in a named list)
+top5_genes_ordered <- unique(top5_markers$gene)
+
+# Plot using DotPlot
+DotPlot(
+  merged_seurat_log.harmony,
+  features = top5_genes_ordered,
+  group.by = "seurat_clusters"
+) + RotatedAxis()
+
+VlnPlot(
+  merged_seurat_log.harmony,
+  features = top5_markers$gene,
+  group.by = "seurat_clusters",
+  stack = TRUE,
+  flip = TRUE,
+  pt.size = 0
+) + NoLegend()
