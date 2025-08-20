@@ -1,4 +1,3 @@
-
 # Step 0: Load libraries
 library(Seurat)
 library(Matrix)
@@ -6,92 +5,136 @@ library(ggplot2)
 library(patchwork)
 
 # Step 1: Set sample name and file path
-sample_name <- "MDS005-09-247"
-data_path <- file.path(
-  "/trinity/home/mafechkar",
-  "ALL_MDS_OUTS_CellRangerCount_9.0",
+sample_name <- "MDS212-15-463"
+data_path<- file.path(
+  "/trinity/home/mafechkar/FINAL_MDS_OUTS_CellRangerCount_9.0",
   paste0(sample_name, "_count_output"),
   paste0(sample_name, "_count"),
   "outs",
   "raw_feature_bc_matrix.h5"
 )
 
-# Step 2: Read data (treat output as LIST)
-data_list <- Read10X_h5(data_path)  # Normal message about multiple modalities will appear
+# Step 2: Read multimodal data (RNA + ADT)
+data_list <- Read10X_h5(data_path)
 
-# Step 3: Create the Seurat object from RNA
-seurat_obj <- CreateSeuratObject(counts = data_list[["Gene Expression"]], 
-                                 min.cells = 30, min.features = 200)
+output_path <- file.path("/trinity/home/mafechkar/MDS_Data", paste0(sample_name, "_SeuratObj.rds"))
 
-# Subset ADT to match the cells in seurat_obj
-adt_counts <- data_list[["Antibody Capture"]][, colnames(seurat_obj)]
-
-# Add the ADT assay
-seurat_obj[["ADT"]] <- CreateAssayObject(counts = adt_counts)
-
-# Step 4: View Seurat object summary
-print(seurat_obj)
-
-# Step 5: Calculate percent mitochondrial genes
-seurat_obj[["percent.mt"]] <- PercentageFeatureSet(seurat_obj, pattern = "^MT-")
-
-# Step 6: (Optional but recommended) Remove cells with missing QC values before plotting
-seurat_obj <- subset(seurat_obj, subset = nFeature_RNA > 0 & nCount_RNA > 0 & percent.mt >= 0)
+# Step 4: Subset RNA and ADT matrices to ADT-positive barcodes
+### rna_subset <- data_list[["Gene Expression"]]
 
 
-# Step 7: Normalize RNA
-seurat_obj <- NormalizeData(seurat_obj, normalization.method = "LogNormalize", assay = "RNA")
+# Step 5: Create Seurat object from RNA (minimal filtering to preserve rare ADT+ cells)
+seu_mds<- CreateSeuratObject(counts = data_list[['Gene Expression']], min.cells = 30, min.features = 200)
+dim(seu_mds
+  )
 
-seurat_obj$`nCount_ADT` <- Matrix::colSums(seurat_obj[["ADT"]]@counts)
-seurat_obj$`nFeature_ADT` <- Matrix::colSums(seurat_obj[["ADT"]]@counts > 0)
+# Add adt assay
+adt_subset <- data_list[['Antibody Capture']]
+adt_subset <- adt_subset[,colnames(seu_mds
+                                  )]
+seu_mds[["ADT"]] <- CreateAssayObject(counts = adt_subset)
 
-# Step 8: Normalize ADT
-seurat_obj <- NormalizeData(seurat_obj, normalization.method = "CLR", margin = 2, assay = "ADT")
+# Step 7: Add mitochondrial percentage (RNA)
+DefaultAssay(seu_mds
+            ) <- "RNA"
+seu_mds[["percent.mt"]] <- PercentageFeatureSet(seu_mds
+                                                  , pattern = "^MT-")
+
+# Step 8: Add ADT QC metrics manually
+seu_mds$nCount_ADT <- Matrix::colSums(seu_mds
+                                        [["ADT"]]@counts)
+seu_mds$nFeature_ADT <- Matrix::colSums(seu_mds
+                                          [["ADT"]]@counts > 0)
+
+# Step 9: Print basic object summary 
+cat("Total cells before RNA QC filtering:", ncol(seu_mds
+                                                ), "\n")
+cat("Cells with ADT signal:", sum(seu_mds
+                                $nCount_ADT > 0), "\n")
 
 
-# Step 10: Plot ADT markers safely
-adt_data <- GetAssayData(seurat_obj, assay = "ADT", slot = "data")
-adt_features <- c("CD3", "CD4", "CD8", "CD14")
+#QC
+counts <-seu_mds@assays$RNA$counts
+counts[1:10,1:3]
+genes_per_cell <- Matrix::colSums(counts>0) # count a gene only if it has non-zero reads mapped.
+counts_per_cell <- Matrix::colSums(counts)
+plot(sort(genes_per_cell), xlab='cell', log='y', main='genes per cell (ordered)')
+MIN_GENES_PER_CELL <- 500
+MAX_GENES_PER_CELL <- 5000
+# now replot with the thresholds being shown:
+plot(sort(genes_per_cell), xlab='cell', log='y', main='genes per cell (ordered)')
+abline(h=MIN_GENES_PER_CELL, col='magenta')  # lower threshold
+abline(h=MAX_GENES_PER_CELL, col='gold') # upper threshold
 
-for (feature in adt_features) {
-  if (feature %in% rownames(adt_data)) {
-    feature_values <- as.numeric(adt_data[feature, ])
-    
-    if (all(is.na(feature_values))) {
-      message(paste("Skipping", feature, "- all values are NA"))
-      next
-    }
-    if (length(unique(na.omit(feature_values))) <= 1) {
-      message(paste("Skipping", feature, "- not enough variation"))
-      next
-    }
-    
-    print(paste("Plotting ADT feature:", feature))
-    print(VlnPlot(seurat_obj, features = feature, assay = "ADT", slot = "data") + ggtitle(feature))
-  } else {
-    message(paste("Skipping", feature, "- not found in ADT assay"))
-  }
-}
+#MT
+seu_mds[["percent.mt"]] <- PercentageFeatureSet(seu_mds
+                                                  , pattern = "^MT-")
+mito_genes <- grep("^mt-", rownames(counts) , ignore.case=T, value=T)
+mito_gene_read_counts = Matrix::colSums(counts[mito_genes,])
+pct_mito = mito_gene_read_counts / counts_per_cell * 100
+plot(sort(pct_mito), xlab = "cells sorted by percentage mitochondrial counts", ylab =
+       "percentage mitochondrial counts")
 
-# Step 11: Print number of cells before filtering
-cat("Cells before filtering:", ncol(seurat_obj), "\n")
+MAX_PCT_MITO <- 10
+plot(sort(pct_mito))
+abline(h=MAX_PCT_MITO, col='red')
+seu_mds<- subset(seu_mds
+                    , subset = nFeature_RNA >500 & nFeature_RNA <5000 & percent.mt<10)
+dim(seu_mds
+  )
+seu_mds$IDs <- seu_mds$orig.ident
+levels(seu_mds
+      $IDs) <- 'HL_control'
 
-# Step 12: Filter cells based on RNA QC thresholds
-seurat_obj <- subset(seurat_obj, subset = nFeature_RNA > 500 & nFeature_RNA < 2500 & percent.mt < 10)
 
-# Step 13: Print number of cells after filtering
-cat("Cells after filtering:", ncol(seurat_obj), "\n")
 
-# Plot genes per cell after filtering (base R)
-genes_per_cell_filtered <- seurat_obj$nFeature_RNA
-genes_per_cell_filtered_sorted <- sort(genes_per_cell_filtered)
 
-plot(genes_per_cell_filtered_sorted,
-     pch = 1,  # open circle
-     col = "black",
-     xlab = "cell",
-     ylab = "genes per cell",
-     main = "genes per cell (ordered, after filtering)")
+# Step 14: Read in the feature reference file
+feature_ref <- read.csv("/trinity/home/mafechkar/MDS_Data/feature_ref.csv", stringsAsFactors = FALSE)
 
-# Step 14: Save filtered and normalized Seurat object
-saveRDS(seurat_obj, file = paste0(sample_name, "_filtered_normalized.rds"))
+# Extract unique antibody names from the 'name' column (exclude NA/malformed ones)
+adt_names <- unique(feature_ref$name)
+adt_names <- trimws(unique(feature_ref$name))
+adt_names <- adt_names[!is.na(adt_names) & adt_names != "nan"]
+
+# Add ".1" to each feature name to match Seurat ADT rownames
+adt_features <- paste0(adt_names, ".1")
+
+
+###
+adt_data <- rownames(seu_mds
+                    [["ADT"]])
+adt_data [1:10]
+###
+
+seu_mds <- NormalizeData(seu_mds, assay = "RNA", normalization.method = "LogNormalize", scale.factor = 10000)
+seu_mds <- NormalizeData(seu_mds, assay = "ADT", normalization.method = "CLR")
+
+# Plot each valid ADT feature
+adt_data <- GetAssayData(seu_mds
+                        , assay = "ADT", layer = "data")
+
+# Calculate average expression for each ADT feature
+adt_means <- Matrix::rowMeans(adt_data)
+
+# Sort descending and get top 15 features
+top_adt <- names(sort(adt_means, decreasing = TRUE))[1:30]
+
+# Plot DotPlot for the top 15 ADT features
+DotPlot(seu_mds
+      , features = top_adt, assay = "ADT") +
+  RotatedAxis() +
+  ggtitle("Top 15 ADT Markers by Average Expression")
+
+# For RNA
+rna_data <- GetAssayData(seu_mds, assay = "RNA", layer = "data")
+rna_data [1:5]
+
+# For ADT
+adt_data <- GetAssayData(seu_mds, assay = "ADT", layer = "data")
+adt_data 
+
+seu_mds <- FindVariableFeatures(seu_mds)
+head(VariableFeatures(seu_mds))
+# Step 15: Save the processed Seurat object
+saveRDS(seu_mds, file = output_path)
