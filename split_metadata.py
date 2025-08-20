@@ -1,7 +1,3 @@
-mkdir -p /net/beegfs/scratch/mafechkar/MDS_Data/metadata
-nano /net/beegfs/scratch/mafechkar/MDS_Data/metadata/split_metadata.py
-
-
 import pandas as pd
 
 metadata_file = "/net/beegfs/scratch/mafechkar/MDS_Data/metadata/Data for scRNA seq analysis Updated.xlsx"
