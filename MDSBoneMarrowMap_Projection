@@ -89,7 +89,7 @@ DimPlot(
 
 library(dittoSeq)
 
-dittoDimPlot(
+BoneMarrowMap_MDS <- dittoDimPlot(
   merged_seurat_log.harmony,
   var = "predicted_CellType",
   do.label = TRUE,
