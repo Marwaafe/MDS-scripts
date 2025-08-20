@@ -1,38 +1,6 @@
-
-
-[ df.head():
-          Sample Version  Mean_Reads_Per_Cell  Median_Genes_Per_Cell  Fraction_Reads_In_Cells  Estimated_Cells
-0  MDS001-09-203   7.2.0              16426.0                 1110.0                     96.6          15156.0
-1  MDS001-09-203   9.0.0              16574.0                 1118.0                     96.3          15020.0
-2  MDS005-09-247   7.2.0              77711.0                 1824.0                     69.4           3486.0
-3  MDS005-09-247   9.0.0              80386.0                 1842.0                     68.6           3370.0
-4  MDS006-08-249   7.2.0              52182.0                 1418.0                     75.5           3649.0
-
- df.columns:
-Index(['Sample', 'Version', 'Mean_Reads_Per_Cell', 'Median_Genes_Per_Cell',
-       'Fraction_Reads_In_Cells', 'Estimated_Cells'],
-      dtype='object')
-
- Paired t-test result on Mean Reads per Cell:
-T-statistic: -2.987 p-value: 0.0083
-Significant difference between versions (p < 0.05)
-
- df_melted.head():
-          Sample Version               Metric    Value
-0  MDS001-09-203   7.2.0  Mean_Reads_Per_Cell  16426.0
-1  MDS001-09-203   9.0.0  Mean_Reads_Per_Cell  16574.0
-2  MDS005-09-247   7.2.0  Mean_Reads_Per_Cell  77711.0
-3  MDS005-09-247   9.0.0  Mean_Reads_Per_Cell  80386.0
-4  MDS006-08-249   7.2.0  Mean_Reads_Per_Cell  52182.0
-
- df_melted.columns:
-Index(['Sample', 'Version', 'Metric', 'Value'], dtype='object')
-/net/beegfs/scratch/mafechkar/MDS_Data/compare_cellranger_versions_qc.py:135: FutureWarning:
-
-Passing `palette` without assigning `hue` is deprecated and will be removed in v0.14.0. Assign the `x` variable to `hue` and set `legend=False` for the same effect.
-
-
-
+##Paired t-test result on Mean Reads per Cell:
+##T-statistic: -2.987 p-value: 0.0083
+##Significant difference between versions (p < 0.05)
 
 
 import os
