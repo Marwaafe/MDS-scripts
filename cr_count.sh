@@ -9,7 +9,7 @@
 #SBATCH --mail-type=END,FAIL
 #SBATCH --mail-user=m.afechkar@amsterdamumc.nl 
 
-module load cellranger/7.2.0 ## Get latest module
+module load cellranger/9.0.0  ## Use Cell Ranger version 9.0.0
 
 ##Replace all paths with yours
 rna_fastq_path="/net/beegfs/scratch/mafechkar/MDS_Data/MDS_GEX/MDS_GEX_fastqs"
@@ -70,12 +70,15 @@ ${rna_fastq_path},${sample},Gene Expression
 ${protein_fastq_path_symlink},${sample},Antibody Capture
 EOL
 
-# Run cellranger count using the generated libraries.csv
-  cellranger count \
-    --id="${sample}_count" \
-    --libraries="$csv_file" \
-    --transcriptome="$ref_genome" \
-    --feature-ref="$feature_ref_csv" \
-    --localmem=300 \
-    --localcores=40
-done
+dummy_token_file="${sample_output_dir}/dummy_token.txt"
+echo "dummy_token" > "$dummy_token_file"
+
+cellranger count \
+  --id="${sample}_count_${timestamp}" \
+  --create-bam false \
+  --libraries="$csv_file" \
+  --transcriptome="$ref_genome" \
+  --feature-ref="$feature_ref_csv" \
+  --localmem=300 \
+  --localcores=40 \
+  --tenx-cloud-token-path "$dummy_token_file"
