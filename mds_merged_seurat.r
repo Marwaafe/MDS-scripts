@@ -1,0 +1,43 @@
+sample_names <- c(
+  "MDS001-09-203", "MDS005-09-247", "MDS006-08-249", "MDS010-09-299",
+  "MDS016-09-478", "MDS023-10-053", "MDS029-10-118", "MDS038-10-241",
+  "MDS059-10-531", "MDS065-10-609", "MDS154-13-486", "MDS155-13-606",
+  "MDS167-13-913", "MDS169-13-919", "MDS180-14-164", "MDS189-14-527",
+  "MDS201-15-093", "MDS212-15-463"
+)
+
+seurat_list <- lapply(sample_names, function(name) {
+  readRDS(file.path("/trinity/home/mafechkar/MDS_Data", paste0(name, "_SeuratObj.rds")))
+})
+names(seurat_list) <- sample_names
+merged_seurat <- merge(
+  x = seurat_list[[1]],
+  y = seurat_list[-1],
+  add.cell.ids = sample_names,
+  project = "MDS_Merged",
+  merge.data = TRUE  # keep normalized RNA and ADT layers
+)
+
+merged_seurat$orig.ident <- sapply(strsplit(colnames(merged_seurat), "_"), `[`, 1)
+
+
+merged_seurat
+head(VariableFeatures(merged_seurat))[1:10]
+
+merged_seurat <- NormalizeData(merged_seurat)
+merged_seurat <- FindVariableFeatures(merged_seurat)
+merged_seurat <- ScaleData(merged_seurat)
+merged_seurat <- RunPCA(merged_seurat)
+merged_seurat <- FindNeighbors(merged_seurat, dims = 1:30, reduction = "pca")
+merged_seurat <- FindClusters(merged_seurat, resolution = 0.5, cluster.name = "unintegrated_clusters")
+merged_seurat <- RunUMAP(merged_seurat, dims = 1:30, reduction = "pca", reduction.name = umap.raw)
+
+DimPlot(merged_seurat, reduction = umap.raw, group.by = "orig.ident")
+
+DimPlot(merged_seurat, reduction = umap.raw, group.by = "seurat_clusters", label = FALSE)
+
+saveRDS(merged_seurat, file = "/trinity/home/mafechkar/MDS_Data/Raw_MDS_MergedSeu.rds")
+
+
+
+
