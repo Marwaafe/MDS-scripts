@@ -1,0 +1,272 @@
+library(Seurat)
+library(pheatmap)
+library(dplyr)
+# Step 1: Identify markers
+markers_MDS <- FindAllMarkers(
+  merged_seurat_log.harmony,
+  min.pct = 0.2,
+  min.diff.pct = 0.2,
+  only.pos = TRUE,
+  verbose = TRUE,
+  slot = "data"
+)
+# Step 2: Select top 5 markers per cluster by average log2FC, logFC is good to see effect size.
+top10 <- markers_MDS %>%
+  group_by(cluster) %>%
+  top_n(n =10 , wt= avg_log2FC)
+top10
+# averaging the expression
+avg_expr <- AverageExpression(merged_seurat_log.harmony, assays = "RNA", layer = "data", features = unique(top10$gene))$RNA
+# scale across clusters for heatmap contrast
+avg_expr <- t(scale(t(avg_expr)))
+# Plot
+pheatmap(
+  mat = avg_expr,
+  cluster_rows = T,
+  cluster_cols = T,treeheight_row = 10, treeheight_col = 10,
+  fontsize = 7, angle_col = 45,colorRampPalette(c("lightblue", "white", "red"))(100),
+  main = "Top 5 Marker Genes per Cluster"
+)
+
+
+
+dittoSeq::dittoDimPlot(merged_seurat_log.harmony,'seurat_clusters', do.label = T, labels.size = 4,
+                       reduction.use = 'umap',color.panel =distinct_colors ,show.grid.lines = T,
+                       shape.legend.size = 3, size = 0.5, do.ellipse = F,legend.title = "",
+                       legend.size = 2, dim.1 =1, dim.2
+                       =2)+ggtitle('Celltypes')+theme(plot.title = element_text(size = 8,face =
+                                                                                  "bold"))+xlab("UMAP1")+ylab('UMAP2')
+library(plotly)
+
+umap3d <- Embeddings(merged_seurat_log.harmony, "umap")
+clusters <- Idents(merged_seurat_log.harmony)
+# Basic 3D scatter plot
+plot_ly(
+  x = umap3d[,1], y = umap3d[,2], z = umap3d[,3],
+  color = as.factor(clusters),
+  colors = distinct_colors, # your color palette
+  type = "scatter3d",
+  mode = "markers",
+  marker = list(size = 2)
+) %>%
+  layout(
+    scene = list(
+      xaxis = list(title = "UMAP1"),
+      yaxis = list(title = "UMAP2"),
+      zaxis = list(title = "UMAP3")
+    )
+  )
+
+
+devtools::install_github("xmc811/Scillus", ref = "development")
+library(Scillus)
+
+markers_cl <- markers %>%
+  group_by(cluster) %>%
+  top_n(n =100 , wt= avg_log2FC)
+
+Scillus::plot_cluster_go(markers_cl, ont='BP', org = 'human',cluster_name = '6')
+
+
+FeaturePlot(merged_seurat_log.harmony, features = c("CD3E", "MS4A1", "NKG7"))
+
+DotPlot(merged_seurat_log.harmony, features = list(
+  T = c("CD3E", "CD3D", "IL7R", "CD4", "CD8A"),
+  B = c("MS4A1", "CD79A", "CD19"),
+  NK = c("NKG7", "GNLY", "KLRD1", "PRF1")
+)) + RotatedAxis()
+
+
+
+library(dplyr)
+library(Seurat)
+library(patchwork)
+
+merged_seurat_log.harmony <- FindVariableFeatures(merged_seurat_log.harmony, selection.method = "vst", nfeatures = 2000)
+
+# Identify the 10 most highly variable genes
+top10_variables <- head(VariableFeatures(merged_seurat_log.harmony), 10)
+## [1] "JCHAIN"   "IGHG1"    "IGHA1"    "IGKV3-20" "CLC"      "HBG2"     "HBG1"     "IGLC2"    "IGHV3-30" "IGHG2"   
+# plot variable features with and without labels
+plot1 <- VariableFeaturePlot(merged_seurat_log.harmony)
+plot2 <- LabelPoints(plot = plot1, points = top10_variables, repel = TRUE)
+plot2  # just display this
+
+all.genes <- rownames(merged_seurat_log.harmony)
+
+#Remove immunoglobulin genes from your HVGs before PCA:
+ig_genes <- grep("^IG[HKL]", VariableFeatures(merged_seurat_log.harmony), value = TRUE)
+VariableFeatures(merged_seurat_log.harmony) <- setdiff(VariableFeatures(merged_seurat_log.harmony), ig_genes)
+
+merged_seurat_log.harmony <- ScaleData(merged_seurat_log.harmony, features = all.genes)
+merged_seurat_log.harmony <- RunPCA(merged_seurat_log.harmony, features = VariableFeatures(object = merged_seurat_log.harmony))
+# Examine and visualize PCA results a few different ways
+print(merged_seurat_log.harmony[["pca"]], dims = 1:5, nfeatures = 5)
+
+VizDimLoadings(merged_seurat_log.harmony, dims = 1:2, reduction = "pca")
+DimPlot(merged_seurat_log.harmony, reduction = "pca") + NoLegend()
+
+DimHeatmap(merged_seurat_log.harmony, dims = 1, cells = 500, balanced = TRUE)
+
+DimHeatmap(merged_seurat_log.harmony, dims = 1:15, cells = 500, balanced = TRUE)
+
+#DEtermine dimentionality of the dataset
+ElbowPlot(merged_seurat_log.harmony)
+
+merged_seurat_log.harmony <- FindNeighbors(merged_seurat_log.harmony, dims = 1:20)
+merged_seurat_log.harmony <- FindClusters(merged_seurat_log.harmony, resolution = 0.8)
+# Look at cluster IDs of the first 5 cells
+head(Idents(merged_seurat_log.harmony), 5)
+
+merged_seurat_log.harmony <- RunUMAP(merged_seurat_log.harmony, dims = 1:20)
+# individual clusters
+DimPlot(merged_seurat_log.harmony, reduction = "umap")+ scale_color_manual(values = distinct_colors)
+saveRDS(merged_seurat_log.harmony, file = "/trinity/home/mafechkar/mdsclustering.rds")
+
+# find all markers of cluster 2
+cluster2.markers <- FindMarkers(merged_seurat_log.harmony, ident.1 = 2)
+head(cluster2.markers, n = 5)
+
+# find all markers distinguishing cluster 5 from clusters 0 and 3
+cluster5.markers <- FindMarkers(merged_seurat_log.harmony, ident.1 = 5, ident.2 = c(0, 3))
+head(cluster5.markers, n = 5)
+
+markers_MDS %>%
+  group_by(cluster) %>%
+  dplyr::filter(avg_log2FC > 1)
+
+# T cells
+VlnPlot(merged_seurat_log.harmony,
+        features = c("CD3D", "CD3E", "CD3G", "CD4", "CD8A", "CD8B"),
+        pt.size = 0.1, stack = TRUE, flip = TRUE) + NoLegend()
+
+# NK cells
+VlnPlot(merged_seurat_log.harmony,
+        features = c("NKG7", "GNLY", "FGFBP2", "GZMH", "SPON2", "FCER1G", "NCAM1", "XCL2"),
+        pt.size = 0.1, stack = TRUE, flip = TRUE) + NoLegend()
+
+# B cells
+VlnPlot(merged_seurat_log.harmony,
+        features = c("MS4A1", "CD27", "IGHM", "IGHD", "TCL1A", "FCAR1"),
+        pt.size = 0.1, stack = TRUE, flip = TRUE) + NoLegend()
+
+# Set your default assay if needed
+DefaultAssay(merged_seurat_log.harmony) <- "RNA"
+
+# T cell markers
+FeaturePlot(merged_seurat_log.harmony, features = c("CD3D", "CD3E", "CD3G", "CD4", "CD8A", "CD8B"), min.cutoff = "q10", max.cutoff = "q90")
+DotPlot(merged_seurat_log.harmony, features = list(
+  T_cell_markers = c("SH2D1B", "PRSS23", "S1PR5", "LAIR2", "KLRC1", "PTGDR", "FGFBP2", "FCRL6", "TBX21", "KLRC2")
+)) + RotatedAxis()
+# NK cell markers
+FeaturePlot(merged_seurat_log.harmony, features = c("NKG7", "GNLY", "GZMH", "FGFBP2"), min.cutoff = "q10", max.cutoff = "q90")
+
+DotPlot(merged_seurat_log.harmony, features = list(
+  NK1 = c("NCR1", "SH2D1B", "KLRC1", "PRSS23", "CD160", "B3GNT7", "IL2RB", "IL18RAP", "XCL1", "KLRF1", "GNLY", "NKG7", "CD247", "GRIK4", "FCER1G", "TYROBP", "KLRG1", "FCGR3A")
+)) + RotatedAxis()
+
+DotPlot(merged_seurat_log.harmony, features = list(
+  NK2 = c("SPIC", "FABP3", "CD5L", "CCL18", "C1QC", "C1QB", "FABP4", "C1QA", "APOE", "SELENOP")
+)) + RotatedAxis()
+
+
+#CD8+ memory
+DotPlot(merged_seurat_log.harmony, features = list(
+  CD8_memory = c("CD8B", "CD8A", "NELL2", "CD3D", "CD3E", "GZMH", "CD3G", "TRGC2", "CCL5", "GZMB", "GZMA", "GZMK")
+)) + RotatedAxis()
+
+# B cell markers
+FeaturePlot(merged_seurat_log.harmony, features = c("MS4A1", "IGHM", "IGHD", "FCRL2"), min.cutoff = "q10", max.cutoff = "q90")
+DotPlot(merged_seurat_log.harmony, features = list(
+  Memory_B_cell = c("FCRL2", "TNFRSF13B", "ARHGAP24", "PNOC", "FCER2", "FCRLA", "BLK", "HLA-DOB", "MS4A1", "TNFRSF13C")
+)) + RotatedAxis()
+
+DotPlot(merged_seurat_log.harmony, features = list(
+  Transitional_B_cell = c("MME", "CD38", "CD24", "ACSM3", "MSI2")
+)) + RotatedAxis()
+
+DotPlot(merged_seurat_log.harmony, features = list(
+  Naive_B_cell = c("MS4A1", "IL4R", "IGHD", "FCRCL1", "IGHM")
+)) + RotatedAxis()
+
+#plasma
+DotPlot(merged_seurat_log.harmony, features = list(
+  Plasma = c("MZB1", "HSP90B1", "FMDC3B", "PRDM1", "IGKC", "JCHAIN")
+)) + RotatedAxis()
+
+FeaturePlot(merged_seurat_log.harmony, features = c("LTB", "CXCL8", "KLRF1", "CD1C"), cols = c("grey", "blue"))
+
+merged_seurat_log.harmony.markers %>%
+  group_by(cluster) %>%
+  dplyr::filter(avg_log2FC > 1) %>%
+  slice_head(n = 10) %>%
+  ungroup() -> top10
+DoHeatmap(merged_seurat_log.harmony, features = top10$gene) + NoLegend()
+
+
+cluster_annotations <- c(
+  "0" = "CDytotoxic NK cells",
+  "1" = "CD4+ T cells",
+  "2" = "CD8+ T cells",
+  "3" = "Myeloid/DC",
+  "4" = "Mucosal-Associated Invariant T cells",
+  "5" = "Naive B cells",
+  "6" = "Naive B cells",
+  "7" = "Myeloid/DC",
+  "8" = "Unclear T/NK-like",
+  "9" = "Memory CD4+ T cells",
+  "10" = "Cycling CD8+ T cells",
+  "11" = "Classical monocytes",
+  "12" = "Adaptive NK cells",
+  "13" = "Plasmacytoid DCs",
+  "14" = "Inflammatory monocytes",
+  "15" = "Myeloid/DC",
+  "16" = "cDC2",
+  "17" = "CD56+ NK (low cytotoxic)",
+  "18" = "Memory B cells",
+  "19" = "Naive B cells",
+  "20" = "Naive B cells",
+  "21" = "SPON2+ NK-like",
+  "22" = "Clonal CD8+ T cells"
+)
+
+merged_seurat_log.harmony$final_annotation <- plyr::mapvalues(
+  merged_seurat_log.harmony$seurat_clusters,
+  from = c("0",  "1",   "2",    "3",      "4",             "5",      "6",         "7",                 "8",              "9",       "10",           "11",              "12",        "13",        "14",     "15",                 "16",            "17",         "18",              "19",           "20",               "21",       "22"),
+  to   = c("CD8 Cytotoxic", "CD4+ Memory T cells", "CD4 Naive", "CD14+ Monocytes", 
+           "CD8+ Memory", "MPP (Multipotent Progenitor)", "Memory B cells", 
+           "GMP (Granulocyte-Monocyte Progenitor)", NA, "NK CD56 high", 
+           "NK Cells", "Stromal", "MEP (Megakaryocyte-erythroid progenitor)", "Erythroblasts", 
+           "Pro-monocytes", "CLP (Common Lymphoid Progenitor)", "Pro-erythroblasts", "cDC (Conventional Dendritic Cell)", 
+           "Plasma cells", "Naive B cells", "Memory B cells", NA, 
+           "Transitional B cells")  # 
+)
+
+Idents(merged_seurat_log.harmony) <- "final_annotation"
+merged_plot_ready <- subset(
+  merged_seurat_log.harmony,
+  subset = !is.na(final_annotation)
+)
+
+final_annotation_mds <- dittoSeq::dittoDimPlot(
+  object = merged_plot_ready,
+  var = 'final_annotation',
+  do.label = TRUE,
+  labels.size = 4,
+  reduction.use = 'umap',
+  color.panel = distinct_colors,  # Adjust this if needed
+  show.grid.lines = TRUE,
+  shape.legend.size = 3,
+  size = 0.5,
+  do.ellipse = FALSE,
+  legend.title = "",
+  legend.size = 2,
+  dim.1 = 1,
+  dim.2 = 2
+) +
+  ggtitle('Final MDS Annotation') +
+  theme(
+    plot.title = element_text(size = 8, face = "bold")
+  ) +
+  xlab("UMAP1") +
+  ylab("UMAP2")
