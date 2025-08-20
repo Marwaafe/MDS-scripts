@@ -1,0 +1,98 @@
+# Add sample ID from cell names (if not done already)
+merged_seurat_log.harmony$sample_id <- sub("_.*", "", colnames(merged_seurat_log.harmony))
+
+# Your vector of response statuses
+response_status <- c(
+  "MDS001-09-203" = "Responder",
+  "MDS005-09-247" = "Non-responder",
+  "MDS006-08-249" = "Non-responder",
+  "MDS010-09-299" = "Non-responder",
+  "MDS016-10-942" = "Responder",
+  "MDS023-10-053" = "Non-responder",
+  "MDS029-10-118" = "Non-responder",
+  "MDS038-10-241" = "Non-responder",
+  "MDS059-10-531" = "Non-responder",
+  "MDS065-10-609" = "Responder",
+  "MDS154-13-486" = "Responder",
+  "MDS155-13-606" = "Non-responder",
+  "MDS167-13-913" = "Responder",
+  "MDS169-13-919" = "Non-responder",
+  "MDS180-14-164" = "Non-responder",
+  "MDS189-14-527" = "Non-responder",
+  "MDS201-15-093" = "Responder",
+  "MDS212-15-463" = "Non-responder"
+)
+
+# Extract current cell names and corresponding sample IDs
+cell_ids <- colnames(merged_seurat_log.harmony)
+sample_ids <- sub("_.*", "", cell_ids)
+
+# Create data.frame with sample ID and response
+meta_df <- data.frame(
+  sample_id = sample_ids,
+  Response = response_status[sample_ids],
+  row.names = cell_ids
+)
+
+# Now add it
+merged_seurat_log.harmony <- AddMetaData(merged_seurat_log.harmony, metadata = meta_df)
+table(merged_seurat_log.harmony$Response, useNA = "always")
+
+
+# Get your responder and non-responder cell barcodes
+responder_cells <- colnames(merged_seurat_log.harmony)[merged_seurat_log.harmony$Response == "Responder"]
+nonresponder_cells <- colnames(merged_seurat_log.harmony)[merged_seurat_log.harmony$Response == "Non-responder"]
+
+# Responders UMAP
+responder_plot <- DimPlot(
+  merged_seurat_log.harmony,
+  reduction = "umap",
+  cells = responder_cells,
+  group.by = "final_annotation",
+  cols = distinct_colors  # or whatever named color vector you're using
+) +
+  ggtitle("Responders") +
+  theme(plot.title = element_text(hjust = 0.5)) +
+  labs(x = "UMAP1", y = "UMAP2")
+
+# Non-responders UMAP
+nonresponder_plot <- DimPlot(
+  merged_seurat_log.harmony,
+  reduction = "umap",
+  cells = nonresponder_cells,
+  group.by = "final_annotation",
+  cols = distinct_colors
+) +
+  ggtitle("Non-responders") +
+  theme(plot.title = element_text(hjust = 0.5)) +
+  labs(x = "UMAP1", y = "UMAP2")
+
+# Combine
+library(patchwork)
+responder_plot + nonresponder_plot
+
+
+####
+
+head(colnames(merged_seurat_log.harmony))  # should return cell names
+head(merged_seurat_log.harmony@meta.data$Response)
+head(merged_seurat_log.harmony@meta.data$final_annotation)
+
+# Subset only MDS cells (no NA Response)
+mds_cells_only <- subset(merged_seurat_log.harmony, subset = !is.na(Response))
+
+DimPlot(
+  object = mds_cells_only,
+  reduction = "umap",
+  group.by = "final_annotation",   # cell types as color
+  split.by = "Response",           # creates one panel per response group
+  cols = distinct_colors           # your color palette
+) +
+  ggtitle("Cell Type UMAP - Split by Response Status") +
+  theme(plot.title = element_text(hjust = 0.5))
+
+table(mds_cells_only$Response, useNA = "always")
+table(mds_cells_only$final_annotation, useNA = "always")
+length(Cells(mds_cells_only))
+
+
