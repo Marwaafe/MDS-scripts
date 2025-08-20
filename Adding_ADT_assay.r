@@ -143,5 +143,6 @@ heat <- pheatmap(
   silent         = TRUE
 )
 
+saveRDS(merged_seurat_log.harmony, file = "processed_seurat_object_MDS.rds")
 
 
