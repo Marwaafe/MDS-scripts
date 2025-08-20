@@ -1,3 +1,9 @@
+#This should be repeated on all the 18 MDS samples accordingly "MDS001-09-203", "MDS005-09-247", "MDS006-08-249", "MDS010-09-299",
+  "MDS016-09-478", "MDS023-10-053", "MDS029-10-118", "MDS038-10-241",
+  "MDS059-10-531", "MDS065-10-609", "MDS154-13-486", "MDS155-13-606",
+  "MDS167-13-913", "MDS169-13-919", "MDS180-14-164", "MDS189-14-527",
+  "MDS201-15-093", "MDS212-15-463"
+
 # Step 0: Load libraries
 library(Seurat)
 library(Matrix)
